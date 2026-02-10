@@ -1,0 +1,105 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(1, mida_de(car));
+  AFIRMA(2, mida_de(curt));
+  AFIRMA(2, mida_de(curt ent));
+  AFIRMA(2, mida_de(ent curt));
+  AFIRMA(4, mida_de(ent));
+  AFIRMA(8, mida_de(llarg));
+  AFIRMA(8, mida_de(llarg ent));
+  AFIRMA(8, mida_de(llarg ent));
+  AFIRMA(8, mida_de(car *));
+  AFIRMA(8, mida_de(ent *));
+  AFIRMA(8, mida_de(llarg *));
+  AFIRMA(8, mida_de(ent **));
+  AFIRMA(8, mida_de(ent(*)[4]));
+  AFIRMA(32, mida_de(ent*[4]));
+  AFIRMA(16, mida_de(ent[4]));
+  AFIRMA(48, mida_de(ent[3][4]));
+  AFIRMA(8, mida_de(estructura {ent a; ent b;}));
+
+  AFIRMA(8, mida_de(-10 + (llarg)5));
+  AFIRMA(8, mida_de(-10 - (llarg)5));
+  AFIRMA(8, mida_de(-10 * (llarg)5));
+  AFIRMA(8, mida_de(-10 / (llarg)5));
+  AFIRMA(8, mida_de((llarg)-10 + 5));
+  AFIRMA(8, mida_de((llarg)-10 - 5));
+  AFIRMA(8, mida_de((llarg)-10 * 5));
+  AFIRMA(8, mida_de((llarg)-10 / 5));
+
+  AFIRMA(1, ({ car i; mida_de(++i); }));
+  AFIRMA(1, ({ car i; mida_de(i++); }));
+
+  AFIRMA(8, mida_de(ent(*)[10]));
+  AFIRMA(8, mida_de(ent(*)[][10]));
+
+  AFIRMA(4, mida_de(estructura { ent x, y[]; }));
+
+  AFIRMA(1, mida_de(car));
+  AFIRMA(1, mida_de(amb_signe car));
+  AFIRMA(1, mida_de(amb_signe car amb_signe));
+  AFIRMA(1, mida_de(sense_signe car));
+  AFIRMA(1, mida_de(sense_signe car sense_signe));
+
+  AFIRMA(2, mida_de(curt));
+  AFIRMA(2, mida_de(ent curt));
+  AFIRMA(2, mida_de(curt ent));
+  AFIRMA(2, mida_de(amb_signe curt));
+  AFIRMA(2, mida_de(ent curt amb_signe));
+  AFIRMA(2, mida_de(sense_signe curt));
+  AFIRMA(2, mida_de(ent curt sense_signe));
+
+  AFIRMA(4, mida_de(ent));
+  AFIRMA(4, mida_de(amb_signe ent));
+  AFIRMA(4, mida_de(amb_signe));
+  AFIRMA(4, mida_de(amb_signe amb_signe));
+  AFIRMA(4, mida_de(sense_signe ent));
+  AFIRMA(4, mida_de(sense_signe));
+  AFIRMA(4, mida_de(sense_signe sense_signe));
+
+  AFIRMA(8, mida_de(llarg));
+  AFIRMA(8, mida_de(amb_signe llarg));
+  AFIRMA(8, mida_de(amb_signe llarg ent));
+  AFIRMA(8, mida_de(sense_signe llarg));
+  AFIRMA(8, mida_de(sense_signe llarg ent));
+
+  AFIRMA(8, mida_de(llarg llarg));
+  AFIRMA(8, mida_de(amb_signe llarg llarg));
+  AFIRMA(8, mida_de(amb_signe llarg llarg ent));
+  AFIRMA(8, mida_de(sense_signe llarg llarg));
+  AFIRMA(8, mida_de(sense_signe llarg llarg ent));
+
+  AFIRMA(1, mida_de((car)1));
+  AFIRMA(2, mida_de((curt)1));
+  AFIRMA(4, mida_de((ent)1));
+  AFIRMA(8, mida_de((llarg)1));
+
+  AFIRMA(4, mida_de((car)1 + (car)1));
+  AFIRMA(4, mida_de((curt)1 + (curt)1));
+  AFIRMA(4, mida_de(1?2:3));
+  AFIRMA(4, mida_de(1?(curt)2:(car)3));
+  AFIRMA(8, mida_de(1?(llarg)2:(car)3));
+
+  AFIRMA(1, mida_de(car) << 31 >> 31);
+  AFIRMA(1, mida_de(car) << 63 >> 63);
+
+  AFIRMA(4, mida_de(flot));
+  AFIRMA(8, mida_de(doble));
+
+  AFIRMA(4, mida_de(1f+2));
+  AFIRMA(8, mida_de(1.0+2));
+  AFIRMA(4, mida_de(1f-2));
+  AFIRMA(8, mida_de(1.0-2));
+  AFIRMA(4, mida_de(1f*2));
+  AFIRMA(8, mida_de(1.0*2));
+  AFIRMA(4, mida_de(1f/2));
+  AFIRMA(8, mida_de(1.0/2));
+
+  AFIRMA(16, mida_de(llarg doble));
+
+  AFIRMA(1, mida_de(principal));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

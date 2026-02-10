@@ -1,0 +1,19 @@
+#inclou "test.cç"
+
+ent x;
+ent x = 5;
+ent y = 7;
+ent y;
+ent common_ext1;
+ent common_ext2;
+estàtic ent common_local;
+
+ent principal() {
+  AFIRMA(5, x);
+  AFIRMA(7, y);
+  AFIRMA(0, common_ext1);
+  AFIRMA(3, common_ext2);
+
+  imprimeix("OK\n");
+  retorna 0;
+}

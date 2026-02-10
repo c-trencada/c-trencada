@@ -3,8 +3,9 @@
 **/*.o
 **/*.s
 **/a.out
+**/*.a
 /tmp*
 /thirdparty
-/chibicc
+/cç
 /test/*.exe
 /stage2

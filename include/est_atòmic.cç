@@ -1,0 +1,50 @@
+#pragma una_vegada
+
+def_tipus enum {
+  memory_order_relaxed,
+  memory_order_consume,
+  memory_order_acquire,
+  memory_order_release,
+  memory_order_acq_rel,
+  memory_order_seq_cst,
+} memory_order;
+
+#defineix bandera_atòmica_inicial(x) (x)
+#defineix atòmic_inicialitza(addr, val) (*(addr) = (val))
+#defineix kill_dependency(x) (x)
+#defineix barrera_atòmica_fil(order)
+#defineix barrera_atòmica_senal(order)
+#defineix atòmic_és_lliure_cadenat(x) 1
+
+#defineix atòmic_carrega(addr) (*(addr))
+#defineix atòmic_desa(addr, val) (*(addr) = (val))
+
+#defineix atòmic_carrega_amb_ordre(addr, order) (*(addr))
+#defineix atòmic_desa_amb_ordre(addr, val, order) (*(addr) = (val))
+
+#defineix atòmic_obté_afegeix(obj, val) (*(obj) += (val))
+#defineix atòmic_obté_resta(obj, val) (*(obj) -= (val))
+#defineix atòmic_obté_o(obj, val) (*(obj) |= (val))
+#defineix atòmic_obté_o_exclusiu(obj, val) (*(obj) ^= (val))
+#defineix atòmic_obté_i(obj, val) (*(obj) &= (val))
+
+#defineix atòmic_obté_afegeix_amb_ordre(obj, val, order) (*(obj) += (val))
+#defineix atòmic_obté_resta_amb_ordre(obj, val, order) (*(obj) -= (val))
+#defineix atòmic_obté_o_amb_ordre(obj, val, order) (*(obj) |= (val))
+#defineix atòmic_obté_o_exclusiu_amb_ordre(obj, val, order) (*(obj) ^= (val))
+#defineix atòmic_obté_i_amb_ordre(obj, val, order) (*(obj) &= (val))
+
+#defineix comparar_i_intercanviar_atòmic_fluix(p, old, new) \
+  __predefinit_comparar_i_intercanviar_atòmic((p), (old), (new))
+
+#defineix comparar_i_intercanviar_atòmic_fort(p, old, new) \
+  __predefinit_comparar_i_intercanviar_atòmic((p), (old), (new))
+
+#defineix intercanviar_atòmic(obj, val) __predefinit_intercanviar_atòmic((obj), (val))
+#defineix intercanviar_atòmic_explícit(obj, val, order) __predefinit_intercanviar_atòmic((obj), (val))
+
+#defineix bandera_atòmica_prova_i_posa(obj) atòmic_exchange((obj), 1)
+#defineix bandera_atòmica_prova_i_posa_amb_ordre(obj, order) atòmic_exchange((obj), 1)
+#defineix bandera_atòmica_esborra(obj) (*(obj) = 0)
+#defineix bandera_atòmica_esborra_amb_ordre(obj, order) (*(obj) = 0)
+

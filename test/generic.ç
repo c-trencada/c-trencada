@@ -1,0 +1,12 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(1, _Genèric(100.0, doble: 1, ent *: 2, ent: 3, flot: 4));
+  AFIRMA(2, _Genèric((ent *)0, doble: 1, ent *: 2, ent: 3, flot: 4));
+  AFIRMA(2, _Genèric((ent[3]){}, doble: 1, ent *: 2, ent: 3, flot: 4));
+  AFIRMA(3, _Genèric(100, doble: 1, ent *: 2, ent: 3, flot: 4));
+  AFIRMA(4, _Genèric(100f, doble: 1, ent *: 2, ent: 3, flot: 4));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

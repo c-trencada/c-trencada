@@ -1,0 +1,32 @@
+#inclou "test.cç"
+
+estàtic ent ret_10(buit) { retorna 10; }
+
+ent principal() {
+  AFIRMA((llarg)-5, -10 + (llarg)5);
+  AFIRMA((llarg)-15, -10 - (llarg)5);
+  AFIRMA((llarg)-50, -10 * (llarg)5);
+  AFIRMA((llarg)-2, -10 / (llarg)5);
+
+  AFIRMA(1, -2 < (llarg)-1);
+  AFIRMA(1, -2 <= (llarg)-1);
+  AFIRMA(0, -2 > (llarg)-1);
+  AFIRMA(0, -2 >= (llarg)-1);
+
+  AFIRMA(1, (llarg)-2 < -1);
+  AFIRMA(1, (llarg)-2 <= -1);
+  AFIRMA(0, (llarg)-2 > -1);
+  AFIRMA(0, (llarg)-2 >= -1);
+
+  AFIRMA(0, 2147483647 + 2147483647 + 2);
+  AFIRMA((llarg)-1, ({ llarg valor; valor=-1; valor; }));
+
+  AFIRMA(1, ({ car taula[3]; taula[0]=0; taula[1]=1; taula[2]=2; car *punter_segon=taula+1; punter_segon[0]; }));
+  AFIRMA(0, ({ car taula[3]; taula[0]=0; taula[1]=1; taula[2]=2; car *punter_segon=taula+1; punter_segon[-1]; }));
+  AFIRMA(5, ({ estructura tipus {car a;} estructura_primer, estructura_segon; estructura_primer.a=5; estructura_segon=estructura_primer; estructura_segon.a; }));
+
+  AFIRMA(10, (1 ? ret_10 : (buit *)0)());
+
+  imprimeix("OK\n");
+  retorna 0;
+}

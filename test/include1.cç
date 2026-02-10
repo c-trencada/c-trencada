@@ -1,0 +1,6 @@
+#inclou "include2.cç"
+
+car *include1_filename = __FITXER__;
+ent include1_line = __LÍNIA__;
+
+ent include1 = 5;

@@ -1,0 +1,51 @@
+#inclou "test.cç"
+#inclou <est_arg.cç>
+
+ent suma_1(ent valor_inicial, ...) {
+  llista_arguments_vars arguments;
+  inicia_arguments_vars(arguments, valor_inicial);
+
+  per (;;) {
+    ent valor_segon = argument_var(arguments, ent);
+    si (valor_segon == 0)
+      retorna valor_inicial;
+    valor_inicial += valor_segon;
+  }
+}
+
+ent suma_2(ent valor_inicial, ...) {
+  llista_arguments_vars arguments;
+  inicia_arguments_vars(arguments, valor_inicial);
+
+  per (;;) {
+    doble valor_doble = argument_var(arguments, doble);
+    valor_inicial += valor_doble;
+
+    ent valor_enter = argument_var(arguments, ent);
+    si (valor_enter == 0)
+      retorna valor_inicial;
+    valor_inicial += valor_enter;
+  }
+}
+
+buit format(car *buf, car *format, ...) {
+  llista_arguments_vars pa;
+  inicia_arguments_vars(pa, format);
+
+  llista_arguments_vars pa_2;
+  copia_arguments_vars(pa_2, pa);
+  imprimeix_cadena_va(buf, format, pa_2);
+  acaba_arguments_vars(buf);
+}
+
+ent principal() {
+  AFIRMA(6, suma_1(1, 2, 3, 0));
+  AFIRMA(55, suma_1(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0));
+  AFIRMA(21, suma_2(1, 2.0, 3, 4.0, 5, 6.0, 0));
+  AFIRMA(21, suma_2(1, 2.0, 3, 4.0, 5, 6.0, 0));
+  AFIRMA(210, suma_2(1, 2.0, 3, 4.0, 5, 6.0, 7, 8.0, 9, 10.0, 11, 12.0, 13, 14.0, 15, 16.0, 17, 18.0, 19, 20.0, 0));
+  AFIRMA(0, ({ car buf[100]; format(buf, "%d %d", 2, 3); compara_cadenes(buf, "2 3"); }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

@@ -1,4 +1,4 @@
-#include "chibicc.h"
+#include "c_trencada.h"
 
 // Input file
 static File *current_file;
@@ -25,8 +25,9 @@ void error(char *fmt, ...) {
 //
 // foo.c:10: x = y + 1;
 //               ^ <error message here>
+// Level: 0 for error, 1 for warning
 static void verror_at(char *filename, char *input, int line_no,
-                      char *loc, char *fmt, va_list ap) {
+                      char *loc, int len, int level, char *fmt, va_list ap) {
   // Find a line containing `loc`.
   char *line = loc;
   while (input < line && line[-1] != '\n')
@@ -36,17 +37,21 @@ static void verror_at(char *filename, char *input, int line_no,
   while (*end && *end != '\n')
     end++;
 
-  // Print out the line.
-  int indent = fprintf(stderr, "%s:%d: ", filename, line_no);
-  fprintf(stderr, "%.*s\n", (int)(end - line), line);
+  int offset = display_width(line, loc - line);
+  int length = display_width(loc, len);
+  char* level_str = level == 0 ? "Error" : "Avís";
 
-  // Show the error message.
-  int pos = display_width(line, loc - line) + indent;
-
-  fprintf(stderr, "%*s", pos, ""); // print pos spaces.
-  fprintf(stderr, "^ ");
+  // fprintf(stderr, "%s:%d.%d: %s: ", filename, line_no, offset+1, level_str);
+  fprintf(stderr, "%s:%d.%d-%d: %s: ", filename, line_no, offset+1, offset+1+length, level_str);
   vfprintf(stderr, fmt, ap);
-  fprintf(stderr, "\n");
+  fprintf(stderr, "\n%.*s\n", (int)(end - line), line);
+
+  fprintf(stderr, "%*s", offset, ""); // print pos spaces.
+  fprintf(stderr, "^");
+  for (int i = 0; i < length - 1; i++)
+    fprintf(stderr, "~");
+
+  fprintf(stderr, "\n\n");
 }
 
 void error_at(char *loc, char *fmt, ...) {
@@ -57,21 +62,22 @@ void error_at(char *loc, char *fmt, ...) {
 
   va_list ap;
   va_start(ap, fmt);
-  verror_at(current_file->name, current_file->contents, line_no, loc, fmt, ap);
+  verror_at(current_file->name, current_file->contents, line_no, loc, 1, 0, fmt, ap);
   exit(1);
 }
 
 void error_tok(Token *tok, char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  verror_at(tok->file->name, tok->file->contents, tok->line_no, tok->loc, fmt, ap);
+  verror_at(tok->file->name, tok->file->contents, tok->line_no, tok->loc, tok->len, 0, fmt, ap);
+  // va_end(ap);
   exit(1);
 }
 
 void warn_tok(Token *tok, char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  verror_at(tok->file->name, tok->file->contents, tok->line_no, tok->loc, fmt, ap);
+  verror_at(tok->file->name, tok->file->contents, tok->line_no, tok->loc, tok->len, 1, fmt, ap);
   va_end(ap);
 }
 
@@ -83,7 +89,7 @@ bool equal(Token *tok, char *op) {
 // Ensure that the current token is `op`.
 Token *skip(Token *tok, char *op) {
   if (!equal(tok, op))
-    error_tok(tok, "expected '%s'", op);
+    error_tok(tok, "s'esperava '%s'", op);
   return tok->next;
 }
 
@@ -160,14 +166,14 @@ static bool is_keyword(Token *tok) {
 
   if (map.capacity == 0) {
     static char *kw[] = {
-      "return", "if", "else", "for", "while", "int", "sizeof", "char",
-      "struct", "union", "short", "long", "void", "typedef", "_Bool",
-      "enum", "static", "goto", "break", "continue", "switch", "case",
-      "default", "extern", "_Alignof", "_Alignas", "do", "signed",
-      "unsigned", "const", "volatile", "auto", "register", "restrict",
-      "__restrict", "__restrict__", "_Noreturn", "float", "double",
-      "typeof", "asm", "_Thread_local", "__thread", "_Atomic",
-      "__attribute__",
+      "retorna", "si", "si_no", "per", "mentre", "ent", "mida_de", "car",
+      "estructura", "unió", "curt", "llarg", "buit", "def_tipus", "_Bool",
+      "enum", "estàtic", "ves_a", "para", "continua", "selecciona", "cas",
+      "predeterminat", "extern", "_Alineació_de", "_Alinea_com", "fes", "amb_signe",
+      "sense_signe", "const", "volàtil", "auto", "registre", "restringeix",
+      "__restringeix", "__restringeix__", "_No_retorna", "flot", "doble",
+      "tipus_de", "asm", "_Local_a_fil", "__fil", "_Atòmic",
+      "__atribut__",
     };
 
     for (int i = 0; i < sizeof(kw) / sizeof(*kw); i++)
@@ -194,7 +200,7 @@ static int read_escaped_char(char **new_pos, char *p) {
     // Read a hexadecimal number.
     p++;
     if (!isxdigit(*p))
-      error_at(p, "invalid hex escape sequence");
+      error_at(p, "seqüència d'escapada hexadecimal no vàlida");
 
     int c = 0;
     for (; isxdigit(*p); p++)
@@ -235,7 +241,7 @@ static char *string_literal_end(char *p) {
   char *start = p;
   for (; *p != '"'; p++) {
     if (*p == '\n' || *p == '\0')
-      error_at(start, "unclosed string literal");
+      error_at(start, "cadena literal sense tancar");
     if (*p == '\\')
       p++;
   }
@@ -321,7 +327,7 @@ static Token *read_utf32_string_literal(char *start, char *quote, Type *ty) {
 static Token *read_char_literal(char *start, char *quote, Type *ty) {
   char *p = quote + 1;
   if (*p == '\0')
-    error_at(start, "unclosed char literal");
+    error_at(start, "caràcter literal sense tancar");
 
   int c;
   if (*p == '\\')
@@ -331,7 +337,7 @@ static Token *read_char_literal(char *start, char *quote, Type *ty) {
 
   char *end = strchr(p, '\'');
   if (!end)
-    error_at(p, "unclosed char literal");
+    error_at(p, "caràcter literal sense tancar");
 
   Token *tok = new_token(TK_NUM, start, end + 1);
   tok->val = c;
@@ -445,7 +451,7 @@ static void convert_pp_number(Token *tok) {
   }
 
   if (tok->loc + tok->len != end)
-    error_tok(tok, "invalid numeric constant");
+    error_tok(tok, "constant numèrica no vàlida");
 
   tok->kind = TK_NUM;
   tok->fval = val;
@@ -501,8 +507,23 @@ Token *tokenize(File *file) {
     // Skip line comments.
     if (startswith(p, "//")) {
       p += 2;
+      char* start = p;
+
       while (*p != '\n')
         p++;
+
+      bool at_bol_bkp = at_bol;
+
+      Token *tok = new_token(TK_STR, start, p);
+      int line_no = 1;
+      for (char *p = tok->file->contents; p < tok->loc; p++)
+        if (*p == '\n')
+          line_no++;
+      tok->line_no = line_no;
+
+      languagetool_check_tok(tok, true);
+      at_bol = at_bol_bkp;
+
       has_space = true;
       continue;
     }
@@ -510,9 +531,23 @@ Token *tokenize(File *file) {
     // Skip block comments.
     if (startswith(p, "/*")) {
       char *q = strstr(p + 2, "*/");
+      char *start = p + 2;
       if (!q)
-        error_at(p, "unclosed block comment");
+        error_at(p, "comentari de bloc sense tancar");
       p = q + 2;
+
+      bool at_bol_bkp = at_bol;
+
+      Token *tok = new_token(TK_STR, start, q);
+      int line_no = 1;
+      for (char *p = tok->file->contents; p < tok->loc; p++)
+        if (*p == '\n')
+          line_no++;
+      tok->line_no = line_no;
+      languagetool_check_tok(tok, true);
+
+      at_bol = at_bol_bkp;
+
       has_space = true;
       continue;
     }
@@ -628,7 +663,7 @@ Token *tokenize(File *file) {
       continue;
     }
 
-    error_at(p, "invalid token");
+    error_at(p, "token no vàlid");
   }
 
   cur = cur->next = new_token(TK_EOF, p, p);

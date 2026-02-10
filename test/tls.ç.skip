@@ -1,0 +1,41 @@
+#inclou "test.cç"
+#inclou <stdio.cç>
+#inclou <pthread.cç>
+
+_Thread_local ent v1;
+_Thread_local ent v2 = 5;
+ent v3 = 7;
+
+ent thread_principal(buit *unused) {
+  AFIRMA(0, v1);
+  AFIRMA(5, v2);
+  AFIRMA(7, v3);
+
+  v1 = 1;
+  v2 = 2;
+  v3 = 3;
+
+  AFIRMA(1, v1);
+  AFIRMA(2, v2);
+  AFIRMA(3, v3);
+
+  retorna 0;
+}
+
+ent principal() {
+  pthread_t thr;
+
+  AFIRMA(0, v1);
+  AFIRMA(5, v2);
+  AFIRMA(7, v3);
+
+  AFIRMA(0, pthread_create(&thr, NULL, thread_principal, NULL));
+  AFIRMA(0, pthread_join(thr, NULL));
+
+  AFIRMA(0, v1);
+  AFIRMA(5, v2);
+  AFIRMA(3, v3);
+
+  imprimeix("OK\n");
+  retorna 0;
+}

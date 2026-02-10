@@ -1,0 +1,26 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(20, ({ ent nombre=5; ent taula[nombre]; mida_de(taula); }));
+  AFIRMA((5+1)*(8*2)*4, ({ ent m=5, nombre=8; ent taula[m+1][nombre*2]; mida_de(taula); }));
+
+  AFIRMA(8, ({ car nombre=10; ent (*punter)[nombre][nombre+2]; mida_de(punter); }));
+  AFIRMA(480, ({ car nombre=10; ent (*punter)[nombre][nombre+2]; mida_de(*punter); }));
+  AFIRMA(48, ({ car nombre=10; ent (*punter)[nombre][nombre+2]; mida_de(**punter); }));
+  AFIRMA(4, ({ car nombre=10; ent (*punter)[nombre][nombre+2]; mida_de(***punter); }));
+
+  AFIRMA(60, ({ car nombre=3; ent taula[5][nombre]; mida_de(taula); }));
+  AFIRMA(12, ({ car nombre=3; ent taula[5][nombre]; mida_de(*taula); }));
+
+  AFIRMA(60, ({ car nombre=3; ent taula[nombre][5]; mida_de(taula); }));
+  AFIRMA(20, ({ car nombre=3; ent taula[nombre][5]; mida_de(*taula); }));
+
+  AFIRMA(0, ({ ent nombre=10; ent taula[nombre+1][nombre+6]; ent *punter=taula; per (ent índex = 0; índex<mida_de(taula)/4; índex++) punter[índex]=índex; taula[0][0]; }));
+  AFIRMA(5, ({ ent nombre=10; ent taula[nombre+1][nombre+6]; ent *punter=taula; per (ent índex = 0; índex<mida_de(taula)/4; índex++) punter[índex]=índex; taula[0][5]; }));
+  AFIRMA(5*16+2, ({ ent nombre=10; ent taula[nombre+1][nombre+6]; ent *punter=taula; per (ent índex = 0; índex<mida_de(taula)/4; índex++) punter[índex]=índex; taula[5][2]; }));
+
+  AFIRMA(10, ({ ent nombre=5; mida_de(car[2][nombre]); }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

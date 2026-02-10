@@ -1,0 +1,5 @@
+#pragma una_vegada
+
+#defineix NUL ((void *)0)
+#defineix desplaçament_de(tipus, mèmbre) ((sense_signe llarg)&(((tipus *)0)->mèmbre))
+

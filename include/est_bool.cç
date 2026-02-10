@@ -1,0 +1,6 @@
+#pragma una_vegada
+
+#defineix booleà _Bool
+#defineix cert 1
+#defineix fals 0
+

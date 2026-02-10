@@ -1,0 +1,33 @@
+#inclou "test.cç"
+
+def_tipus estructura Arbre {
+  ent val;
+  estructura Arbre *lhs;
+  estructura Arbre *rhs;
+} Arbre;
+
+Arbre *arbre = &(Arbre){
+  1,
+  &(Arbre){
+    2,
+    &(Arbre){ 3, 0, 0 },
+    &(Arbre){ 4, 0, 0 }
+  },
+  0
+};
+
+ent principal() {
+  AFIRMA(1, (ent){1});
+  AFIRMA(2, ((ent[]){0,1,2})[2]);
+  AFIRMA('a', ((estructura {car a; ent b;}){'a', 3}).a);
+  AFIRMA(3, ({ ent x=3; (ent){x}; }));
+  (ent){3} = 5;
+
+  AFIRMA(1, arbre->val);
+  AFIRMA(2, arbre->lhs->val);
+  AFIRMA(3, arbre->lhs->lhs->val);
+  AFIRMA(4, arbre->lhs->rhs->val);
+
+  imprimeix("OK\n");
+  retorna 0;
+}

@@ -1,0 +1,57 @@
+#inclou "test.cç"
+
+estructura {
+  car a;
+  ent b : 5;
+  ent c : 10;
+} g45 = {1, 2, 3}, g46={};
+
+ent principal() {
+  AFIRMA(4, mida_de(estructura {ent x:1; }));
+  AFIRMA(8, mida_de(estructura {llarg x:1; }));
+
+  estructura bit1 {
+    curt a;
+    car b;
+    ent c : 2;
+    ent d : 3;
+    ent e : 3;
+  };
+
+  AFIRMA(4, mida_de(estructura bit1));
+  AFIRMA(1, ({ estructura bit1 x; x.a=1; x.b=2; x.c=3; x.d=4; x.e=5; x.a; }));
+  AFIRMA(1, ({ estructura bit1 x={1,2,3,4,5}; x.a; }));
+  AFIRMA(2, ({ estructura bit1 x={1,2,3,4,5}; x.b; }));
+  AFIRMA(-1, ({ estructura bit1 x={1,2,3,4,5}; x.c; }));
+  AFIRMA(-4, ({ estructura bit1 x={1,2,3,4,5}; x.d; }));
+  AFIRMA(-3, ({ estructura bit1 x={1,2,3,4,5}; x.e; }));
+
+  AFIRMA(1, g45.a);
+  AFIRMA(2, g45.b);
+  AFIRMA(3, g45.c);
+
+  AFIRMA(0, g46.a);
+  AFIRMA(0, g46.b);
+  AFIRMA(0, g46.c);
+
+  def_tipus estructura {
+    ent a : 10;
+    ent b : 10;
+    ent c : 10;
+  } T3;
+
+  AFIRMA(1, ({ T3 x={1,2,3}; x.a++; }));
+  AFIRMA(2, ({ T3 x={1,2,3}; x.b++; }));
+  AFIRMA(3, ({ T3 x={1,2,3}; x.c++; }));
+
+  AFIRMA(2, ({ T3 x={1,2,3}; ++x.a; }));
+  AFIRMA(3, ({ T3 x={1,2,3}; ++x.b; }));
+  AFIRMA(4, ({ T3 x={1,2,3}; ++x.c; }));
+
+  AFIRMA(4, mida_de(estructura {ent a:3; ent c:1; ent c:5;}));
+  AFIRMA(8, mida_de(estructura {ent a:3; int:0; ent c:5;}));
+  AFIRMA(4, mida_de(estructura {ent a:3; int:0;}));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

@@ -1,0 +1,93 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(35, (flot)(car)35);
+  AFIRMA(35, (flot)(curt)35);
+  AFIRMA(35, (flot)(ent)35);
+  AFIRMA(35, (flot)(llarg)35);
+  AFIRMA(35, (flot)(sense_signe car)35);
+  AFIRMA(35, (flot)(sense_signe curt)35);
+  AFIRMA(35, (flot)(sense_signe ent)35);
+  AFIRMA(35, (flot)(sense_signe llarg)35);
+
+  AFIRMA(35, (doble)(car)35);
+  AFIRMA(35, (doble)(curt)35);
+  AFIRMA(35, (doble)(ent)35);
+  AFIRMA(35, (doble)(llarg)35);
+  AFIRMA(35, (doble)(sense_signe car)35);
+  AFIRMA(35, (doble)(sense_signe curt)35);
+  AFIRMA(35, (doble)(sense_signe ent)35);
+  AFIRMA(35, (doble)(sense_signe llarg)35);
+
+  AFIRMA(35, (car)(flot)35);
+  AFIRMA(35, (curt)(flot)35);
+  AFIRMA(35, (ent)(flot)35);
+  AFIRMA(35, (llarg)(flot)35);
+  AFIRMA(35, (sense_signe car)(flot)35);
+  AFIRMA(35, (sense_signe curt)(flot)35);
+  AFIRMA(35, (sense_signe ent)(flot)35);
+  AFIRMA(35, (sense_signe llarg)(flot)35);
+
+  AFIRMA(35, (car)(doble)35);
+  AFIRMA(35, (curt)(doble)35);
+  AFIRMA(35, (ent)(doble)35);
+  AFIRMA(35, (llarg)(doble)35);
+  AFIRMA(35, (sense_signe car)(doble)35);
+  AFIRMA(35, (sense_signe curt)(doble)35);
+  AFIRMA(35, (sense_signe ent)(doble)35);
+  AFIRMA(35, (sense_signe llarg)(doble)35);
+
+  AFIRMA(-2147483648, (doble)(sense_signe llarg)(llarg)-1);
+
+  AFIRMA(1, 2e3==2e3);
+  AFIRMA(0, 2e3==2e5);
+  AFIRMA(1, 2.0==2);
+  AFIRMA(0, 5.1<5);
+  AFIRMA(0, 5.0<5);
+  AFIRMA(1, 4.9<5);
+  AFIRMA(0, 5.1<=5);
+  AFIRMA(1, 5.0<=5);
+  AFIRMA(1, 4.9<=5);
+
+  AFIRMA(1, 2e3f==2e3);
+  AFIRMA(0, 2e3f==2e5);
+  AFIRMA(1, 2.0f==2);
+  AFIRMA(0, 5.1f<5);
+  AFIRMA(0, 5.0f<5);
+  AFIRMA(1, 4.9f<5);
+  AFIRMA(0, 5.1f<=5);
+  AFIRMA(1, 5.0f<=5);
+  AFIRMA(1, 4.9f<=5);
+
+  AFIRMA(6, 2.3+3.8);
+  AFIRMA(-1, 2.3-3.8);
+  AFIRMA(-3, -3.8);
+  AFIRMA(13, 3.3*4);
+  AFIRMA(2, 5.0/2);
+
+  AFIRMA(6, 2.3f+3.8f);
+  AFIRMA(6, 2.3f+3.8);
+  AFIRMA(-1, 2.3f-3.8);
+  AFIRMA(-3, -3.8f);
+  AFIRMA(13, 3.3f*4);
+  AFIRMA(2, 5.0f/2);
+
+  AFIRMA(0, 0.0/0.0 == 0.0/0.0);
+  AFIRMA(1, 0.0/0.0 != 0.0/0.0);
+
+  AFIRMA(0, 0.0/0.0 < 0);
+  AFIRMA(0, 0.0/0.0 <= 0);
+  AFIRMA(0, 0.0/0.0 > 0);
+  AFIRMA(0, 0.0/0.0 >= 0);
+
+  AFIRMA(0, !3.);
+  AFIRMA(1, !0.);
+  AFIRMA(0, !3.f);
+  AFIRMA(1, !0.f);
+
+  AFIRMA(5, 0.0 ? 3 : 5);
+  AFIRMA(3, 1.2 ? 3 : 5);
+
+  imprimeix("OK\n");
+  retorna 0;
+}

@@ -1,0 +1,59 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(131585, (ent)8590066177);
+  AFIRMA(513, (curt)8590066177);
+  AFIRMA(1, (car)8590066177);
+  AFIRMA(1, (llarg)1);
+  AFIRMA(0, (llarg)&*(ent *)0);
+  AFIRMA(513, ({ ent valor=512; *(car *)&valor=1; valor; }));
+  AFIRMA(5, ({ ent valor=5; llarg punter=(llarg)&valor; *(ent*)punter; }));
+
+  (buit)1;
+
+  AFIRMA(-1, (car)255);
+  AFIRMA(-1, (amb_signe car)255);
+  AFIRMA(255, (sense_signe car)255);
+  AFIRMA(-1, (curt)65535);
+  AFIRMA(65535, (sense_signe curt)65535);
+  AFIRMA(-1, (ent)0xffffffff);
+  AFIRMA(0xffffffff, (sense_signe)0xffffffff);
+
+  AFIRMA(1, -1<1);
+  AFIRMA(0, -1<(sense_signe)1);
+  AFIRMA(254, (car)127+(car)127);
+  AFIRMA(65534, (curt)32767+(curt)32767);
+  AFIRMA(-1, -1>>1);
+  AFIRMA(-1, (sense_signe llarg)-1);
+  AFIRMA(2147483647, ((sense_signe)-1)>>1);
+  AFIRMA(-50, (-100)/2);
+  AFIRMA(2147483598, ((sense_signe)-100)/2);
+  AFIRMA(9223372036854775758, ((sense_signe llarg)-100)/2);
+  AFIRMA(0, ((llarg)-1)/(sense_signe)100);
+  AFIRMA(-2, (-100)%7);
+  AFIRMA(2, ((sense_signe)-100)%7);
+  AFIRMA(6, ((sense_signe llarg)-100)%9);
+
+  AFIRMA(65535, (ent)(sense_signe curt)65535);
+  AFIRMA(65535, ({ sense_signe curt valor = 65535; valor; }));
+  AFIRMA(65535, ({ sense_signe curt valor = 65535; (ent)valor; }));
+
+  AFIRMA(-1, ({ def_tipus curt Tipus; Tipus valor = 65535; (ent)valor; }));
+  AFIRMA(65535, ({ def_tipus sense_signe curt Tipus; Tipus valor = 65535; (ent)valor; }));
+
+  AFIRMA(0, (_Bool)0.0);
+  AFIRMA(1, (_Bool)0.1);
+  AFIRMA(3, (car)3.0);
+  AFIRMA(1000, (curt)1000.3);
+  AFIRMA(3, (ent)3.99);
+  AFIRMA(2000000000000000, (llarg)2e15);
+  AFIRMA(3, (flot)3.5);
+  AFIRMA(5, (doble)(flot)5.5);
+  AFIRMA(3, (flot)3);
+  AFIRMA(3, (doble)3);
+  AFIRMA(3, (flot)3L);
+  AFIRMA(3, (doble)3L);
+
+  imprimeix("OK\n");
+  retorna 0;
+}

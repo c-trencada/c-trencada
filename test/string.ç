@@ -1,0 +1,72 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(0, ""[0]);
+  AFIRMA(1, mida_de(""));
+
+  AFIRMA(97, "abc"[0]);
+  AFIRMA(98, "abc"[1]);
+  AFIRMA(99, "abc"[2]);
+  AFIRMA(0, "abc"[3]);
+  AFIRMA(4, mida_de("abc"));
+
+  AFIRMA(7, "\a"[0]);
+  AFIRMA(8, "\b"[0]);
+  AFIRMA(9, "\t"[0]);
+  AFIRMA(10, "\n"[0]);
+  AFIRMA(11, "\v"[0]);
+  AFIRMA(12, "\f"[0]);
+  AFIRMA(13, "\r"[0]);
+  AFIRMA(27, "\e"[0]);
+
+  AFIRMA(106, "\j"[0]);
+  AFIRMA(107, "\k"[0]);
+  AFIRMA(108, "\l"[0]);
+
+  AFIRMA(7, "\ax\ny"[0]);
+  AFIRMA(120, "\ax\ny"[1]);
+  AFIRMA(10, "\ax\ny"[2]);
+  AFIRMA(121, "\ax\ny"[3]);
+
+  AFIRMA(0, "\0"[0]);
+  AFIRMA(16, "\20"[0]);
+  AFIRMA(65, "\101"[0]);
+  AFIRMA(104, "\1500"[0]);
+  AFIRMA(0, "\x00"[0]);
+  AFIRMA(119, "\x77"[0]);
+
+  AFIRMA(7, mida_de("abc" "def"));
+  AFIRMA(9, mida_de("abc" "d" "efgh"));
+  AFIRMA(0, compara_cadenes("abc" "d" "\nefgh", "abcd\nefgh"));
+  AFIRMA(0, !compara_cadenes("abc" "d", "abcd\nefgh"));
+  AFIRMA(0, compara_cadenes("\x9" "0", "\t0"));
+
+  AFIRMA(16, mida_de(L"abc" ""));
+
+  AFIRMA(28, mida_de(L"abc" "def"));
+  AFIRMA(28, mida_de(L"abc" L"def"));
+  AFIRMA(14, mida_de(u"abc" "def"));
+  AFIRMA(14, mida_de(u"abc" u"def"));
+
+  AFIRMA(L'a', (L"abc" "def")[0]);
+  AFIRMA(L'd', (L"abc" "def")[3]);
+  AFIRMA(L'\0', (L"abc" "def")[6]);
+
+  AFIRMA(u'a', (u"abc" "def")[0]);
+  AFIRMA(u'd', (u"abc" "def")[3]);
+  AFIRMA(u'\0', (u"abc" "def")[6]);
+
+  AFIRMA(L'あ', ("あ" L"")[0]);
+  AFIRMA(0343, ("\343\201\202" L"")[0]);
+  AFIRMA(0201, ("\343\201\202" L"")[1]);
+  AFIRMA(0202, ("\343\201\202" L"")[2]);
+  AFIRMA(0, ("\343\201\202" L"")[3]);
+
+  AFIRMA(L'a', ("a" "b" L"c")[0]);
+  AFIRMA(L'b', ("a" "b" L"c")[1]);
+  AFIRMA(L'c', ("a" "b" L"c")[2]);
+  AFIRMA(0, ("a" "b" L"c")[3]);
+
+  imprimeix("OK\n");
+  retorna 0;
+}

@@ -1,0 +1,104 @@
+#inclou "test.cç"
+
+#defineix CADENA(x) #x
+
+def_tipus sense_signe curt car_16;
+def_tipus sense_signe ent car_32;
+def_tipus ent car_ample;
+
+ent π = 3;
+
+ent principal() {
+  AFIRMA(4, mida_de(L'\0'));
+  AFIRMA(97, L'a');
+
+  AFIRMA(0, compara_cadenes("αβγ", "\u03B1\u03B2\u03B3"));
+  AFIRMA(0, compara_cadenes("日本語", "\u65E5\u672C\u8A9E"));
+  AFIRMA(0, compara_cadenes("日本語", "\U000065E5\U0000672C\U00008A9E"));
+  AFIRMA(0, compara_cadenes("🌮", "\U0001F32E"));
+
+  AFIRMA(-1, L'\xffffffff'>>31);
+  AFIRMA(946, L'β');
+  AFIRMA(12354, L'あ');
+  AFIRMA(127843, L'🍣');
+
+  AFIRMA(2, mida_de(u'\0'));
+  AFIRMA(1, u'\xffff'>>15);
+  AFIRMA(97, u'a');
+  AFIRMA(946, u'β');
+  AFIRMA(12354, u'あ');
+  AFIRMA(62307, u'🍣');
+
+  AFIRMA(0, compara_cadenes(CADENA(u'a'), "u'a'"));
+
+  AFIRMA(4, mida_de(U'\0'));
+  AFIRMA(1, U'\xffffffff'>>31);
+  AFIRMA(97, U'a');
+  AFIRMA(946, U'β');
+  AFIRMA(12354, U'あ');
+  AFIRMA(127843, U'🍣');
+
+  AFIRMA(0, compara_cadenes(CADENA(U'a'), "U'a'"));
+
+  AFIRMA(4, mida_de(u8"abc"));
+  AFIRMA(0, compara_cadenes(u8"abc", "abc"));
+
+  AFIRMA(0, compara_cadenes(CADENA(u8"a"), "u8\"a\""));
+
+  AFIRMA(2, mida_de(u""));
+  AFIRMA(10, mida_de(u"\xffzzz"));
+  AFIRMA(0, compara_mem(u"", "\0\0", 2));
+  AFIRMA(0, compara_mem(u"abc", "a\0b\0c\0\0\0", 8));
+  AFIRMA(0, compara_mem(u"日本語", "\345e,g\236\212\0\0", 8));
+  AFIRMA(0, compara_mem(u"🍣", "<\330c\337\0\0", 6));
+  AFIRMA(u'β', u"βb"[0]);
+  AFIRMA(u'b', u"βb"[1]);
+  AFIRMA(0, u"βb"[2]);
+
+  AFIRMA(0, compara_cadenes(CADENA(u"a"), "u\"a\""));
+
+  AFIRMA(4, mida_de(U""));
+  AFIRMA(20, mida_de(U"\xffzzz"));
+  AFIRMA(0, compara_mem(U"", "\0\0\0\0", 4));
+  AFIRMA(0, compara_mem(U"abc", "a\0\0\0b\0\0\0c\0\0\0\0\0\0\0", 16));
+  AFIRMA(0, compara_mem(U"日本語", "\345e\0\0,g\0\0\236\212\0\0\0\0\0\0", 16));
+  AFIRMA(0, compara_mem(U"🍣", "c\363\001\0\0\0\0\0", 8));
+  AFIRMA(u'β', U"βb"[0]);
+  AFIRMA(u'b', U"βb"[1]);
+  AFIRMA(0, U"βb"[2]);
+  AFIRMA(1, U"\xffffffff"[0] >> 31);
+
+  AFIRMA(0, compara_cadenes(CADENA(U"a"), "U\"a\""));
+
+  AFIRMA(4, mida_de(L""));
+  AFIRMA(20, mida_de(L"\xffzzz"));
+  AFIRMA(0, compara_mem(L"", "\0\0\0\0", 4));
+  AFIRMA(0, compara_mem(L"abc", "a\0\0\0b\0\0\0c\0\0\0\0\0\0\0", 16));
+  AFIRMA(0, compara_mem(L"日本語", "\345e\0\0,g\0\0\236\212\0\0\0\0\0\0", 16));
+  AFIRMA(0, compara_mem(L"🍣", "c\363\001\0\0\0\0\0", 8));
+  AFIRMA(u'β', L"βb"[0]);
+  AFIRMA(u'b', L"βb"[1]);
+  AFIRMA(0, L"βb"[2]);
+  AFIRMA(-1, L"\xffffffff"[0] >> 31);
+
+  AFIRMA(0, compara_cadenes(CADENA(L"a"), "L\"a\""));
+
+  AFIRMA(u'α', ({ car_16 x[] = u"αβ"; x[0]; }));
+  AFIRMA(u'β', ({ car_16 x[] = u"αβ"; x[1]; }));
+  AFIRMA(6, ({ car_16 x[] = u"αβ"; mida_de(x); }));
+
+  AFIRMA(U'🤔', ({ car_32 x[] = U"🤔x"; x[0]; }));
+  AFIRMA(U'x', ({ car_32 x[] = U"🤔x"; x[1]; }));
+  AFIRMA(12, ({ car_32 x[] = U"🤔x"; mida_de(x); }));
+
+  AFIRMA(L'🤔', ({ car_ample x[] = L"🤔x"; x[0]; }));
+  AFIRMA(L'x', ({ car_ample x[] = L"🤔x"; x[1]; }));
+  AFIRMA(12, ({ car_ample x[] = L"🤔x"; mida_de(x); }));
+
+  AFIRMA(3, π);
+  AFIRMA(3, ({ ent あβ0¾=3; あβ0¾; }));
+  AFIRMA(5, ({ ent $$$=5; $$$; }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

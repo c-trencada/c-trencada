@@ -1,0 +1,11 @@
+#inclou "test.cç"
+#inclou <est_arg.cç>
+#inclou <est_bool.cç>
+#inclou <est_def.cç>
+#inclou <est_no_retorna.cç>
+#inclou <est_atòmic.cç>
+
+ent principal() {
+  imprimeix("OK\n");
+  retorna 0;
+}

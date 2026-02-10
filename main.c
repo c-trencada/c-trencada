@@ -1,4 +1,4 @@
-#include "chibicc.h"
+#include "c_trencada.h"
 
 typedef enum {
   FILE_NONE, FILE_C, FILE_ASM, FILE_OBJ, FILE_AR, FILE_DSO,
@@ -7,6 +7,7 @@ typedef enum {
 StringArray include_paths;
 bool opt_fcommon = true;
 bool opt_fpic;
+bool opt_traidor;
 
 static FileType opt_x;
 static StringArray opt_include;
@@ -16,6 +17,7 @@ static bool opt_MD;
 static bool opt_MMD;
 static bool opt_MP;
 static bool opt_S;
+static bool opt_check;
 static bool opt_c;
 static bool opt_cc1;
 static bool opt_hash_hash_hash;
@@ -24,6 +26,7 @@ static bool opt_shared;
 static char *opt_MF;
 static char *opt_MT;
 static char *opt_o;
+CURL *curl;
 
 static StringArray ld_extra_args;
 static StringArray std_include_paths;
@@ -35,7 +38,7 @@ static StringArray input_paths;
 static StringArray tmpfiles;
 
 static void usage(int status) {
-  fprintf(stderr, "chibicc [ -o <path> ] <file>\n");
+  fprintf(stderr, "cç [ -o <ruta> ] <file>\n");
   exit(status);
 }
 
@@ -56,9 +59,9 @@ static void add_default_include_paths(char *argv0) {
   strarray_push(&include_paths, format("%s/include", dirname(strdup(argv0))));
 
   // Add standard include paths.
-  strarray_push(&include_paths, "/usr/local/include");
-  strarray_push(&include_paths, "/usr/include/x86_64-linux-gnu");
-  strarray_push(&include_paths, "/usr/include");
+  // strarray_push(&include_paths, "/usr/local/include");
+  // strarray_push(&include_paths, "/usr/include/x86_64-linux-gnu");
+  // strarray_push(&include_paths, "/usr/include");
 
   // Keep a copy of the standard include paths for -MMD option.
   for (int i = 0; i < include_paths.len; i++)
@@ -80,7 +83,7 @@ static FileType parse_opt_x(char *s) {
     return FILE_ASM;
   if (!strcmp(s, "none"))
     return FILE_NONE;
-  error("<command line>: unknown argument for -x: %s", s);
+  error("<línia d'ordres>: argument desconegut per -x: %s", s);
 }
 
 static char *quote_makefile(char *s) {
@@ -127,6 +130,11 @@ static void parse_args(int argc, char **argv) {
       continue;
     }
 
+    if (!strcmp(argv[i], "-traïdor")) {
+      opt_traidor = true;
+      continue;
+    }
+
     if (!strcmp(argv[i], "-cc1")) {
       opt_cc1 = true;
       continue;
@@ -157,6 +165,11 @@ static void parse_args(int argc, char **argv) {
 
     if (!strcmp(argv[i], "-fno-common")) {
       opt_fcommon = false;
+      continue;
+    }
+
+    if (!strcmp(argv[i], "-check")) {
+      opt_check = true;
       continue;
     }
 
@@ -331,7 +344,7 @@ static void parse_args(int argc, char **argv) {
       continue;
 
     if (argv[i][0] == '-' && argv[i][1] != '\0')
-      error("unknown argument: %s", argv[i]);
+      error("argument desconegut: %s", argv[i]);
 
     strarray_push(&input_paths, argv[i]);
   }
@@ -340,7 +353,7 @@ static void parse_args(int argc, char **argv) {
     strarray_push(&include_paths, idirafter.data[i]);
 
   if (input_paths.len == 0)
-    error("no input files");
+    error("sense fitxers d'entrada");
 
   // -E implies that the input is the C macro language.
   if (opt_E)
@@ -353,7 +366,7 @@ static FILE *open_file(char *path) {
 
   FILE *out = fopen(path, "w");
   if (!out)
-    error("cannot open output file: %s: %s", path, strerror(errno));
+    error("no s'ha pogut obri el fitxer de sortida: %s: %s", path, strerror(errno));
   return out;
 }
 
@@ -373,15 +386,20 @@ static char *replace_extn(char *tmpl, char *extn) {
 }
 
 static void cleanup(void) {
+  if (curl)
+    curl_easy_cleanup(curl);
+
+  curl_global_cleanup();
+
   for (int i = 0; i < tmpfiles.len; i++)
     unlink(tmpfiles.data[i]);
 }
 
 static char *create_tmpfile(void) {
-  char *path = strdup("/tmp/chibicc-XXXXXX");
+  char *path = strdup("/tmp/cç-XXXXXX");
   int fd = mkstemp(path);
   if (fd == -1)
-    error("mkstemp failed: %s", strerror(errno));
+    error("mkstemp ha fallat: %s", strerror(errno));
   close(fd);
 
   strarray_push(&tmpfiles, path);
@@ -400,7 +418,7 @@ static void run_subprocess(char **argv) {
   if (fork() == 0) {
     // Child process. Run a new command.
     execvp(argv[0], argv);
-    fprintf(stderr, "exec failed: %s: %s\n", argv[0], strerror(errno));
+    fprintf(stderr, "ha fallat l'execució: %s: %s\n", argv[0], strerror(errno));
     _exit(1);
   }
 
@@ -552,6 +570,9 @@ static void cc1(void) {
 
   Obj *prog = parse(tok);
 
+  if (opt_check)
+    return;
+
   // Open a temporary output buffer.
   char *buf;
   size_t buflen;
@@ -593,7 +614,7 @@ static char *find_libpath(void) {
     return "/usr/lib/x86_64-linux-gnu";
   if (file_exists("/usr/lib64/crti.o"))
     return "/usr/lib64";
-  error("library path is not found");
+  error("no s'ha trobat la ruta de la biblioteca");
 }
 
 static char *find_gcc_libpath(void) {
@@ -609,7 +630,7 @@ static char *find_gcc_libpath(void) {
       return dirname(path);
   }
 
-  error("gcc library path is not found");
+  error("no s'ha trobat la ruta de la biblioteca gcc");
 }
 
 static void run_linker(StringArray *inputs, char *output) {
@@ -642,6 +663,7 @@ static void run_linker(StringArray *inputs, char *output) {
   strarray_push(&arr, "-L/usr/lib/x86_64-redhat-linux");
   strarray_push(&arr, "-L/usr/lib");
   strarray_push(&arr, "-L/lib");
+  strarray_push(&arr, "-L/home/lia/dev/c-trencada/lib");
 
   if (!opt_static) {
     strarray_push(&arr, "-dynamic-linker");
@@ -655,6 +677,7 @@ static void run_linker(StringArray *inputs, char *output) {
     strarray_push(&arr, inputs->data[i]);
 
   if (opt_static) {
+    strarray_push(&arr, "-lest");
     strarray_push(&arr, "--start-group");
     strarray_push(&arr, "-lgcc");
     strarray_push(&arr, "-lgcc_eh");
@@ -662,6 +685,7 @@ static void run_linker(StringArray *inputs, char *output) {
     strarray_push(&arr, "--end-group");
   } else {
     strarray_push(&arr, "-lc");
+    strarray_push(&arr, "-lest");
     strarray_push(&arr, "-lgcc");
     strarray_push(&arr, "--as-needed");
     strarray_push(&arr, "-lgcc_s");
@@ -689,18 +713,21 @@ static FileType get_file_type(char *filename) {
     return FILE_DSO;
   if (endswith(filename, ".o"))
     return FILE_OBJ;
-  if (endswith(filename, ".c"))
+  if (endswith(filename, ".ç"))
     return FILE_C;
   if (endswith(filename, ".s"))
     return FILE_ASM;
 
-  error("<command line>: unknown file extension: %s", filename);
+  error("<línia d'ordres>: extensió de fitxer desconeguda: %s", filename);
 }
 
 int main(int argc, char **argv) {
   atexit(cleanup);
   init_macros();
   parse_args(argc, argv);
+
+  curl_global_init(CURL_GLOBAL_ALL);
+  curl = curl_easy_init();
 
   if (opt_cc1) {
     add_default_include_paths(argv[0]);
@@ -709,7 +736,7 @@ int main(int argc, char **argv) {
   }
 
   if (input_paths.len > 1 && opt_o && (opt_c || opt_S | opt_E))
-    error("cannot specify '-o' with '-c,' '-S' or '-E' with multiple files");
+    error("no es pot especificar '-o' amb '-c', '-S' o '-E' amb múltiples fitxers");
 
   StringArray ld_args = {};
 
@@ -757,7 +784,7 @@ int main(int argc, char **argv) {
     assert(type == FILE_C);
 
     // Just preprocess
-    if (opt_E || opt_M) {
+    if (opt_E || opt_M || opt_check) {
       run_cc1(argc, argv, input, NULL);
       continue;
     }

@@ -1,0 +1,66 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(1, ({ estructura {ent a; ent b;} estructura_valor; estructura_valor.a=1; estructura_valor.b=2; estructura_valor.a; }));
+  AFIRMA(2, ({ estructura {ent a; ent b;} estructura_valor; estructura_valor.a=1; estructura_valor.b=2; estructura_valor.b; }));
+  AFIRMA(1, ({ estructura {car a; ent b; car c;} estructura_valor; estructura_valor.a=1; estructura_valor.b=2; estructura_valor.c=3; estructura_valor.a; }));
+  AFIRMA(2, ({ estructura {car a; ent b; car c;} estructura_valor; estructura_valor.b=1; estructura_valor.b=2; estructura_valor.c=3; estructura_valor.b; }));
+  AFIRMA(3, ({ estructura {car a; ent b; car c;} estructura_valor; estructura_valor.a=1; estructura_valor.b=2; estructura_valor.c=3; estructura_valor.c; }));
+
+  AFIRMA(0, ({ estructura {car a; car b;} taula[3]; car *punter=taula; punter[0]=0; taula[0].a; }));
+  AFIRMA(1, ({ estructura {car a; car b;} taula[3]; car *punter=taula; punter[1]=1; taula[0].b; }));
+  AFIRMA(2, ({ estructura {car a; car b;} taula[3]; car *punter=taula; punter[2]=2; taula[1].a; }));
+  AFIRMA(3, ({ estructura {car a; car b;} taula[3]; car *punter=taula; punter[3]=3; taula[1].b; }));
+
+  AFIRMA(6, ({ estructura {car a[3]; car b[5];} estructura_valor; car *punter=&estructura_valor; estructura_valor.a[0]=6; punter[0]; }));
+  AFIRMA(7, ({ estructura {car a[3]; car b[5];} estructura_valor; car *punter=&estructura_valor; estructura_valor.b[0]=7; punter[3]; }));
+
+  AFIRMA(6, ({ estructura { estructura { car b; } a; } estructura_valor; estructura_valor.a.b=6; estructura_valor.a.b; }));
+
+  AFIRMA(4, ({ estructura {ent a;} estructura_valor; mida_de(estructura_valor); }));
+  AFIRMA(8, ({ estructura {ent a; ent b;} estructura_valor; mida_de(estructura_valor); }));
+  AFIRMA(8, ({ estructura {ent a, b;} estructura_valor; mida_de(estructura_valor); }));
+  AFIRMA(12, ({ estructura {ent a[3];} estructura_valor; mida_de(estructura_valor); }));
+  AFIRMA(16, ({ estructura {ent a;} taula[4]; mida_de(taula); }));
+  AFIRMA(24, ({ estructura {ent a[3];} taula[2]; mida_de(taula); }));
+  AFIRMA(2, ({ estructura {car a; car b;} estructura_valor; mida_de(estructura_valor); }));
+  AFIRMA(0, ({ estructura {} estructura_valor; mida_de(estructura_valor); }));
+  AFIRMA(8, ({ estructura {car a; ent b;} estructura_valor; mida_de(estructura_valor); }));
+  AFIRMA(8, ({ estructura {ent a; car b;} estructura_valor; mida_de(estructura_valor); }));
+
+  AFIRMA(8, ({ estructura tipus {ent a; ent b;} estructura_primer; estructura tipus estructura_segon; mida_de(estructura_segon); }));
+  AFIRMA(8, ({ estructura tipus {ent a; ent b;}; estructura tipus estructura_segon; mida_de(estructura_segon); }));
+  AFIRMA(2, ({ estructura tipus {car a[2];}; { estructura tipus {car a[4];}; } estructura tipus estructura_segon; mida_de(estructura_segon); }));
+  AFIRMA(3, ({ estructura tipus {ent membre_x;}; ent variable_tipus=1; estructura tipus estructura_segon; estructura_segon.membre_x=2; variable_tipus+estructura_segon.membre_x; }));
+
+  AFIRMA(3, ({ estructura tipus {car a;} estructura_primer; estructura tipus *punter_segon = &estructura_primer; estructura_primer.a=3; punter_segon->a; }));
+  AFIRMA(3, ({ estructura tipus {car a;} estructura_primer; estructura tipus *punter_segon = &estructura_primer; punter_segon->a=3; estructura_primer.a; }));
+
+  AFIRMA(3, ({ estructura {ent a,b;} estructura_primer,estructura_segon; estructura_primer.a=3; estructura_segon=estructura_primer; estructura_segon.a; }));
+  AFIRMA(7, ({ estructura tipus {ent a,b;}; estructura tipus estructura_primer; estructura_primer.a=7; estructura tipus estructura_segon; estructura tipus *punter_tercer=&estructura_segon; *punter_tercer=estructura_primer; estructura_segon.a; }));
+  AFIRMA(7, ({ estructura tipus {ent a,b;}; estructura tipus estructura_primer; estructura_primer.a=7; estructura tipus estructura_segon, *punter_primer=&estructura_primer, *punter_segon=&estructura_segon; *punter_segon=*punter_primer; estructura_segon.a; }));
+  AFIRMA(5, ({ estructura tipus {car a, b;} estructura_primer, estructura_segon; estructura_primer.a=5; estructura_segon=estructura_primer; estructura_segon.a; }));
+
+  AFIRMA(3, ({ estructura {ent a,b;} estructura_primer,estructura_segon; estructura_primer.a=3; estructura_segon=estructura_primer; estructura_segon.a; }));
+  AFIRMA(7, ({ estructura tipus {ent a,b;}; estructura tipus estructura_primer; estructura_primer.a=7; estructura tipus estructura_segon; estructura tipus *punter_tercer=&estructura_segon; *punter_tercer=estructura_primer; estructura_segon.a; }));
+  AFIRMA(7, ({ estructura tipus {ent a,b;}; estructura tipus estructura_primer; estructura_primer.a=7; estructura tipus estructura_segon, *punter_primer=&estructura_primer, *punter_segon=&estructura_segon; *punter_segon=*punter_primer; estructura_segon.a; }));
+  AFIRMA(5, ({ estructura tipus {car a, b;} estructura_primer, estructura_segon; estructura_primer.a=5; estructura_segon=estructura_primer; estructura_segon.a; }));
+
+  AFIRMA(8, ({ estructura tipus {ent a; ent b;} estructura_primer; estructura tipus estructura_segon; mida_de(estructura_segon); }));
+  AFIRMA(8, ({ estructura tipus {ent a; ent b;}; estructura tipus estructura_segon; mida_de(estructura_segon); }));
+
+  AFIRMA(16, ({ estructura {car a; llarg b;} estructura_valor; mida_de(estructura_valor); }));
+  AFIRMA(4, ({ estructura {car a; curt b;} estructura_valor; mida_de(estructura_valor); }));
+
+  AFIRMA(8, ({ estructura prova *prova_bar; mida_de(prova_bar); }));
+  AFIRMA(4, ({ estructura Tipus *prova; estructura Tipus {ent membre_x;}; mida_de(estructura Tipus); }));
+  AFIRMA(1, ({ estructura Tipus { estructura Tipus *següent; ent membre_x; } estructura_primer; estructura Tipus estructura_segon; estructura_segon.membre_x=1; estructura_primer.següent=&estructura_segon; estructura_primer.següent->membre_x; }));
+  AFIRMA(4, ({ def_tipus estructura Tipus Tipus; estructura Tipus { ent membre_x; }; mida_de(Tipus); }));
+
+  AFIRMA(2, ({ estructura {ent a;} estructura_primer={1}, estructura_segon={2}; (estructura_primer=estructura_segon).a; }));
+  AFIRMA(1, ({ estructura {ent a;} estructura_primer={1}, estructura_segon={2}; (1?estructura_primer:estructura_segon).a; }));
+  AFIRMA(2, ({ estructura {ent a;} estructura_primer={1}, estructura_segon={2}; (0?estructura_primer:estructura_segon).a; }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

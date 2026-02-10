@@ -22,7 +22,7 @@
 // standard's wording:
 // https://github.com/rui314/chibicc/wiki/cpp.algo.pdf
 
-#include "chibicc.h"
+#include "c_trencada.h"
 
 typedef struct MacroParam MacroParam;
 struct MacroParam {
@@ -82,7 +82,7 @@ static bool is_hash(Token *tok) {
 static Token *skip_line(Token *tok) {
   if (tok->at_bol)
     return tok;
-  warn_tok(tok, "extra token");
+  warn_tok(tok, "token extra");
   while (tok->at_bol)
     tok = tok->next;
   return tok;
@@ -164,12 +164,12 @@ static Token *append(Token *tok1, Token *tok2) {
 static Token *skip_cond_incl2(Token *tok) {
   while (tok->kind != TK_EOF) {
     if (is_hash(tok) &&
-        (equal(tok->next, "if") || equal(tok->next, "ifdef") ||
-         equal(tok->next, "ifndef"))) {
+        (equal(tok->next, "si") || equal(tok->next, "si_def") ||
+         equal(tok->next, "si_no_def"))) {
       tok = skip_cond_incl2(tok->next->next);
       continue;
     }
-    if (is_hash(tok) && equal(tok->next, "endif"))
+    if (is_hash(tok) && equal(tok->next, "acaba_si"))
       return tok->next->next;
     tok = tok->next;
   }
@@ -181,15 +181,15 @@ static Token *skip_cond_incl2(Token *tok) {
 static Token *skip_cond_incl(Token *tok) {
   while (tok->kind != TK_EOF) {
     if (is_hash(tok) &&
-        (equal(tok->next, "if") || equal(tok->next, "ifdef") ||
-         equal(tok->next, "ifndef"))) {
+        (equal(tok->next, "si") || equal(tok->next, "si_def") ||
+         equal(tok->next, "si_no_def"))) {
       tok = skip_cond_incl2(tok->next->next);
       continue;
     }
 
     if (is_hash(tok) &&
-        (equal(tok->next, "elif") || equal(tok->next, "else") ||
-         equal(tok->next, "endif")))
+        (equal(tok->next, "si_no_si") || equal(tok->next, "si_no") ||
+         equal(tok->next, "acaba_si")))
       break;
     tok = tok->next;
   }
@@ -252,12 +252,12 @@ static Token *read_const_expr(Token **rest, Token *tok) {
   while (tok->kind != TK_EOF) {
     // "defined(foo)" or "defined foo" becomes "1" if macro "foo"
     // is defined. Otherwise "0".
-    if (equal(tok, "defined")) {
+    if (equal(tok, "definit")) {
       Token *start = tok;
       bool has_paren = consume(&tok, tok->next, "(");
 
       if (tok->kind != TK_IDENT)
-        error_tok(start, "macro name must be an identifier");
+        error_tok(start, "el nom de la macro ha de ser un identificador");
       Macro *m = find_macro(tok);
       tok = tok->next;
 
@@ -283,7 +283,7 @@ static long eval_const_expr(Token **rest, Token *tok) {
   expr = preprocess2(expr);
 
   if (expr->kind == TK_EOF)
-    error_tok(start, "no expression");
+    error_tok(start, "no s'ha trobat una expressió");
 
   // [https://www.sigbus.info/n1570#6.10.1p4] The standard requires
   // we replace remaining non-macro identifiers with "0" before
@@ -303,7 +303,7 @@ static long eval_const_expr(Token **rest, Token *tok) {
   Token *rest2;
   long val = const_expr(&rest2, expr);
   if (rest2->kind != TK_EOF)
-    error_tok(rest2, "extra token");
+    error_tok(rest2, "token extra");
   return val;
 }
 
@@ -347,7 +347,7 @@ static MacroParam *read_macro_params(Token **rest, Token *tok, char **va_args_na
     }
 
     if (tok->kind != TK_IDENT)
-      error_tok(tok, "expected an identifier");
+      error_tok(tok, "s'esperava un identificador");
 
     if (equal(tok->next, "...")) {
       *va_args_name = strndup(tok->loc, tok->len);
@@ -367,8 +367,11 @@ static MacroParam *read_macro_params(Token **rest, Token *tok, char **va_args_na
 
 static void read_macro_definition(Token **rest, Token *tok) {
   if (tok->kind != TK_IDENT)
-    error_tok(tok, "macro name must be an identifier");
+    error_tok(tok, "el nom de la macro ha de ser un identificador");
   char *name = strndup(tok->loc, tok->len);
+
+  languagetool_check_tok(tok, false);
+
   tok = tok->next;
 
   if (!tok->has_space && equal(tok, "(")) {
@@ -397,7 +400,7 @@ static MacroArg *read_macro_arg_one(Token **rest, Token *tok, bool read_rest) {
       break;
 
     if (tok->kind == TK_EOF)
-      error_tok(tok, "premature end of input");
+      error_tok(tok, "final prematur de l'entrada");
 
     if (equal(tok, "("))
       level++;
@@ -446,7 +449,7 @@ read_macro_args(Token **rest, Token *tok, MacroParam *params, char *va_args_name
     arg->is_va_args = true;
     cur = cur->next = arg;
   } else if (pp) {
-    error_tok(start, "too many arguments");
+    error_tok(start, "massa arguments");
   }
 
   skip(tok, ")");
@@ -503,7 +506,7 @@ static Token *paste(Token *lhs, Token *rhs) {
   // Tokenize the resulting string.
   Token *tok = tokenize(new_file(lhs->file->name, lhs->file->file_no, buf));
   if (tok->next->kind != TK_EOF)
-    error_tok(lhs, "pasting forms '%s', an invalid token", buf);
+    error_tok(lhs, "la concatenació forma '%s', un token no vàlid", buf);
   return tok;
 }
 
@@ -524,7 +527,7 @@ static Token *subst(Token *tok, MacroArg *args) {
     if (equal(tok, "#")) {
       MacroArg *arg = find_arg(args, tok->next);
       if (!arg)
-        error_tok(tok->next, "'#' is not followed by a macro parameter");
+        error_tok(tok->next, "'#' no va seguit d'un paràmetre de macro");
       cur = cur->next = stringize(tok, arg->tok);
       tok = tok->next->next;
       continue;
@@ -548,10 +551,10 @@ static Token *subst(Token *tok, MacroArg *args) {
 
     if (equal(tok, "##")) {
       if (cur == &head)
-        error_tok(tok, "'##' cannot appear at start of macro expansion");
+        error_tok(tok, "'##' no pot aparéixer al començament de l'expansió de la macro");
 
       if (tok->next->kind == TK_EOF)
-        error_tok(tok, "'##' cannot appear at end of macro expansion");
+        error_tok(tok, "'##' no pot aparéixer al final de l'expansió de la macro");
 
       MacroArg *arg = find_arg(args, tok->next);
       if (arg) {
@@ -735,7 +738,7 @@ static char *read_include_filename(Token **rest, Token *tok, bool *is_dquote) {
     // Find closing ">".
     for (; !equal(tok, ">"); tok = tok->next)
       if (tok->at_bol || tok->kind == TK_EOF)
-        error_tok(tok, "expected '>'");
+        error_tok(tok, "s'esperava '>'");
 
     *is_dquote = false;
     *rest = skip_line(tok->next);
@@ -750,7 +753,7 @@ static char *read_include_filename(Token **rest, Token *tok, bool *is_dquote) {
     return read_include_filename(&tok2, tok2, is_dquote);
   }
 
-  error_tok(tok, "expected a filename");
+  error_tok(tok, "s'esperava un nom de fitxer");
 }
 
 // Detect the following "include guard" pattern.
@@ -761,7 +764,7 @@ static char *read_include_filename(Token **rest, Token *tok, bool *is_dquote) {
 //   #endif
 static char *detect_include_guard(Token *tok) {
   // Detect the first two lines.
-  if (!is_hash(tok) || !equal(tok->next, "ifndef"))
+  if (!is_hash(tok) || !equal(tok->next, "si_no_def"))
     return NULL;
   tok = tok->next->next;
 
@@ -771,7 +774,7 @@ static char *detect_include_guard(Token *tok) {
   char *macro = strndup(tok->loc, tok->len);
   tok = tok->next;
 
-  if (!is_hash(tok) || !equal(tok->next, "define") || !equal(tok->next->next, macro))
+  if (!is_hash(tok) || !equal(tok->next, "definex") || !equal(tok->next->next, macro))
     return NULL;
 
   // Read until the end of the file.
@@ -781,10 +784,10 @@ static char *detect_include_guard(Token *tok) {
       continue;
     }
 
-    if (equal(tok->next, "endif") && tok->next->next->kind == TK_EOF)
+    if (equal(tok->next, "acaba_si") && tok->next->next->kind == TK_EOF)
       return macro;
 
-    if (equal(tok, "if") || equal(tok, "ifdef") || equal(tok, "ifndef"))
+    if (equal(tok, "si") || equal(tok, "si_def") || equal(tok, "si_no_def"))
       tok = skip_cond_incl(tok->next);
     else
       tok = tok->next;
@@ -807,7 +810,7 @@ static Token *include_file(Token *tok, char *path, Token *filename_tok) {
 
   Token *tok2 = tokenize_file(path);
   if (!tok2)
-    error_tok(filename_tok, "%s: cannot open file: %s", path, strerror(errno));
+    error_tok(filename_tok, "%s: no es pot obrir el fitxer: %s", path, strerror(errno));
 
   guard_name = detect_include_guard(tok2);
   if (guard_name)
@@ -822,7 +825,7 @@ static void read_line_marker(Token **rest, Token *tok) {
   tok = preprocess(copy_line(rest, tok));
 
   if (tok->kind != TK_NUM || tok->ty->kind != TY_INT)
-    error_tok(tok, "invalid line marker");
+    error_tok(tok, "marcador de línia no vàlid");
   start->file->line_delta = tok->val - start->line_no;
 
   tok = tok->next;
@@ -830,7 +833,7 @@ static void read_line_marker(Token **rest, Token *tok) {
     return;
 
   if (tok->kind != TK_STR)
-    error_tok(tok, "filename expected");
+    error_tok(tok, "s'esperava un nom de fitxer");
   start->file->display_name = tok->str;
 }
 
@@ -857,7 +860,7 @@ static Token *preprocess2(Token *tok) {
     Token *start = tok;
     tok = tok->next;
 
-    if (equal(tok, "include")) {
+    if (equal(tok, "inclou")) {
       bool is_dquote;
       char *filename = read_include_filename(&tok, tok->next, &is_dquote);
 
@@ -874,7 +877,7 @@ static Token *preprocess2(Token *tok) {
       continue;
     }
 
-    if (equal(tok, "include_next")) {
+    if (equal(tok, "inclou_següent")) {
       bool ignore;
       char *filename = read_include_filename(&tok, tok->next, &ignore);
       char *path = search_include_next(filename);
@@ -882,21 +885,21 @@ static Token *preprocess2(Token *tok) {
       continue;
     }
 
-    if (equal(tok, "define")) {
+    if (equal(tok, "defineix")) {
       read_macro_definition(&tok, tok->next);
       continue;
     }
 
-    if (equal(tok, "undef")) {
+    if (equal(tok, "elimina_def")) {
       tok = tok->next;
       if (tok->kind != TK_IDENT)
-        error_tok(tok, "macro name must be an identifier");
+        error_tok(tok, "el nom de la macro ha de ser un identificador");
       undef_macro(strndup(tok->loc, tok->len));
       tok = skip_line(tok->next);
       continue;
     }
 
-    if (equal(tok, "if")) {
+    if (equal(tok, "si")) {
       long val = eval_const_expr(&tok, tok);
       push_cond_incl(start, val);
       if (!val)
@@ -904,7 +907,7 @@ static Token *preprocess2(Token *tok) {
       continue;
     }
 
-    if (equal(tok, "ifdef")) {
+    if (equal(tok, "si_def")) {
       bool defined = find_macro(tok->next);
       push_cond_incl(tok, defined);
       tok = skip_line(tok->next->next);
@@ -913,7 +916,7 @@ static Token *preprocess2(Token *tok) {
       continue;
     }
 
-    if (equal(tok, "ifndef")) {
+    if (equal(tok, "si_no_def")) {
       bool defined = find_macro(tok->next);
       push_cond_incl(tok, !defined);
       tok = skip_line(tok->next->next);
@@ -922,9 +925,9 @@ static Token *preprocess2(Token *tok) {
       continue;
     }
 
-    if (equal(tok, "elif")) {
+    if (equal(tok, "si_no_si")) {
       if (!cond_incl || cond_incl->ctx == IN_ELSE)
-        error_tok(start, "stray #elif");
+        error_tok(start, "#si_no_si solitari");
       cond_incl->ctx = IN_ELIF;
 
       if (!cond_incl->included && eval_const_expr(&tok, tok))
@@ -934,9 +937,9 @@ static Token *preprocess2(Token *tok) {
       continue;
     }
 
-    if (equal(tok, "else")) {
+    if (equal(tok, "si_no")) {
       if (!cond_incl || cond_incl->ctx == IN_ELSE)
-        error_tok(start, "stray #else");
+        error_tok(start, "#si_no solitari");
       cond_incl->ctx = IN_ELSE;
       tok = skip_line(tok->next);
 
@@ -945,15 +948,15 @@ static Token *preprocess2(Token *tok) {
       continue;
     }
 
-    if (equal(tok, "endif")) {
+    if (equal(tok, "acaba_si")) {
       if (!cond_incl)
-        error_tok(start, "stray #endif");
+        error_tok(start, "#acaba_si solitari");
       cond_incl = cond_incl->next;
       tok = skip_line(tok->next);
       continue;
     }
 
-    if (equal(tok, "line")) {
+    if (equal(tok, "línia")) {
       read_line_marker(&tok, tok->next);
       continue;
     }
@@ -963,7 +966,7 @@ static Token *preprocess2(Token *tok) {
       continue;
     }
 
-    if (equal(tok, "pragma") && equal(tok->next, "once")) {
+    if (equal(tok, "pragma") && equal(tok->next, "una_vegada")) {
       hashmap_put(&pragma_once, tok->file->name, (void *)1);
       tok = skip_line(tok->next->next);
       continue;
@@ -983,7 +986,7 @@ static Token *preprocess2(Token *tok) {
     if (tok->at_bol)
       continue;
 
-    error_tok(tok, "invalid preprocessor directive");
+    error_tok(tok, "directiva del preprocessador no vàlida");
   }
 
   cur->next = tok;
@@ -1044,12 +1047,12 @@ static Token *base_file_macro(Token *tmpl) {
 
 // __DATE__ is expanded to the current date, e.g. "May 17 2020".
 static char *format_date(struct tm *tm) {
-  static char mon[][4] = {
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  static char mon[][5] = {
+    "gen.", "feb.", "març", "abr.", "maig", "juny",
+    "jul.", "ag.", "set.", "oct.", "nov.", "des.",
   };
 
-  return format("\"%s %2d %d\"", mon[tm->tm_mon], tm->tm_mday, tm->tm_year + 1900);
+  return format("\"%02d de %s de %d\"", tm->tm_mday, mon[tm->tm_mon], tm->tm_year + 1900);
 }
 
 // __TIME__ is expanded to the current time, e.g. "13:34:03".
@@ -1059,57 +1062,57 @@ static char *format_time(struct tm *tm) {
 
 void init_macros(void) {
   // Define predefined macros
-  define_macro("_LP64", "1");
-  define_macro("__C99_MACRO_WITH_VA_ARGS", "1");
-  define_macro("__ELF__", "1");
-  define_macro("__LP64__", "1");
-  define_macro("__SIZEOF_DOUBLE__", "8");
-  define_macro("__SIZEOF_FLOAT__", "4");
-  define_macro("__SIZEOF_INT__", "4");
-  define_macro("__SIZEOF_LONG_DOUBLE__", "8");
-  define_macro("__SIZEOF_LONG_LONG__", "8");
-  define_macro("__SIZEOF_LONG__", "8");
-  define_macro("__SIZEOF_POINTER__", "8");
-  define_macro("__SIZEOF_PTRDIFF_T__", "8");
-  define_macro("__SIZEOF_SHORT__", "2");
-  define_macro("__SIZEOF_SIZE_T__", "8");
-  define_macro("__SIZE_TYPE__", "unsigned long");
-  define_macro("__STDC_HOSTED__", "1");
-  define_macro("__STDC_NO_COMPLEX__", "1");
-  define_macro("__STDC_UTF_16__", "1");
-  define_macro("__STDC_UTF_32__", "1");
-  define_macro("__STDC_VERSION__", "201112L");
+  // define_macro("_LP64", "1");
+  // define_macro("__C99_MACRO_WITH_VA_ARGS", "1");
+  // define_macro("__ELF__", "1");
+  // define_macro("__LP64__", "1");
+  // define_macro("__SIZEOF_DOUBLE__", "8");
+  // define_macro("__SIZEOF_FLOAT__", "4");
+  // define_macro("__SIZEOF_INT__", "4");
+  // define_macro("__SIZEOF_LONG_DOUBLE__", "8");
+  // define_macro("__SIZEOF_LONG_LONG__", "8");
+  // define_macro("__SIZEOF_LONG__", "8");
+  // define_macro("__SIZEOF_POINTER__", "8");
+  // define_macro("__SIZEOF_PTRDIFF_T__", "8");
+  // define_macro("__SIZEOF_SHORT__", "2");
+  // define_macro("__SIZEOF_SIZE_T__", "8");
+  // define_macro("__SIZE_TYPE__", "unsigned long");
+  // define_macro("__STDC_HOSTED__", "1");
+  // define_macro("__STDC_NO_COMPLEX__", "1");
+  // define_macro("__STDC_UTF_16__", "1");
+  // define_macro("__STDC_UTF_32__", "1");
+  // define_macro("__STDC_VERSION__", "201112L");
   define_macro("__STDC__", "1");
-  define_macro("__USER_LABEL_PREFIX__", "");
-  define_macro("__alignof__", "_Alignof");
-  define_macro("__amd64", "1");
-  define_macro("__amd64__", "1");
-  define_macro("__chibicc__", "1");
-  define_macro("__const__", "const");
-  define_macro("__gnu_linux__", "1");
-  define_macro("__inline__", "inline");
-  define_macro("__linux", "1");
-  define_macro("__linux__", "1");
-  define_macro("__signed__", "signed");
-  define_macro("__typeof__", "typeof");
-  define_macro("__unix", "1");
-  define_macro("__unix__", "1");
-  define_macro("__volatile__", "volatile");
-  define_macro("__x86_64", "1");
-  define_macro("__x86_64__", "1");
-  define_macro("linux", "1");
-  define_macro("unix", "1");
+  // define_macro("__USER_LABEL_PREFIX__", "");
+  // define_macro("__alignof__", "_Alineació_de");
+  // define_macro("__amd64", "1");
+  // define_macro("__amd64__", "1");
+  // define_macro("__cç__", "1");
+  // define_macro("__const__", "const");
+  // define_macro("__gnu_linux__", "1");
+  // define_macro("__inline__", "en_línia");
+  // define_macro("__linux", "1");
+  // define_macro("__linux__", "1");
+  // define_macro("__signed__", "amb_signe");
+  // define_macro("__typeof__", "tipus_de");
+  // define_macro("__unix", "1");
+  // define_macro("__unix__", "1");
+  // define_macro("__volatile__", "volàtil");
+  // define_macro("__x86_64", "1");
+  // define_macro("__x86_64__", "1");
+  // define_macro("linux", "1");
+  // define_macro("unix", "1");
 
-  add_builtin("__FILE__", file_macro);
-  add_builtin("__LINE__", line_macro);
-  add_builtin("__COUNTER__", counter_macro);
-  add_builtin("__TIMESTAMP__", timestamp_macro);
-  add_builtin("__BASE_FILE__", base_file_macro);
+  add_builtin("__FITXER__", file_macro);
+  add_builtin("__LÍNIA__", line_macro);
+  add_builtin("__CONTADOR__", counter_macro);
+  add_builtin("__TEMPS__", timestamp_macro);
+  add_builtin("__FITXER_BASE__", base_file_macro);
 
   time_t now = time(NULL);
   struct tm *tm = localtime(&now);
-  define_macro("__DATE__", format_date(tm));
-  define_macro("__TIME__", format_time(tm));
+  define_macro("__DATA__", format_date(tm));
+  define_macro("__HORA__", format_time(tm));
 }
 
 typedef enum {
@@ -1150,7 +1153,7 @@ static void join_adjacent_string_literals(Token *tok) {
         kind = k;
         basety = t->ty->base;
       } else if (k != STR_NONE && kind != k) {
-        error_tok(t, "unsupported non-standard concatenation of string literals");
+        error_tok(t, "concatenació no estàndard de literals de cadena no compatible");
       }
     }
 
@@ -1198,7 +1201,7 @@ static void join_adjacent_string_literals(Token *tok) {
 Token *preprocess(Token *tok) {
   tok = preprocess2(tok);
   if (cond_incl)
-    error_tok(cond_incl->tok, "unterminated conditional directive");
+    error_tok(cond_incl->tok, "directiva condicional sense tancar");
   convert_pp_tokens(tok);
   join_adjacent_string_literals(tok);
 

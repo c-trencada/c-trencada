@@ -1,4 +1,4 @@
-#include "chibicc.h"
+#include "c_trencada.h"
 
 // Encode a given character in UTF-8.
 int encode_utf8(char *buf, uint32_t c) {
@@ -54,12 +54,12 @@ uint32_t decode_utf8(char **new_pos, char *p) {
     len = 2;
     c = *p & 0b11111;
   } else {
-    error_at(start, "invalid UTF-8 sequence");
+    error_at(start, "seqüència UTF-8 no vàlida");
   }
 
   for (int i = 1; i < len; i++) {
     if ((unsigned char)p[i] >> 6 != 0b10)
-      error_at(start, "invalid UTF-8 sequence");
+      error_at(start, "seqüència UTF-8 no vàlida");
     c = (c << 6) | (p[i] & 0b111111);
   }
 
@@ -187,3 +187,13 @@ int display_width(char *p, int len) {
   }
   return w;
 }
+
+// Returns the number of bytes that represent a UTF-8 slice of length n characters.
+int utf8_length_to_bytes(char *p, int n) {
+  char *start = p;
+  for (int i = 0; i < n; i++) {
+    decode_utf8(&p, p);
+  }
+  return p - start;
+}
+

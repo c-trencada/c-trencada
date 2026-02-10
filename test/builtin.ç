@@ -1,0 +1,33 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(1, __predefinit_tipus_compatibles(ent, ent));
+  AFIRMA(1, __predefinit_tipus_compatibles(doble, doble));
+  AFIRMA(0, __predefinit_tipus_compatibles(ent, llarg));
+  AFIRMA(0, __predefinit_tipus_compatibles(llarg, flot));
+  AFIRMA(1, __predefinit_tipus_compatibles(ent *, ent *));
+  AFIRMA(0, __predefinit_tipus_compatibles(curt *, ent *));
+  AFIRMA(0, __predefinit_tipus_compatibles(ent **, ent *));
+  AFIRMA(1, __predefinit_tipus_compatibles(const ent, ent));
+  AFIRMA(0, __predefinit_tipus_compatibles(sense_signe, ent));
+  AFIRMA(1, __predefinit_tipus_compatibles(amb_signe, ent));
+  AFIRMA(0, __predefinit_tipus_compatibles(estructura {ent a;}, estructura {ent a;}));
+
+  AFIRMA(1, __predefinit_tipus_compatibles(ent (*)(buit), ent (*)(buit)));
+  AFIRMA(1, __predefinit_tipus_compatibles(buit (*)(int), buit (*)(int)));
+  AFIRMA(1, __predefinit_tipus_compatibles(buit (*)(int, doble), buit (*)(int, doble)));
+  AFIRMA(1, __predefinit_tipus_compatibles(ent (*)(float, doble), ent (*)(float, doble)));
+  AFIRMA(0, __predefinit_tipus_compatibles(ent (*)(float, doble), ent));
+  AFIRMA(0, __predefinit_tipus_compatibles(ent (*)(float, doble), ent (*)(float)));
+  AFIRMA(0, __predefinit_tipus_compatibles(ent (*)(float, doble), ent (*)(float, doble, int)));
+  AFIRMA(1, __predefinit_tipus_compatibles(doble (*)(...), doble (*)(...)));
+  AFIRMA(0, __predefinit_tipus_compatibles(doble (*)(...), doble (*)(buit)));
+
+  AFIRMA(1, ({ def_tipus estructura {ent a;} Tipus; __predefinit_tipus_compatibles(Tipus, Tipus); }));
+  AFIRMA(1, ({ def_tipus estructura {ent a;} Tipus; __predefinit_tipus_compatibles(Tipus, const Tipus); }));
+
+  AFIRMA(1, ({ estructura {ent a; ent b;} valor; __predefinit_tipus_compatibles(tipus_de(valor.a), tipus_de(valor.b)); }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

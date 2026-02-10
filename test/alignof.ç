@@ -1,0 +1,49 @@
+#inclou "test.cç"
+
+ent _Alinea_com(512) g1;
+ent _Alinea_com(512) g2;
+car g3;
+ent g4;
+llarg g5;
+car g6;
+
+ent principal() {
+  AFIRMA(1, _Alineació_de(car));
+  AFIRMA(2, _Alineació_de(curt));
+  AFIRMA(4, _Alineació_de(ent));
+  AFIRMA(8, _Alineació_de(llarg));
+  AFIRMA(8, _Alineació_de(llarg llarg));
+  AFIRMA(1, _Alineació_de(car[3]));
+  AFIRMA(4, _Alineació_de(ent));
+  AFIRMA(1, _Alineació_de(estructura {car a; car b;}[2]));
+  AFIRMA(8, _Alineació_de(estructura {car a; llarg b;}[2]));
+
+  AFIRMA(1, ({ _Alinea_com(car) car valor_primer, valor_segon; &valor_segon-&valor_primer; }));
+  AFIRMA(8, ({ _Alinea_com(llarg) car valor_primer, valor_segon; &valor_segon-&valor_primer; }));
+  AFIRMA(32, ({ _Alinea_com(32) car valor_primer, valor_segon; &valor_segon-&valor_primer; }));
+  AFIRMA(32, ({ _Alinea_com(32) ent *valor_primer, *valor_segon; ((car *)&valor_segon)-((car *)&valor_primer); }));
+  AFIRMA(16, ({ estructura { _Alinea_com(16) car valor_x, valor_y; } estructura_a; &estructura_a.valor_y-&estructura_a.valor_x; }));
+  AFIRMA(8, ({ estructura Tipus { _Alinea_com(8) car membre_a; }; _Alineació_de(estructura Tipus); }));
+
+  AFIRMA(0, (llarg)(car *)&g1 % 512);
+  AFIRMA(0, (llarg)(car *)&g2 % 512);
+  AFIRMA(0, (llarg)(car *)&g4 % 4);
+  AFIRMA(0, (llarg)(car *)&g5 % 8);
+
+  AFIRMA(1, ({ car valor; _Alineació_de(valor); }));
+  AFIRMA(4, ({ ent valor; _Alineació_de(valor); }));
+  AFIRMA(1, ({ car valor; _Alineació_de valor; }));
+  AFIRMA(4, ({ ent valor; _Alineació_de valor; }));
+
+  AFIRMA(1, _Alineació_de(car) << 31 >> 31);
+  AFIRMA(1, _Alineació_de(car) << 63 >> 63);
+  AFIRMA(1, ({ car valor; _Alineació_de(valor) << 63 >> 63; }));
+
+  AFIRMA(0, ({ car taula[16]; (sense_signe llarg)&taula % 16; }));
+  AFIRMA(0, ({ car taula[17]; (sense_signe llarg)&taula % 16; }));
+  AFIRMA(0, ({ car taula[100]; (sense_signe llarg)&taula % 16; }));
+  AFIRMA(0, ({ car taula[101]; (sense_signe llarg)&taula % 16; }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

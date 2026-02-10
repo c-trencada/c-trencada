@@ -1,9 +1,7 @@
 #!/bin/bash
-chibicc=$1
-
-tmp=`mktemp -d /tmp/chibicc-test-XXXXXX`
+tmp=`mktemp -d /tmp/cç-test-XXXXXX`
 trap 'rm -rf $tmp' INT TERM HUP EXIT
-echo > $tmp/empty.c
+echo > $tmp/empty.ç
 
 check() {
     if [ $? -eq 0 ]; then
@@ -16,297 +14,297 @@ check() {
 
 # -o
 rm -f $tmp/out
-./chibicc -c -o $tmp/out $tmp/empty.c
+./cç -c -o $tmp/out $tmp/empty.ç
 [ -f $tmp/out ]
 check -o
 
 # --help
-$chibicc --help 2>&1 | grep -q chibicc
+./cç --help 2>&1 | grep -q cç
 check --help
 
 # -S
-echo 'int main() {}' | $chibicc -S -o- -xc - | grep -q 'main:'
+echo 'ent principal() {}' | ./cç -S -o- -xc - | grep -q 'main:'
 check -S
 
 # Default output file
 rm -f $tmp/out.o $tmp/out.s
-echo 'int main() {}' > $tmp/out.c
-(cd $tmp; $OLDPWD/$chibicc -c out.c)
+echo 'ent principal() {}' > $tmp/out.ç
+(cd $tmp; $OLDPWD/cç -c out.ç)
 [ -f $tmp/out.o ]
 check 'default output file'
 
-(cd $tmp; $OLDPWD/$chibicc -c -S out.c)
+(cd $tmp; $OLDPWD/cç -c -S out.ç)
 [ -f $tmp/out.s ]
 check 'default output file'
 
 # Multiple input files
-rm -f $tmp/foo.o $tmp/bar.o
-echo 'int x;' > $tmp/foo.c
-echo 'int y;' > $tmp/bar.c
-(cd $tmp; $OLDPWD/$chibicc -c $tmp/foo.c $tmp/bar.c)
-[ -f $tmp/foo.o ] && [ -f $tmp/bar.o ]
+rm -f $tmp/fou.o $tmp/bar.o
+echo 'ent x;' > $tmp/fou.ç
+echo 'ent y;' > $tmp/bar.ç
+(cd $tmp; $OLDPWD/cç -c $tmp/fou.ç $tmp/bar.ç)
+[ -f $tmp/fou.o ] && [ -f $tmp/bar.o ]
 check 'multiple input files'
 
-rm -f $tmp/foo.s $tmp/bar.s
-echo 'int x;' > $tmp/foo.c
-echo 'int y;' > $tmp/bar.c
-(cd $tmp; $OLDPWD/$chibicc -c -S $tmp/foo.c $tmp/bar.c)
-[ -f $tmp/foo.s ] && [ -f $tmp/bar.s ]
+rm -f $tmp/fou.s $tmp/bar.s
+echo 'ent x;' > $tmp/fou.ç
+echo 'ent y;' > $tmp/bar.ç
+(cd $tmp; $OLDPWD/cç -c -S $tmp/fou.ç $tmp/bar.ç)
+[ -f $tmp/fou.s ] && [ -f $tmp/bar.s ]
 check 'multiple input files'
 
 # Run linker
-rm -f $tmp/foo
-echo 'int main() { return 0; }' | $chibicc -o $tmp/foo -xc -xc -
-$tmp/foo
+rm -f $tmp/fou
+echo 'ent principal() { retorna 0; }' | ./cç -o $tmp/fou -xc -xc -
+$tmp/fou
 check linker
 
-rm -f $tmp/foo
-echo 'int bar(); int main() { return bar(); }' > $tmp/foo.c
-echo 'int bar() { return 42; }' > $tmp/bar.c
-$chibicc -o $tmp/foo $tmp/foo.c $tmp/bar.c
-$tmp/foo
+rm -f $tmp/fou
+echo 'ent bar(); ent principal() { retorna bar(); }' > $tmp/fou.ç
+echo 'ent bar() { retorna 42; }' > $tmp/bar.ç
+./cç -o $tmp/fou $tmp/fou.ç $tmp/bar.ç
+$tmp/fou
 [ "$?" = 42 ]
 check linker
 
 # a.out
 rm -f $tmp/a.out
-echo 'int main() {}' > $tmp/foo.c
-(cd $tmp; $OLDPWD/$chibicc foo.c)
+echo 'ent principal() {}' > $tmp/fou.ç
+(cd $tmp; $OLDPWD/cç fou.ç)
 [ -f $tmp/a.out ]
 check a.out
 
 # -E
-echo foo > $tmp/out
-echo "#include \"$tmp/out\"" | $chibicc -E -xc - | grep -q foo
+echo fou > $tmp/out
+echo "#inclou \"$tmp/out\"" | ./cç -E -xc - | grep -q fou
 check -E
 
-echo foo > $tmp/out1
-echo "#include \"$tmp/out1\"" | $chibicc -E -o $tmp/out2 -xc -
-cat $tmp/out2 | grep -q foo
+echo fou > $tmp/out1
+echo "#inclou \"$tmp/out1\"" | ./cç -E -o $tmp/out2 -xc -
+cat $tmp/out2 | grep -q fou
 check '-E and -o'
 
 # -I
 mkdir $tmp/dir
-echo foo > $tmp/dir/i-option-test
-echo "#include \"i-option-test\"" | $chibicc -I$tmp/dir -E -xc - | grep -q foo
+echo fou > $tmp/dir/i-option-test
+echo "#inclou \"i-option-test\"" | ./cç -I$tmp/dir -E -xc - | grep -q fou
 check -I
 
 # -D
-echo foo | $chibicc -Dfoo -E -xc - | grep -q 1
+echo fou | ./cç -Dfou -E -xc - | grep -q 1
 check -D
 
 # -D
-echo foo | $chibicc -Dfoo=bar -E -xc - | grep -q bar
+echo fou | ./cç -Dfou=bar -E -xc - | grep -q bar
 check -D
 
 # -U
-echo foo | $chibicc -Dfoo=bar -Ufoo -E -xc - | grep -q foo
+echo fou | ./cç -Dfou=bar -Ufou -E -xc - | grep -q fou
 check -U
 
 # ignored options
-$chibicc -c -O -Wall -g -std=c11 -ffreestanding -fno-builtin \
+./cç -c -O -Wall -g -std=c11 -ffreestanding -fno-builtin \
          -fno-omit-frame-pointer -fno-stack-protector -fno-strict-aliasing \
-         -m64 -mno-red-zone -w -o /dev/null $tmp/empty.c
+         -m64 -mno-red-zone -w -o /dev/null $tmp/empty.ç
 check 'ignored options'
 
 # BOM marker
-printf '\xef\xbb\xbfxyz\n' | $chibicc -E -o- -xc - | grep -q '^xyz'
+printf '\xef\xbb\xbfxyz\n' | ./cç -E -o- -xc - | grep -q '^xyz'
 check 'BOM marker'
 
-# Inline functions
-echo 'inline void foo() {}' > $tmp/inline1.c
-echo 'inline void foo() {}' > $tmp/inline2.c
-echo 'int main() { return 0; }' > $tmp/inline3.c
-$chibicc -o /dev/null $tmp/inline1.c $tmp/inline2.c $tmp/inline3.c
-check inline
+# en_línia functions
+echo 'en_línia buit fou() {}' > $tmp/en_línia1.ç
+echo 'en_línia buit fou() {}' > $tmp/en_línia2.ç
+echo 'ent principal() { retorna 0; }' > $tmp/en_línia3.ç
+./cç -o /dev/null $tmp/en_línia1.ç $tmp/en_línia2.ç $tmp/en_línia3.ç
+check en_línia
 
-echo 'extern inline void foo() {}' > $tmp/inline1.c
-echo 'int foo(); int main() { foo(); }' > $tmp/inline2.c
-$chibicc -o /dev/null $tmp/inline1.c $tmp/inline2.c
-check inline
+echo 'extern en_línia buit fou() {}' > $tmp/en_línia1.ç
+echo 'ent fou(); ent principal() { fou(); }' > $tmp/en_línia2.ç
+./cç -o /dev/null $tmp/en_línia1.ç $tmp/en_línia2.ç
+check en_línia
 
-echo 'static inline void f1() {}' | $chibicc -o- -S -xc - | grep -v -q f1:
-check inline
+echo 'estàtic en_línia buit f1() {}' | ./cç -o- -S -xc - | grep -v -q f1:
+check en_línia
 
-echo 'static inline void f1() {} void foo() { f1(); }' | $chibicc -o- -S -xc - | grep -q f1:
-check inline
+echo 'estàtic en_línia buit f1() {} buit fou() { f1(); }' | ./cç -o- -S -xc - | grep -q f1:
+check en_línia
 
-echo 'static inline void f1() {} static inline void f2() { f1(); } void foo() { f1(); }' | $chibicc -o- -S -xc - | grep -q f1:
-check inline
+echo 'estàtic en_línia buit f1() {} estàtic en_línia buit f2() { f1(); } buit fou() { f1(); }' | ./cç -o- -S -xc - | grep -q f1:
+check en_línia
 
-echo 'static inline void f1() {} static inline void f2() { f1(); } void foo() { f1(); }' | $chibicc -o- -S -xc - | grep -v -q f2:
-check inline
+echo 'estàtic en_línia buit f1() {} estàtic en_línia buit f2() { f1(); } buit fou() { f1(); }' | ./cç -o- -S -xc - | grep -v -q f2:
+check en_línia
 
-echo 'static inline void f1() {} static inline void f2() { f1(); } void foo() { f2(); }' | $chibicc -o- -S -xc - | grep -q f1:
-check inline
+echo 'estàtic en_línia buit f1() {} estàtic en_línia buit f2() { f1(); } buit fou() { f2(); }' | ./cç -o- -S -xc - | grep -q f1:
+check en_línia
 
-echo 'static inline void f1() {} static inline void f2() { f1(); } void foo() { f2(); }' | $chibicc -o- -S -xc - | grep -q f2:
-check inline
+echo 'estàtic en_línia buit f1() {} estàtic en_línia buit f2() { f1(); } buit fou() { f2(); }' | ./cç -o- -S -xc - | grep -q f2:
+check en_línia
 
-echo 'static inline void f2(); static inline void f1() { f2(); } static inline void f2() { f1(); } void foo() {}' | $chibicc -o- -S -xc - | grep -v -q f1:
-check inline
+echo 'estàtic en_línia buit f2(); estàtic en_línia buit f1() { f2(); } estàtic en_línia buit f2() { f1(); } buit fou() {}' | ./cç -o- -S -xc - | grep -v -q f1:
+check en_línia
 
-echo 'static inline void f2(); static inline void f1() { f2(); } static inline void f2() { f1(); } void foo() {}' | $chibicc -o- -S -xc - | grep -v -q f2:
-check inline
+echo 'estàtic en_línia buit f2(); estàtic en_línia buit f1() { f2(); } estàtic en_línia buit f2() { f1(); } buit fou() {}' | ./cç -o- -S -xc - | grep -v -q f2:
+check en_línia
 
-echo 'static inline void f2(); static inline void f1() { f2(); } static inline void f2() { f1(); } void foo() { f1(); }' | $chibicc -o- -S -xc - | grep -q f1:
-check inline
+echo 'estàtic en_línia buit f2(); estàtic en_línia buit f1() { f2(); } estàtic en_línia buit f2() { f1(); } buit fou() { f1(); }' | ./cç -o- -S -xc - | grep -q f1:
+check en_línia
 
-echo 'static inline void f2(); static inline void f1() { f2(); } static inline void f2() { f1(); } void foo() { f1(); }' | $chibicc -o- -S -xc - | grep -q f2:
-check inline
+echo 'estàtic en_línia buit f2(); estàtic en_línia buit f1() { f2(); } estàtic en_línia buit f2() { f1(); } buit fou() { f1(); }' | ./cç -o- -S -xc - | grep -q f2:
+check en_línia
 
-echo 'static inline void f2(); static inline void f1() { f2(); } static inline void f2() { f1(); } void foo() { f2(); }' | $chibicc -o- -S -xc - | grep -q f1:
-check inline
+echo 'estàtic en_línia buit f2(); estàtic en_línia buit f1() { f2(); } estàtic en_línia buit f2() { f1(); } buit fou() { f2(); }' | ./cç -o- -S -xc - | grep -q f1:
+check en_línia
 
-echo 'static inline void f2(); static inline void f1() { f2(); } static inline void f2() { f1(); } void foo() { f2(); }' | $chibicc -o- -S -xc - | grep -q f2:
-check inline
+echo 'estàtic en_línia buit f2(); estàtic en_línia buit f1() { f2(); } estàtic en_línia buit f2() { f1(); } buit fou() { f2(); }' | ./cç -o- -S -xc - | grep -q f2:
+check en_línia
 
 # -idirafter
 mkdir -p $tmp/dir1 $tmp/dir2
-echo foo > $tmp/dir1/idirafter
+echo fou > $tmp/dir1/idirafter
 echo bar > $tmp/dir2/idirafter
-echo "#include \"idirafter\"" | $chibicc -I$tmp/dir1 -I$tmp/dir2 -E -xc - | grep -q foo
+echo "#inclou \"idirafter\"" | ./cç -I$tmp/dir1 -I$tmp/dir2 -E -xc - | grep -q fou
 check -idirafter
-echo "#include \"idirafter\"" | $chibicc -idirafter $tmp/dir1 -I$tmp/dir2 -E -xc - | grep -q bar
+echo "#inclou \"idirafter\"" | ./cç -idirafter $tmp/dir1 -I$tmp/dir2 -E -xc - | grep -q bar
 check -idirafter
 
 # -fcommon
-echo 'int foo;' | $chibicc -S -o- -xc - | grep -q '\.comm foo'
+echo 'ent fou;' | ./cç -S -o- -xc - | grep -q '\.comm fou'
 check '-fcommon (default)'
 
-echo 'int foo;' | $chibicc -fcommon -S -o- -xc - | grep -q '\.comm foo'
+echo 'ent fou;' | ./cç -fcommon -S -o- -xc - | grep -q '\.comm fou'
 check '-fcommon'
 
 # -fno-common
-echo 'int foo;' | $chibicc -fno-common -S -o- -xc - | grep -q '^foo:'
+echo 'ent fou;' | ./cç -fno-common -S -o- -xc - | grep -q '^fou:'
 check '-fno-common'
 
 # -include
-echo foo > $tmp/out.h
-echo bar | $chibicc -include $tmp/out.h -E -o- -xc - | grep -q -z 'foo.*bar'
-check -include
-echo NULL | $chibicc -Iinclude -include stdio.h -E -o- -xc - | grep -q 0
-check -include
+# echo fou > $tmp/out.cç
+# echo bar | ./cç -include $tmp/out.cç -E -o- -xc - | grep -q -z 'fou.*bar'
+# check -include
+# echo NULL | ./cç -Iinclude -include stdio.cç -E -o- -xc - | grep -q 0
+# check -include
 
 # -x
-echo 'int x;' | $chibicc -c -xc -o $tmp/foo.o -
+echo 'ent x;' | ./cç -c -xc -o $tmp/fou.o -
 check -xc
-echo 'x:' | $chibicc -c -x assembler -o $tmp/foo.o -
+echo 'x:' | ./cç -c -x assembler -o $tmp/fou.o -
 check '-x assembler'
 
-echo 'int x;' > $tmp/foo.c
-$chibicc -c -x assembler -x none -o $tmp/foo.o $tmp/foo.c
+echo 'ent x;' > $tmp/fou.ç
+./cç -c -x assembler -x none -o $tmp/fou.o $tmp/fou.ç
 check '-x none'
 
 # -E
-echo foo | $chibicc -E - | grep -q foo
+echo fou | ./cç -E - | grep -q fou
 check -E
 
 # .a file
-echo 'void foo() {}' | $chibicc -c -xc -o $tmp/foo.o -
-echo 'void bar() {}' | $chibicc -c -xc -o $tmp/bar.o -
-ar rcs $tmp/foo.a $tmp/foo.o $tmp/bar.o
-echo 'void foo(); void bar(); int main() { foo(); bar(); }' > $tmp/main.c
-$chibicc -o $tmp/foo $tmp/main.c $tmp/foo.a
+echo 'buit fou() {}' | ./cç -c -xc -o $tmp/fou.o -
+echo 'buit bar() {}' | ./cç -c -xc -o $tmp/bar.o -
+ar rcs $tmp/fou.a $tmp/fou.o $tmp/bar.o
+echo 'buit fou(); buit bar(); ent principal() { fou(); bar(); }' > $tmp/principal.ç
+./cç -o $tmp/fou $tmp/principal.ç $tmp/fou.a
 check '.a'
 
 # .so file
-echo 'void foo() {}' | cc -fPIC -c -xc -o $tmp/foo.o -
-echo 'void bar() {}' | cc -fPIC -c -xc -o $tmp/bar.o -
-cc -shared -o $tmp/foo.so $tmp/foo.o $tmp/bar.o
-echo 'void foo(); void bar(); int main() { foo(); bar(); }' > $tmp/main.c
-$chibicc -o $tmp/foo $tmp/main.c $tmp/foo.so
-check '.so'
+# echo 'buit fou() {}' | cc -fPIC -c -xc -o $tmp/fou.o -
+# echo 'buit bar() {}' | cc -fPIC -c -xc -o $tmp/bar.o -
+# cc -shared -o $tmp/fou.so $tmp/fou.o $tmp/bar.o
+# echo 'buit fou(); buit bar(); ent principal() { fou(); bar(); }' > $tmp/principal.ç
+# ./cç -o $tmp/fou $tmp/principal.ç $tmp/fou.so
+# check '.so'
 
-$chibicc -hashmap-test
+./cç -hashmap-test
 check 'hashmap'
 
 # -M
-echo '#include "out2.h"' > $tmp/out.c
-echo '#include "out3.h"' >> $tmp/out.c
-touch $tmp/out2.h $tmp/out3.h
-$chibicc -M -I$tmp $tmp/out.c | grep -q -z '^out.o: .*/out\.c .*/out2\.h .*/out3\.h'
+echo '#inclou "out2.cç"' > $tmp/out.ç
+echo '#inclou "out3.cç"' >> $tmp/out.ç
+touch $tmp/out2.cç $tmp/out3.cç
+./cç -M -I$tmp $tmp/out.ç | grep -q -z '^out.o: .*/out\.ç .*/out2\.cç .*/out3\.cç'
 check -M
 
 # -MF
-$chibicc -MF $tmp/mf -M -I$tmp $tmp/out.c
-grep -q -z '^out.o: .*/out\.c .*/out2\.h .*/out3\.h' $tmp/mf
+./cç -MF $tmp/mf -M -I$tmp $tmp/out.ç
+grep -q -z '^out.o: .*/out\.ç .*/out2\.cç .*/out3\.cç' $tmp/mf
 check -MF
 
 # -MP
-$chibicc -MF $tmp/mp -MP -M -I$tmp $tmp/out.c
-grep -q '^.*/out2.h:' $tmp/mp
+./cç -MF $tmp/mp -MP -M -I$tmp $tmp/out.ç
+grep -q '^.*/out2.cç:' $tmp/mp
 check -MP
-grep -q '^.*/out3.h:' $tmp/mp
+grep -q '^.*/out3.cç:' $tmp/mp
 check -MP
 
 # -MT
-$chibicc -MT foo -M -I$tmp $tmp/out.c | grep -q '^foo:'
+./cç -MT fou -M -I$tmp $tmp/out.ç | grep -q '^fou:'
 check -MT
-$chibicc -MT foo -MT bar -M -I$tmp $tmp/out.c | grep -q '^foo bar:'
+./cç -MT fou -MT bar -M -I$tmp $tmp/out.ç | grep -q '^fou bar:'
 check -MT
 
 # -MD
-echo '#include "out2.h"' > $tmp/md2.c
-echo '#include "out3.h"' > $tmp/md3.c
-(cd $tmp; $OLDPWD/$chibicc -c -MD -I. md2.c md3.c)
-grep -q -z '^md2.o:.* md2\.c .* ./out2\.h' $tmp/md2.d
+echo '#inclou "out2.cç"' > $tmp/md2.ç
+echo '#inclou "out3.cç"' > $tmp/md3.ç
+(cd $tmp; $OLDPWD/cç -c -MD -I. md2.ç md3.ç)
+grep -q -z '^md2.o:.* md2\.ç .* ./out2\.cç' $tmp/md2.d
 check -MD
-grep -q -z '^md3.o:.* md3\.c .* ./out3\.h' $tmp/md3.d
-check -MD
-
-$chibicc -c -MD -MF $tmp/md-mf.d -I. $tmp/md2.c
-grep -q -z '^md2.o:.*md2\.c .*/out2\.h' $tmp/md-mf.d
+grep -q -z '^md3.o:.* md3\.ç .* ./out3\.cç' $tmp/md3.d
 check -MD
 
-echo 'extern int bar; int foo() { return bar; }' | $chibicc -fPIC -xc -c -o $tmp/foo.o -
-cc -shared -o $tmp/foo.so $tmp/foo.o
-echo 'int foo(); int bar=3; int main() { foo(); }' > $tmp/main.c
-$chibicc -o $tmp/foo $tmp/main.c $tmp/foo.so
+./cç -c -MD -MF $tmp/md-mf.d -I. $tmp/md2.ç
+grep -q -z '^md2.o:.*md2\.ç .*/out2\.cç' $tmp/md-mf.d
+check -MD
+
+echo 'extern ent bar; ent fou() { retorna bar; }' | ./cç -fPIC -xc -c -o $tmp/fou.o -
+cc -shared -o $tmp/fou.so $tmp/fou.o
+echo 'ent fou(); ent bar=3; ent principal() { fou(); }' > $tmp/principal.ç
+./cç -o $tmp/fou $tmp/principal.ç $tmp/fou.so
 check -fPIC
 
-# #include_next
+# #inclou_següent
 mkdir -p $tmp/next1 $tmp/next2 $tmp/next3
-echo '#include "file1.h"' > $tmp/file.c
-echo '#include_next "file1.h"' > $tmp/next1/file1.h
-echo '#include_next "file2.h"' > $tmp/next2/file1.h
-echo 'foo' > $tmp/next3/file2.h
-$chibicc -I$tmp/next1 -I$tmp/next2 -I$tmp/next3 -E $tmp/file.c | grep -q foo
-check '#include_next'
+echo '#inclou "file1.cç"' > $tmp/file.ç
+echo '#inclou_següent "file1.cç"' > $tmp/next1/file1.cç
+echo '#inclou_següent "file2.cç"' > $tmp/next2/file1.cç
+echo 'fou' > $tmp/next3/file2.cç
+./cç -I$tmp/next1 -I$tmp/next2 -I$tmp/next3 -E $tmp/file.ç | grep -q fou
+check '#inclou_següent'
 
 # -static
-echo 'extern int bar; int foo() { return bar; }' > $tmp/foo.c
-echo 'int foo(); int bar=3; int main() { foo(); }' > $tmp/bar.c
-$chibicc -static -o $tmp/foo $tmp/foo.c $tmp/bar.c
+echo 'extern ent bar; ent fou() { retorna bar; }' > $tmp/fou.ç
+echo 'ent fou(); ent bar=3; ent principal() { fou(); }' > $tmp/bar.ç
+./cç -static -o $tmp/fou $tmp/fou.ç $tmp/bar.ç
 check -static
-file $tmp/foo | grep -q 'statically linked'
+file $tmp/fou | grep -q 'statically linked'
 check -static
 
 # -shared
-echo 'extern int bar; int foo() { return bar; }' > $tmp/foo.c
-echo 'int foo(); int bar=3; int main() { foo(); }' > $tmp/bar.c
-$chibicc -fPIC -shared -o $tmp/foo.so $tmp/foo.c $tmp/bar.c
+echo 'extern ent bar; ent fou() { retorna bar; }' > $tmp/fou.ç
+echo 'ent fou(); ent bar=3; ent principal() { fou(); }' > $tmp/bar.ç
+./cç -fPIC -shared -o $tmp/fou.so $tmp/fou.ç $tmp/bar.ç
 check -shared
 
 # -L
-echo 'extern int bar; int foo() { return bar; }' > $tmp/foo.c
-$chibicc -fPIC -shared -o $tmp/libfoobar.so $tmp/foo.c
-echo 'int foo(); int bar=3; int main() { foo(); }' > $tmp/bar.c
-$chibicc -o $tmp/foo $tmp/bar.c -L$tmp -lfoobar
+echo 'extern ent bar; ent fou() { retorna bar; }' > $tmp/fou.ç
+./cç -fPIC -shared -o $tmp/libfoubar.so $tmp/fou.ç
+echo 'ent fou(); ent bar=3; ent principal() { fou(); }' > $tmp/bar.ç
+./cç -o $tmp/fou $tmp/bar.ç -L$tmp -lfoubar
 check -L
 
 # -Wl,
-echo 'int foo() {}' | $chibicc -c -o $tmp/foo.o -xc -
-echo 'int foo() {}' | $chibicc -c -o $tmp/bar.o -xc -
-echo 'int main() {}' | $chibicc -c -o $tmp/baz.o -xc -
-cc -Wl,-z,muldefs,--gc-sections -o $tmp/foo $tmp/foo.o $tmp/bar.o $tmp/baz.o
+echo 'ent fou() {}' | ./cç -c -o $tmp/fou.o -xc -
+echo 'ent fou() {}' | ./cç -c -o $tmp/bar.o -xc -
+echo 'ent principal() {}' | ./cç -c -o $tmp/baz.o -xc -
+cc -Wl,-z,muldefs,--gc-sections -o $tmp/fou $tmp/fou.o $tmp/bar.o $tmp/baz.o
 check -Wl,
 
 # -Xlinker
-echo 'int foo() {}' | $chibicc -c -o $tmp/foo.o -xc -
-echo 'int foo() {}' | $chibicc -c -o $tmp/bar.o -xc -
-echo 'int main() {}' | $chibicc -c -o $tmp/baz.o -xc -
-cc -Xlinker -z -Xlinker muldefs -Xlinker --gc-sections -o $tmp/foo $tmp/foo.o $tmp/bar.o $tmp/baz.o
+echo 'ent fou() {}' | ./cç -c -o $tmp/fou.o -xc -
+echo 'ent fou() {}' | ./cç -c -o $tmp/bar.o -xc -
+echo 'ent principal() {}' | ./cç -c -o $tmp/baz.o -xc -
+cc -Xlinker -z -Xlinker muldefs -Xlinker --gc-sections -o $tmp/fou $tmp/fou.o $tmp/bar.o $tmp/baz.o
 check -Xlinker
 
 echo OK

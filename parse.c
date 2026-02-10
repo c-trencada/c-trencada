@@ -16,7 +16,7 @@
 // So it is very easy to lookahead arbitrary number of tokens in this
 // parser.
 
-#include "chibicc.h"
+#include "c_trencada.h"
 
 // Scope for local variables, global variables, typedefs
 // or enum constants
@@ -96,7 +96,7 @@ static Obj *current_fn;
 static Node *gotos;
 static Node *labels;
 
-// Current "goto" and "continue" jump targets.
+// Current "ves_a" and "continua" jump targets.
 static char *brk_label;
 static char *cont_label;
 
@@ -341,7 +341,7 @@ static Obj *new_string_literal(char *p, Type *ty) {
 
 static char *get_ident(Token *tok) {
   if (tok->kind != TK_IDENT)
-    error_tok(tok, "expected an identifier");
+    error_tok(tok, "s'esperava un identificador");
   return strndup(tok->loc, tok->len);
 }
 
@@ -358,14 +358,16 @@ static void push_tag_scope(Token *tok, Type *ty) {
   hashmap_put2(&scope->tags, tok->loc, tok->len, ty);
 }
 
-// declspec = ("void" | "_Bool" | "char" | "short" | "int" | "long"
-//             | "typedef" | "static" | "extern" | "inline"
-//             | "_Thread_local" | "__thread"
-//             | "signed" | "unsigned"
+
+
+// declspec = ("buit" | "_Bool" | "car" | "curt" | "ent" | "llarg"
+//             | "def_tipus" | "estàtic" | "extern" | "en_línia"
+//             | "_Local_a_fil" | "__fil"
+//             | "amb_signe" | "sense_signe"
 //             | struct-decl | union-decl | typedef-name
 //             | enum-specifier | typeof-specifier
-//             | "const" | "volatile" | "auto" | "register" | "restrict"
-//             | "__restrict" | "__restrict__" | "_Noreturn")+
+//             | "const" | "volàtil" | "auto" | "registre" | "restringeix"
+//             | "__restringeix" | "__restringeix__" | "_No_retorna")+
 //
 // The order of typenames in a type-specifier doesn't matter. For
 // example, `int long static` means the same as `static long int`.
@@ -381,7 +383,7 @@ static void push_tag_scope(Token *tok, Type *ty) {
 static Type *declspec(Token **rest, Token *tok, VarAttr *attr) {
   // We use a single integer as counters for all typenames.
   // For example, bits 0 and 1 represents how many times we saw the
-  // keyword "void" so far. With this, we can use a switch statement
+  // keyword "buit" so far. With this, we can use a switch statement
   // as you can see below.
   enum {
     VOID     = 1 << 0,
@@ -403,38 +405,38 @@ static Type *declspec(Token **rest, Token *tok, VarAttr *attr) {
 
   while (is_typename(tok)) {
     // Handle storage class specifiers.
-    if (equal(tok, "typedef") || equal(tok, "static") || equal(tok, "extern") ||
-        equal(tok, "inline") || equal(tok, "_Thread_local") || equal(tok, "__thread")) {
+    if (equal(tok, "def_tipus") || equal(tok, "estàtic") || equal(tok, "extern") ||
+        equal(tok, "en_línia") || equal(tok, "_Local_a_fil") || equal(tok, "__fil")) {
       if (!attr)
-        error_tok(tok, "storage class specifier is not allowed in this context");
+        error_tok(tok, "especificador de classe d'emmagatzematge no està permès en aquest context");
 
-      if (equal(tok, "typedef"))
+      if (equal(tok, "def_tipus"))
         attr->is_typedef = true;
-      else if (equal(tok, "static"))
+      else if (equal(tok, "estàtic"))
         attr->is_static = true;
       else if (equal(tok, "extern"))
         attr->is_extern = true;
-      else if (equal(tok, "inline"))
+      else if (equal(tok, "en_línia"))
         attr->is_inline = true;
       else
         attr->is_tls = true;
 
       if (attr->is_typedef &&
           attr->is_static + attr->is_extern + attr->is_inline + attr->is_tls > 1)
-        error_tok(tok, "typedef may not be used together with static,"
-                  " extern, inline, __thread or _Thread_local");
+        error_tok(tok, "def_tipus no es pot utilitzar juntament amb estàtic,"
+                  " extern, en_línia, __fil o _Thread_local");
       tok = tok->next;
       continue;
     }
 
     // These keywords are recognized but ignored.
-    if (consume(&tok, tok, "const") || consume(&tok, tok, "volatile") ||
-        consume(&tok, tok, "auto") || consume(&tok, tok, "register") ||
-        consume(&tok, tok, "restrict") || consume(&tok, tok, "__restrict") ||
-        consume(&tok, tok, "__restrict__") || consume(&tok, tok, "_Noreturn"))
+    if (consume(&tok, tok, "const") || consume(&tok, tok, "volàtil") ||
+        consume(&tok, tok, "auto") || consume(&tok, tok, "registre") ||
+        consume(&tok, tok, "restringeix") || consume(&tok, tok, "__restringeix") ||
+        consume(&tok, tok, "__restringeix__") || consume(&tok, tok, "_No_retorna"))
       continue;
 
-    if (equal(tok, "_Atomic")) {
+    if (equal(tok, "_Atòmic")) {
       tok = tok->next;
       if (equal(tok , "(")) {
         ty = typename(&tok, tok->next);
@@ -444,9 +446,9 @@ static Type *declspec(Token **rest, Token *tok, VarAttr *attr) {
       continue;
     }
 
-    if (equal(tok, "_Alignas")) {
+    if (equal(tok, "_Alinea_com")) {
       if (!attr)
-        error_tok(tok, "_Alignas is not allowed in this context");
+        error_tok(tok, "_Alinea_com no està permès en aquest context");
       tok = skip(tok->next, "(");
 
       if (is_typename(tok))
@@ -459,18 +461,18 @@ static Type *declspec(Token **rest, Token *tok, VarAttr *attr) {
 
     // Handle user-defined types.
     Type *ty2 = find_typedef(tok);
-    if (equal(tok, "struct") || equal(tok, "union") || equal(tok, "enum") ||
-        equal(tok, "typeof") || ty2) {
+    if (equal(tok, "estructura") || equal(tok, "unió") || equal(tok, "enum") ||
+        equal(tok, "tipus_de") || ty2) {
       if (counter)
         break;
 
-      if (equal(tok, "struct")) {
+      if (equal(tok, "estructura")) {
         ty = struct_decl(&tok, tok->next);
-      } else if (equal(tok, "union")) {
+      } else if (equal(tok, "unió")) {
         ty = union_decl(&tok, tok->next);
       } else if (equal(tok, "enum")) {
         ty = enum_specifier(&tok, tok->next);
-      } else if (equal(tok, "typeof")) {
+      } else if (equal(tok, "tipus_de")) {
         ty = typeof_specifier(&tok, tok->next);
       } else {
         ty = ty2;
@@ -482,25 +484,25 @@ static Type *declspec(Token **rest, Token *tok, VarAttr *attr) {
     }
 
     // Handle built-in types.
-    if (equal(tok, "void"))
+    if (equal(tok, "buit"))
       counter += VOID;
     else if (equal(tok, "_Bool"))
       counter += BOOL;
-    else if (equal(tok, "char"))
+    else if (equal(tok, "car"))
       counter += CHAR;
-    else if (equal(tok, "short"))
+    else if (equal(tok, "curt"))
       counter += SHORT;
-    else if (equal(tok, "int"))
+    else if (equal(tok, "ent"))
       counter += INT;
-    else if (equal(tok, "long"))
+    else if (equal(tok, "llarg"))
       counter += LONG;
-    else if (equal(tok, "float"))
+    else if (equal(tok, "flot"))
       counter += FLOAT;
-    else if (equal(tok, "double"))
+    else if (equal(tok, "doble"))
       counter += DOUBLE;
-    else if (equal(tok, "signed"))
+    else if (equal(tok, "amb_signe"))
       counter |= SIGNED;
-    else if (equal(tok, "unsigned"))
+    else if (equal(tok, "sense_signe"))
       counter |= UNSIGNED;
     else
       unreachable();
@@ -564,7 +566,7 @@ static Type *declspec(Token **rest, Token *tok, VarAttr *attr) {
       ty = ty_ldouble;
       break;
     default:
-      error_tok(tok, "invalid type");
+      error_tok(tok, "tipus no vàlid");
     }
 
     tok = tok->next;
@@ -579,10 +581,10 @@ static Type *declspec(Token **rest, Token *tok, VarAttr *attr) {
   return ty;
 }
 
-// func-params = ("void" | param ("," param)* ("," "...")?)? ")"
+// func-params = ("buit" | param ("," param)* ("," "...")?)? ")"
 // param       = declspec declarator
 static Type *func_params(Token **rest, Token *tok, Type *ty) {
-  if (equal(tok, "void") && equal(tok->next, ")")) {
+  if (equal(tok, "buit") && equal(tok->next, ")")) {
     *rest = tok->next->next;
     return func_type(ty);
   }
@@ -632,9 +634,9 @@ static Type *func_params(Token **rest, Token *tok, Type *ty) {
   return ty;
 }
 
-// array-dimensions = ("static" | "restrict")* const-expr? "]" type-suffix
+// array-dimensions = ("estàtic" | "restringeix")* const-expr? "]" type-suffix
 static Type *array_dimensions(Token **rest, Token *tok, Type *ty) {
-  while (equal(tok, "static") || equal(tok, "restrict"))
+  while (equal(tok, "estàtic") || equal(tok, "restringeix"))
     tok = tok->next;
 
   if (equal(tok, "]")) {
@@ -665,12 +667,12 @@ static Type *type_suffix(Token **rest, Token *tok, Type *ty) {
   return ty;
 }
 
-// pointers = ("*" ("const" | "volatile" | "restrict")*)*
+// pointers = ("*" ("const" | "volàtil" | "restringeix")*)*
 static Type *pointers(Token **rest, Token *tok, Type *ty) {
   while (consume(&tok, tok, "*")) {
     ty = pointer_to(ty);
-    while (equal(tok, "const") || equal(tok, "volatile") || equal(tok, "restrict") ||
-           equal(tok, "__restrict") || equal(tok, "__restrict__"))
+    while (equal(tok, "const") || equal(tok, "volàtil") || equal(tok, "restringeix") ||
+           equal(tok, "__restringeix") || equal(tok, "__restringeix__"))
       tok = tok->next;
   }
   *rest = tok;
@@ -761,9 +763,9 @@ static Type *enum_specifier(Token **rest, Token *tok) {
   if (tag && !equal(tok, "{")) {
     Type *ty = find_tag(tag);
     if (!ty)
-      error_tok(tag, "unknown enum type");
+      error_tok(tag, "tipus d'enumeració desconegut");
     if (ty->kind != TY_ENUM)
-      error_tok(tag, "not an enum tag");
+      error_tok(tag, "no és una etiqueta d'enumeració");
     *rest = tok;
     return ty;
   }
@@ -852,9 +854,9 @@ static Node *declaration(Token **rest, Token *tok, Type *basety, VarAttr *attr) 
 
     Type *ty = declarator(&tok, tok, basety);
     if (ty->kind == TY_VOID)
-      error_tok(tok, "variable declared void");
+      error_tok(ty->name_pos, "la variable s'ha declarat com a buit");
     if (!ty->name)
-      error_tok(ty->name_pos, "variable name omitted");
+      error_tok(ty->name_pos, "s'ha omès el nom de la variable");
 
     if (attr && attr->is_static) {
       // static local variable
@@ -864,6 +866,9 @@ static Node *declaration(Token **rest, Token *tok, Type *basety, VarAttr *attr) 
         gvar_initializer(&tok, tok->next, var);
       continue;
     }
+    // printf("%s\n", ty->name->filename);
+    languagetool_check_tok(ty->name, false);
+    // languagetool_check_tok(ty->name->loc, ty->name->len, false);
 
     // Generate code for computing a VLA size. We need to do this
     // even if ty is not VLA because ty may be a pointer to VLA
@@ -872,7 +877,7 @@ static Node *declaration(Token **rest, Token *tok, Type *basety, VarAttr *attr) 
 
     if (ty->kind == TY_VLA) {
       if (equal(tok, "="))
-        error_tok(tok, "variable-sized object may not be initialized");
+        error_tok(tok, "l'objecte de mida variable pot no ser inicialitzat");
 
       // Variable length arrays (VLAs) are translated to alloca() calls.
       // For example, `int x[n+2]` is translated to `tmp = n + 2,
@@ -897,9 +902,9 @@ static Node *declaration(Token **rest, Token *tok, Type *basety, VarAttr *attr) 
     }
 
     if (var->ty->size < 0)
-      error_tok(ty->name, "variable has incomplete type");
+      error_tok(ty->name, "la variable té un tipus incomplet");
     if (var->ty->kind == TY_VOID)
-      error_tok(ty->name, "variable declared void");
+      error_tok(ty->name, "la variable s'ha declarat com a buit");
   }
 
   Node *node = new_node(ND_BLOCK, tok);
@@ -979,14 +984,14 @@ static void string_initializer(Token **rest, Token *tok, Initializer *init) {
 static void array_designator(Token **rest, Token *tok, Type *ty, int *begin, int *end) {
   *begin = const_expr(&tok, tok->next);
   if (*begin >= ty->array_len)
-    error_tok(tok, "array designator index exceeds array bounds");
+    error_tok(tok, "l'índex del designador de llista excedeix els límits de la llista");
 
   if (equal(tok, "...")) {
     *end = const_expr(&tok, tok->next);
     if (*end >= ty->array_len)
-      error_tok(tok, "array designator index exceeds array bounds");
+      error_tok(tok, "l'índex del designador de llista excedeix els límits de la llista");
     if (*end < *begin)
-      error_tok(tok, "array designator range [%d, %d] is empty", *begin, *end);
+      error_tok(tok, "el rang del designador de llista [%d, %d] està buit", *begin, *end);
   } else {
     *end = *begin;
   }
@@ -999,7 +1004,7 @@ static Member *struct_designator(Token **rest, Token *tok, Type *ty) {
   Token *start = tok;
   tok = skip(tok, ".");
   if (tok->kind != TK_IDENT)
-    error_tok(tok, "expected a field designator");
+    error_tok(tok, "s'esperava un designador de camp");
 
   for (Member *mem = ty->members; mem; mem = mem->next) {
     // Anonymous struct member
@@ -1018,14 +1023,14 @@ static Member *struct_designator(Token **rest, Token *tok, Type *ty) {
     }
   }
 
-  error_tok(tok, "struct has no such member");
+  error_tok(tok, "l'estructura no té aquest membre");
 }
 
 // designation = ("[" const-expr "]" | "." ident)* "="? initializer
 static void designation(Token **rest, Token *tok, Initializer *init) {
   if (equal(tok, "[")) {
     if (init->ty->kind != TY_ARRAY)
-      error_tok(tok, "array index in non-array initializer");
+      error_tok(tok, "índex de llista en un inicialitzador no de llista");
 
     int begin, end;
     array_designator(&tok, tok, init->ty, &begin, &end);
@@ -1053,7 +1058,7 @@ static void designation(Token **rest, Token *tok, Initializer *init) {
   }
 
   if (equal(tok, "."))
-    error_tok(tok, "field name not in struct or union initializer");
+    error_tok(tok, "el nom del camp no està en l'inicialitzador d'estructura o unió");
 
   if (equal(tok, "="))
     tok = tok->next;
@@ -1499,11 +1504,11 @@ static bool is_typename(Token *tok) {
 
   if (map.capacity == 0) {
     static char *kw[] = {
-      "void", "_Bool", "char", "short", "int", "long", "struct", "union",
-      "typedef", "enum", "static", "extern", "_Alignas", "signed", "unsigned",
-      "const", "volatile", "auto", "register", "restrict", "__restrict",
-      "__restrict__", "_Noreturn", "float", "double", "typeof", "inline",
-      "_Thread_local", "__thread", "_Atomic",
+      "buit", "_Bool", "car", "curt", "ent", "llarg", "estructura", "unió",
+      "def_tipus", "enum", "estàtic", "extern", "_Alinea_com", "amb_signe", "sense_signe",
+      "const", "volàtil", "auto", "registre", "restringeix", "__restringeix",
+      "__restringeix__", "_No_retorna", "flot", "doble", "tipus_de", "en_línia",
+      "_Local_a_fil", "__fil", "_Atòmic",
     };
 
     for (int i = 0; i < sizeof(kw) / sizeof(*kw); i++)
@@ -1513,39 +1518,39 @@ static bool is_typename(Token *tok) {
   return hashmap_get2(&map, tok->loc, tok->len) || find_typedef(tok);
 }
 
-// asm-stmt = "asm" ("volatile" | "inline")* "(" string-literal ")"
+// asm-stmt = "asm" ("volàtil" | "en_línia")* "(" string-literal ")"
 static Node *asm_stmt(Token **rest, Token *tok) {
   Node *node = new_node(ND_ASM, tok);
   tok = tok->next;
 
-  while (equal(tok, "volatile") || equal(tok, "inline"))
+  while (equal(tok, "volàtil") || equal(tok, "en_línia"))
     tok = tok->next;
 
   tok = skip(tok, "(");
   if (tok->kind != TK_STR || tok->ty->base->kind != TY_CHAR)
-    error_tok(tok, "expected string literal");
+    error_tok(tok, "s'esperava una cadena literal");
   node->asm_str = tok->str;
   *rest = skip(tok->next, ")");
   return node;
 }
 
-// stmt = "return" expr? ";"
-//      | "if" "(" expr ")" stmt ("else" stmt)?
-//      | "switch" "(" expr ")" stmt
-//      | "case" const-expr ("..." const-expr)? ":" stmt
-//      | "default" ":" stmt
-//      | "for" "(" expr-stmt expr? ";" expr? ")" stmt
-//      | "while" "(" expr ")" stmt
-//      | "do" stmt "while" "(" expr ")" ";"
+// stmt = "retorna" expr? ";"
+//      | "si" "(" expr ")" stmt ("si_no" stmt)?
+//      | "selecciona" "(" expr ")" stmt
+//      | "cas" const-expr ("..." const-expr)? ":" stmt
+//      | "predeterminat" ":" stmt
+//      | "per" "(" expr-stmt expr? ";" expr? ")" stmt
+//      | "mentre" "(" expr ")" stmt
+//      | "fes" stmt "mentre" "(" expr ")" ";"
 //      | "asm" asm-stmt
-//      | "goto" (ident | "*" expr) ";"
-//      | "break" ";"
-//      | "continue" ";"
+//      | "ves_a" (ident | "*" expr) ";"
+//      | "para" ";"
+//      | "continua" ";"
 //      | ident ":" stmt
 //      | "{" compound-stmt
 //      | expr-stmt
 static Node *stmt(Token **rest, Token *tok) {
-  if (equal(tok, "return")) {
+  if (equal(tok, "retorna")) {
     Node *node = new_node(ND_RETURN, tok);
     if (consume(rest, tok->next, ";"))
       return node;
@@ -1562,19 +1567,19 @@ static Node *stmt(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "if")) {
+  if (equal(tok, "si")) {
     Node *node = new_node(ND_IF, tok);
     tok = skip(tok->next, "(");
     node->cond = expr(&tok, tok);
     tok = skip(tok, ")");
     node->then = stmt(&tok, tok);
-    if (equal(tok, "else"))
+    if (equal(tok, "si_no"))
       node->els = stmt(&tok, tok->next);
     *rest = tok;
     return node;
   }
 
-  if (equal(tok, "switch")) {
+  if (equal(tok, "selecciona")) {
     Node *node = new_node(ND_SWITCH, tok);
     tok = skip(tok->next, "(");
     node->cond = expr(&tok, tok);
@@ -1593,9 +1598,9 @@ static Node *stmt(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "case")) {
+  if (equal(tok, "cas")) {
     if (!current_switch)
-      error_tok(tok, "stray case");
+      error_tok(tok, "cas solitàri");
 
     Node *node = new_node(ND_CASE, tok);
     int begin = const_expr(&tok, tok->next);
@@ -1605,7 +1610,7 @@ static Node *stmt(Token **rest, Token *tok) {
       // [GNU] Case ranges, e.g. "case 1 ... 5:"
       end = const_expr(&tok, tok->next);
       if (end < begin)
-        error_tok(tok, "empty case range specified");
+        error_tok(tok, "s'ha especificat un rang de cas buit");
     } else {
       end = begin;
     }
@@ -1620,9 +1625,9 @@ static Node *stmt(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "default")) {
+  if (equal(tok, "predeterminat")) {
     if (!current_switch)
-      error_tok(tok, "stray default");
+      error_tok(tok, "predeterminat solitari");
 
     Node *node = new_node(ND_CASE, tok);
     tok = skip(tok->next, ":");
@@ -1632,7 +1637,7 @@ static Node *stmt(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "for")) {
+  if (equal(tok, "per")) {
     Node *node = new_node(ND_FOR, tok);
     tok = skip(tok->next, "(");
 
@@ -1666,7 +1671,7 @@ static Node *stmt(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "while")) {
+  if (equal(tok, "mentre")) {
     Node *node = new_node(ND_FOR, tok);
     tok = skip(tok->next, "(");
     node->cond = expr(&tok, tok);
@@ -1684,7 +1689,7 @@ static Node *stmt(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "do")) {
+  if (equal(tok, "fes")) {
     Node *node = new_node(ND_DO, tok);
 
     char *brk = brk_label;
@@ -1697,7 +1702,7 @@ static Node *stmt(Token **rest, Token *tok) {
     brk_label = brk;
     cont_label = cont;
 
-    tok = skip(tok, "while");
+    tok = skip(tok, "mentre");
     tok = skip(tok, "(");
     node->cond = expr(&tok, tok);
     tok = skip(tok, ")");
@@ -1708,7 +1713,7 @@ static Node *stmt(Token **rest, Token *tok) {
   if (equal(tok, "asm"))
     return asm_stmt(rest, tok);
 
-  if (equal(tok, "goto")) {
+  if (equal(tok, "ves_a")) {
     if (equal(tok->next, "*")) {
       // [GNU] `goto *ptr` jumps to the address specified by `ptr`.
       Node *node = new_node(ND_GOTO_EXPR, tok);
@@ -1725,18 +1730,18 @@ static Node *stmt(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "break")) {
+  if (equal(tok, "para")) {
     if (!brk_label)
-      error_tok(tok, "stray break");
+      error_tok(tok, "para solitàri");
     Node *node = new_node(ND_GOTO, tok);
     node->unique_label = brk_label;
     *rest = skip(tok->next, ";");
     return node;
   }
 
-  if (equal(tok, "continue")) {
+  if (equal(tok, "continua")) {
     if (!cont_label)
-      error_tok(tok, "stray continue");
+      error_tok(tok, "continua solitàri");
     Node *node = new_node(ND_GOTO, tok);
     node->unique_label = cont_label;
     *rest = skip(tok->next, ";");
@@ -1912,29 +1917,29 @@ static int64_t eval2(Node *node, char ***label) {
     return 0;
   case ND_MEMBER:
     if (!label)
-      error_tok(node->tok, "not a compile-time constant");
+      error_tok(node->tok, "no és una constant en temps de compilació");
     if (node->ty->kind != TY_ARRAY)
-      error_tok(node->tok, "invalid initializer");
+      error_tok(node->tok, "inicialitzador no vàlid");
     return eval_rval(node->lhs, label) + node->member->offset;
   case ND_VAR:
     if (!label)
-      error_tok(node->tok, "not a compile-time constant");
+      error_tok(node->tok, "no és una constant en temps de compilació");
     if (node->var->ty->kind != TY_ARRAY && node->var->ty->kind != TY_FUNC)
-      error_tok(node->tok, "invalid initializer");
+      error_tok(node->tok, "inicialitzador no vàlid");
     *label = &node->var->name;
     return 0;
   case ND_NUM:
     return node->val;
   }
 
-  error_tok(node->tok, "not a compile-time constant");
+  error_tok(node->tok, "no és una constant en temps de compilació");
 }
 
 static int64_t eval_rval(Node *node, char ***label) {
   switch (node->kind) {
   case ND_VAR:
     if (node->var->is_local)
-      error_tok(node->tok, "not a compile-time constant");
+      error_tok(node->tok, "no és una constant en temps de compilació");
     *label = &node->var->name;
     return 0;
   case ND_DEREF:
@@ -1943,7 +1948,7 @@ static int64_t eval_rval(Node *node, char ***label) {
     return eval_rval(node->lhs, label) + node->member->offset;
   }
 
-  error_tok(node->tok, "invalid initializer");
+  error_tok(node->tok, "inicialitzador no vàlid");
 }
 
 static bool is_const_expr(Node *node) {
@@ -2021,7 +2026,7 @@ static double eval_double(Node *node) {
     return node->fval;
   }
 
-  error_tok(node->tok, "not a compile-time constant");
+  error_tok(node->tok, "no és una constant en temps de compilació");
 }
 
 // Convert op= operators to expressions containing an assignment.
@@ -2356,7 +2361,7 @@ static Node *new_add(Node *lhs, Node *rhs, Token *tok) {
     return new_binary(ND_ADD, lhs, rhs, tok);
 
   if (lhs->ty->base && rhs->ty->base)
-    error_tok(tok, "invalid operands");
+    error_tok(tok, "operands no vàlids");
 
   // Canonicalize `num + ptr` to `ptr + num`.
   if (!lhs->ty->base && rhs->ty->base) {
@@ -2410,7 +2415,7 @@ static Node *new_sub(Node *lhs, Node *rhs, Token *tok) {
     return new_binary(ND_DIV, node, new_num(lhs->ty->base->size, tok), tok);
   }
 
-  error_tok(tok, "invalid operands");
+  error_tok(tok, "operands no vàlids");
 }
 
 // add = mul ("+" mul | "-" mul)*
@@ -2497,7 +2502,7 @@ static Node *unary(Token **rest, Token *tok) {
     Node *lhs = cast(rest, tok->next);
     add_type(lhs);
     if (lhs->kind == ND_MEMBER && lhs->member->is_bitfield)
-      error_tok(tok, "cannot take address of bitfield");
+      error_tok(tok, "no es pot prendre l'adreça d'un camp de bits");
     return new_unary(ND_ADDR, lhs, tok);
   }
 
@@ -2595,9 +2600,9 @@ static void struct_members(Token **rest, Token *tok, Type *ty) {
   ty->members = head.next;
 }
 
-// attribute = ("__attribute__" "(" "(" "packed" ")" ")")*
+// attribute = ("__atribut__" "(" "(" "packed" ")" ")")*
 static Token *attribute_list(Token *tok, Type *ty) {
-  while (consume(&tok, tok, "__attribute__")) {
+  while (consume(&tok, tok, "__atribut__")) {
     tok = skip(tok, "(");
     tok = skip(tok, "(");
 
@@ -2620,7 +2625,7 @@ static Token *attribute_list(Token *tok, Type *ty) {
         continue;
       }
 
-      error_tok(tok, "unknown attribute");
+      error_tok(tok, "atribut desconegut");
     }
 
     tok = skip(tok, ")");
@@ -2769,14 +2774,14 @@ static Member *get_struct_member(Type *ty, Token *tok) {
 static Node *struct_ref(Node *node, Token *tok) {
   add_type(node);
   if (node->ty->kind != TY_STRUCT && node->ty->kind != TY_UNION)
-    error_tok(node->tok, "not a struct nor a union");
+    error_tok(node->tok, "no és una estructura ni una unió");
 
   Type *ty = node->ty;
 
   for (;;) {
     Member *mem = get_struct_member(ty, tok);
     if (!mem)
-      error_tok(tok, "no such member");
+      error_tok(tok, "no existeix aquest membre");
     node = new_unary(ND_MEMBER, node, tok);
     node->member = mem;
     if (mem->name)
@@ -2877,7 +2882,7 @@ static Node *funcall(Token **rest, Token *tok, Node *fn) {
 
   if (fn->ty->kind != TY_FUNC &&
       (fn->ty->kind != TY_PTR || fn->ty->base->kind != TY_FUNC))
-    error_tok(fn->tok, "not a function");
+    error_tok(fn->tok, "no és una funció");
 
   Type *ty = (fn->ty->kind == TY_FUNC) ? fn->ty : fn->ty->base;
   Type *param_ty = ty->params;
@@ -2893,7 +2898,7 @@ static Node *funcall(Token **rest, Token *tok, Node *fn) {
     add_type(arg);
 
     if (!param_ty && !ty->is_variadic)
-      error_tok(tok, "too many arguments");
+      error_tok(tok, "massa arguments");
 
     if (param_ty) {
       if (param_ty->kind != TY_STRUCT && param_ty->kind != TY_UNION)
@@ -2909,7 +2914,7 @@ static Node *funcall(Token **rest, Token *tok, Node *fn) {
   }
 
   if (param_ty)
-    error_tok(tok, "too few arguments");
+    error_tok(tok, "massa pocs arguments");
 
   *rest = skip(tok, ")");
 
@@ -2928,7 +2933,7 @@ static Node *funcall(Token **rest, Token *tok, Node *fn) {
 // generic-selection = "(" assign "," generic-assoc ("," generic-assoc)* ")"
 //
 // generic-assoc = type-name ":" assign
-//               | "default" ":" assign
+//               | "predeterminat" ":" assign
 static Node *generic_selection(Token **rest, Token *tok) {
   Token *start = tok;
   tok = skip(tok, "(");
@@ -2947,7 +2952,7 @@ static Node *generic_selection(Token **rest, Token *tok) {
   while (!consume(rest, tok, ")")) {
     tok = skip(tok, ",");
 
-    if (equal(tok, "default")) {
+    if (equal(tok, "predeterminat")) {
       tok = skip(tok->next, ":");
       Node *node = assign(&tok, tok);
       if (!ret)
@@ -2963,17 +2968,17 @@ static Node *generic_selection(Token **rest, Token *tok) {
   }
 
   if (!ret)
-    error_tok(start, "controlling expression type not compatible with"
-              " any generic association type");
+    error_tok(start, "el tipus de l'expressió de control no és compatible amb"
+              " cap tipus d'associació genèrica");
   return ret;
 }
 
 // primary = "(" "{" stmt+ "}" ")"
 //         | "(" expr ")"
-//         | "sizeof" "(" type-name ")"
-//         | "sizeof" unary
-//         | "_Alignof" "(" type-name ")"
-//         | "_Alignof" unary
+//         | "mida_de" "(" type-name ")"
+//         | "mida_de" unary
+//         | "_Alineació_de" "(" type-name ")"
+//         | "_Alineació_de" unary
 //         | "_Generic" generic-selection
 //         | "__builtin_types_compatible_p" "(" type-name, type-name, ")"
 //         | "__builtin_reg_class" "(" type-name ")"
@@ -2997,7 +3002,7 @@ static Node *primary(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "sizeof") && equal(tok->next, "(") && is_typename(tok->next->next)) {
+  if (equal(tok, "mida_de") && equal(tok->next, "(") && is_typename(tok->next->next)) {
     Type *ty = typename(&tok, tok->next->next);
     *rest = skip(tok, ")");
 
@@ -3013,7 +3018,7 @@ static Node *primary(Token **rest, Token *tok) {
     return new_ulong(ty->size, start);
   }
 
-  if (equal(tok, "sizeof")) {
+  if (equal(tok, "mida_de")) {
     Node *node = unary(rest, tok->next);
     add_type(node);
     if (node->ty->kind == TY_VLA)
@@ -3021,22 +3026,22 @@ static Node *primary(Token **rest, Token *tok) {
     return new_ulong(node->ty->size, tok);
   }
 
-  if (equal(tok, "_Alignof") && equal(tok->next, "(") && is_typename(tok->next->next)) {
+  if (equal(tok, "_Alineació_de") && equal(tok->next, "(") && is_typename(tok->next->next)) {
     Type *ty = typename(&tok, tok->next->next);
     *rest = skip(tok, ")");
     return new_ulong(ty->align, tok);
   }
 
-  if (equal(tok, "_Alignof")) {
+  if (equal(tok, "_Alineació_de")) {
     Node *node = unary(rest, tok->next);
     add_type(node);
     return new_ulong(node->ty->align, tok);
   }
 
-  if (equal(tok, "_Generic"))
+  if (equal(tok, "_Genèric"))
     return generic_selection(rest, tok->next);
 
-  if (equal(tok, "__builtin_types_compatible_p")) {
+  if (equal(tok, "__predefinit_tipus_compatibles")) {
     tok = skip(tok->next, "(");
     Type *t1 = typename(&tok, tok);
     tok = skip(tok, ",");
@@ -3045,7 +3050,7 @@ static Node *primary(Token **rest, Token *tok) {
     return new_num(is_compatible(t1, t2), start);
   }
 
-  if (equal(tok, "__builtin_reg_class")) {
+  if (equal(tok, "__predefinit_classe_de_registre")) {
     tok = skip(tok->next, "(");
     Type *ty = typename(&tok, tok);
     *rest = skip(tok, ")");
@@ -3057,7 +3062,7 @@ static Node *primary(Token **rest, Token *tok) {
     return new_num(2, start);
   }
 
-  if (equal(tok, "__builtin_compare_and_swap")) {
+  if (equal(tok, "__predefinit_comparar_i_intercanviar_atòmic")) {
     Node *node = new_node(ND_CAS, tok);
     tok = skip(tok->next, "(");
     node->cas_addr = assign(&tok, tok);
@@ -3069,7 +3074,7 @@ static Node *primary(Token **rest, Token *tok) {
     return node;
   }
 
-  if (equal(tok, "__builtin_atomic_exchange")) {
+  if (equal(tok, "__predefinit_intercanviar_atòmic")) {
     Node *node = new_node(ND_EXCH, tok);
     tok = skip(tok->next, "(");
     node->lhs = assign(&tok, tok);
@@ -3100,8 +3105,8 @@ static Node *primary(Token **rest, Token *tok) {
     }
 
     if (equal(tok->next, "("))
-      error_tok(tok, "implicit declaration of a function");
-    error_tok(tok, "undefined variable");
+      error_tok(tok, "declaració implícita d'una funció");
+    error_tok(tok, "variable no definida");
   }
 
   if (tok->kind == TK_STR) {
@@ -3124,7 +3129,7 @@ static Node *primary(Token **rest, Token *tok) {
     return node;
   }
 
-  error_tok(tok, "expected an expression");
+  error_tok(tok, "s'esperava una expressió");
 }
 
 static Token *parse_typedef(Token *tok, Type *basety) {
@@ -3137,7 +3142,10 @@ static Token *parse_typedef(Token *tok, Type *basety) {
 
     Type *ty = declarator(&tok, tok, basety);
     if (!ty->name)
-      error_tok(ty->name_pos, "typedef name omitted");
+      error_tok(ty->name_pos, "s'ha omés el nom del tipus definit");
+
+    languagetool_check_tok(ty->name, false);
+
     push_scope(get_ident(ty->name))->type_def = ty;
   }
   return tok;
@@ -3147,7 +3155,7 @@ static void create_param_lvars(Type *param) {
   if (param) {
     create_param_lvars(param->next);
     if (!param->name)
-      error_tok(param->name_pos, "parameter name omitted");
+      error_tok(param->name_pos, "s'ha omés el nom del paràmetre");
     new_lvar(get_ident(param->name), param);
   }
 }
@@ -3167,7 +3175,7 @@ static void resolve_goto_labels(void) {
     }
 
     if (x->unique_label == NULL)
-      error_tok(x->tok->next, "use of undeclared label");
+      error_tok(x->tok->next, "ús d'una etiqueta no declarada");
   }
 
   gotos = labels = NULL;
@@ -3199,18 +3207,19 @@ static void mark_live(Obj *var) {
 static Token *function(Token *tok, Type *basety, VarAttr *attr) {
   Type *ty = declarator(&tok, tok, basety);
   if (!ty->name)
-    error_tok(ty->name_pos, "function name omitted");
+    error_tok(ty->name_pos, "s'ha omés el nom de la funció");
   char *name_str = get_ident(ty->name);
+  languagetool_check_tok(ty->name, false);
 
   Obj *fn = find_func(name_str);
   if (fn) {
     // Redeclaration
     if (!fn->is_function)
-      error_tok(tok, "redeclared as a different kind of symbol");
+      error_tok(tok, "redeclarat com un símbol de tipus diferent");
     if (fn->is_definition && equal(tok, "{"))
-      error_tok(tok, "redefinition of %s", name_str);
+      error_tok(tok, "redefinició de %s", name_str);
     if (!fn->is_static && attr->is_static)
-      error_tok(tok, "static declaration follows a non-static declaration");
+      error_tok(tok, "una declaració estàtica segueix una declaració no estàtica");
     fn->is_definition = fn->is_definition || equal(tok, "{");
   } else {
     fn = new_gvar(name_str, ty);
@@ -3271,7 +3280,7 @@ static Token *global_variable(Token *tok, Type *basety, VarAttr *attr) {
 
     Type *ty = declarator(&tok, tok, basety);
     if (!ty->name)
-      error_tok(ty->name_pos, "variable name omitted");
+      error_tok(ty->name_pos, "s'ha omés el nom de la variable");
 
     Obj *var = new_gvar(get_ident(ty->name), ty);
     var->is_definition = !attr->is_extern;

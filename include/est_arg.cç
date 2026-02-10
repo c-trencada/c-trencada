@@ -1,0 +1,55 @@
+#pragma una_vegada
+
+def_tipus estructura {
+  sense_signe ent desplacament_registre_general;
+  sense_signe ent desplacament_registre_flotant;
+  buit *area_arguments_desbordament;
+  buit *area_desat_registres;
+} __element_arguments_vars;
+
+def_tipus __element_arguments_vars llista_arguments_vars[1];
+
+#defineix inicia_arguments_vars(ap, last) \
+  fes { *(ap) = *(__element_arguments_vars *)__va_area__; } mentre (0)
+
+#defineix acaba_arguments_vars(ap)
+
+estàtic buit *__obté_argument_memòria(__element_arguments_vars *ap, ent mida, ent alineació) {
+  buit *punter = ap->area_arguments_desbordament;
+  si (alineació > 8)
+    punter = (punter + 15) / 16 * 16;
+  ap->area_arguments_desbordament = ((sense_signe llarg)punter + mida + 7) / 8 * 8;
+  retorna punter;
+}
+
+estàtic buit *__obté_argument_registre_general(__element_arguments_vars *ap, ent mida, ent alineació) {
+  si (ap->desplacament_registre_general >= 48)
+    retorna __obté_argument_memòria(ap, mida, alineació);
+
+  buit *resultat = ap->area_desat_registres + ap->desplacament_registre_general;
+  ap->desplacament_registre_general += 8;
+  retorna resultat;
+}
+
+estàtic buit *__obté_argument_registre_flotant(__element_arguments_vars *ap, ent mida, ent alineació) {
+  si (ap->desplacament_registre_flotant >= 112)
+    retorna __obté_argument_memòria(ap, mida, alineació);
+
+  buit *resultat = ap->area_desat_registres + ap->desplacament_registre_flotant;
+  ap->desplacament_registre_flotant += 8;
+  retorna resultat;
+}
+
+#defineix argument_var(ap, ty)                                                  \
+  ({                                                                            \
+    ent classe = __predefinit_classe_de_registre(ty);                           \
+    *(ty *)(classe == 0 ? __obté_argument_registre_general(ap, mida_de(ty), _Alineació_de(ty)) :    \
+            classe == 1 ? __obté_argument_registre_flotant(ap, mida_de(ty), _Alineació_de(ty)) :    \
+            __obté_argument_memòria(ap, mida_de(ty), _Alineació_de(ty)));       \
+  })
+
+#defineix copia_arguments_vars(dest, src) ((dest)[0] = (src)[0])
+
+#defineix __llista_arguments_vars_compatibilitat 1
+def_tipus llista_arguments_vars __tipus_llista_arguments_vars_compatibilitat;
+

@@ -1,0 +1,21 @@
+#inclou "test.cç"
+
+ent principal() {
+#línia 500 "foo"
+  AFIRMA(501, __LÍNIA__);
+  AFIRMA(0, compara_cadenes(__FITXER__, "foo"));
+
+#línia 800 "bar"
+  AFIRMA(801, __LÍNIA__);
+  AFIRMA(0, compara_cadenes(__FITXER__, "bar"));
+
+#línia 1
+  AFIRMA(2, __LÍNIA__);
+
+# 200 "xyz" 2 3
+  AFIRMA(201, __LÍNIA__);
+  AFIRMA(0, compara_cadenes(__FITXER__, "xyz"));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

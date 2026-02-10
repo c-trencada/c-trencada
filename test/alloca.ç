@@ -1,0 +1,28 @@
+#inclou "test.cç"
+
+buit *funció(ent x, buit *p, ent y) { retorna p; }
+
+ent principal() {
+  ent i = 0;
+
+  car *punter_1 = alloca(16);
+  car *punter_2 = alloca(16);
+  car *punter_3 = 1 + (car *)alloca(3) + 1;
+  punter_3 -= 2;
+  car *punter_4 = funció(1, alloca(16), 3);
+
+  AFIRMA(16, punter_1 - punter_2);
+  AFIRMA(16, punter_2 - punter_3);
+  AFIRMA(16, punter_3 - punter_4);
+
+  copia_mem(punter_1, "0123456789abcdef", 16);
+  copia_mem(punter_2, "ghijklmnopqrstuv", 16);
+  copia_mem(punter_3, "wxy", 3);
+
+  AFIRMA(0, compara_mem(punter_1, "0123456789abcdef", 16));
+  AFIRMA(0, compara_mem(punter_2, "ghijklmnopqrstuv", 16));
+  AFIRMA(0, compara_mem(punter_3, "wxy", 3));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

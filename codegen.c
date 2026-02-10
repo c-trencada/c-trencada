@@ -1,4 +1,4 @@
-#include "chibicc.h"
+#include "c_trencada.h"
 
 #define GP_MAX 6
 #define FP_MAX 8
@@ -179,7 +179,7 @@ static void gen_addr(Node *node) {
     return;
   }
 
-  error_tok(node->tok, "not an lvalue");
+  error_tok(node->tok, "no és un lvalue");
 }
 
 // Load a value from where %rax is pointing to.
@@ -1050,7 +1050,7 @@ static void gen_expr(Node *node) {
       return;
     }
 
-    error_tok(node->tok, "invalid expression");
+    error_tok(node->tok, "expresió invàlida");
   }
   case TY_LDOUBLE: {
     gen_expr(node->lhs);
@@ -1089,7 +1089,7 @@ static void gen_expr(Node *node) {
       return;
     }
 
-    error_tok(node->tok, "invalid expression");
+    error_tok(node->tok, "expresió invàlida");
   }
   }
 
@@ -1182,7 +1182,7 @@ static void gen_expr(Node *node) {
     return;
   }
 
-  error_tok(node->tok, "invalid expression");
+  error_tok(node->tok, "expresió invàlida");
 }
 
 static void gen_stmt(Node *node) {
@@ -1303,7 +1303,7 @@ static void gen_stmt(Node *node) {
     return;
   }
 
-  error_tok(node->tok, "invalid statement");
+  error_tok(node->tok, "sentència invàlida");
 }
 
 // Assign offsets to local variables.
@@ -1588,6 +1588,12 @@ void codegen(Obj *prog, FILE *out) {
   File **files = get_input_files();
   for (int i = 0; files[i]; i++)
     println("  .file %d \"%s\"", files[i]->file_no, files[i]->name);
+
+  for (Obj *fn = prog; fn; fn = fn->next) {
+    if (strcmp(fn->name, "principal") == 0) {
+      fn->name = "main";
+    }
+  }
 
   assign_lvar_offsets(prog);
   emit_data(prog);

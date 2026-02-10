@@ -1,0 +1,100 @@
+#inclou "test.cç"
+
+/*
+ * This is a block comment.
+ */
+
+ent principal() {
+  AFIRMA(3, ({ ent valor; si (0) valor=2; si_no valor=3; valor; }));
+  AFIRMA(3, ({ ent valor; si (1-1) valor=2; si_no valor=3; valor; }));
+  AFIRMA(2, ({ ent valor; si (1) valor=2; si_no valor=3; valor; }));
+  AFIRMA(2, ({ ent valor; si (2-1) valor=2; si_no valor=3; valor; }));
+
+  AFIRMA(55, ({ ent índex=0; ent comptador=0; per (índex=0; índex<=10; índex=índex+1) comptador=índex+comptador; comptador; }));
+
+  AFIRMA(10, ({ ent índex=0; mentre(índex<10) índex=índex+1; índex; }));
+
+  AFIRMA(3, ({ 1; {2;} 3; }));
+  AFIRMA(5, ({ ;;; 5; }));
+
+  AFIRMA(10, ({ ent índex=0; mentre(índex<10) índex=índex+1; índex; }));
+  AFIRMA(55, ({ ent índex=0; ent comptador=0; mentre(índex<=10) {comptador=índex+comptador; índex=índex+1;} comptador; }));
+
+  AFIRMA(3, (1,2,3));
+  AFIRMA(5, ({ ent índex=2, comptador=3; (índex=5,comptador)=6; índex; }));
+  AFIRMA(6, ({ ent índex=2, comptador=3; (índex=5,comptador)=6; comptador; }));
+
+  AFIRMA(55, ({ ent comptador=0; per (ent índex=0; índex<=10; índex=índex+1) comptador=comptador+índex; comptador; }));
+  AFIRMA(3, ({ ent índex=3; ent comptador=0; per (ent índex=0; índex<=10; índex=índex+1) comptador=comptador+índex; índex; }));
+
+  AFIRMA(1, 0||1);
+  AFIRMA(1, 0||(2-2)||5);
+  AFIRMA(0, 0||0);
+  AFIRMA(0, 0||(2-2));
+
+  AFIRMA(0, 0&&1);
+  AFIRMA(0, (2-2)&&5);
+  AFIRMA(1, 1&&5);
+
+  AFIRMA(3, ({ ent índex=0; ves_a a; a: índex++; b: índex++; c: índex++; índex; }));
+  AFIRMA(2, ({ ent índex=0; ves_a e; d: índex++; e: índex++; f: índex++; índex; }));
+  AFIRMA(1, ({ ent índex=0; ves_a índex; g: índex++; h: índex++; índex: índex++; índex; }));
+
+  AFIRMA(1, ({ def_tipus ent prova; ves_a prova; prova:; 1; }));
+
+  AFIRMA(3, ({ ent índex=0; per(;índex<10;índex++) { si (índex == 3) para; } índex; }));
+  AFIRMA(4, ({ ent índex=0; mentre (1) { si (índex++ == 3) para; } índex; }));
+  AFIRMA(3, ({ ent índex=0; per(;índex<10;índex++) { per (;;) para; si (índex == 3) para; } índex; }));
+  AFIRMA(4, ({ ent índex=0; mentre (1) { mentre(1) para; si (índex++ == 3) para; } índex; }));
+
+  AFIRMA(10, ({ ent índex=0; ent comptador=0; per (;índex<10;índex++) { si (índex>5) continua; comptador++; } índex; }));
+  AFIRMA(6, ({ ent índex=0; ent comptador=0; per (;índex<10;índex++) { si (índex>5) continua; comptador++; } comptador; }));
+  AFIRMA(10, ({ ent índex=0; ent comptador=0; per(;!índex;) { per (;comptador!=10;comptador++) continua; para; } comptador; }));
+  AFIRMA(11, ({ ent índex=0; ent comptador=0; mentre (índex++<10) { si (índex>5) continua; comptador++; } índex; }));
+  AFIRMA(5, ({ ent índex=0; ent comptador=0; mentre (índex++<10) { si (índex>5) continua; comptador++; } comptador; }));
+  AFIRMA(11, ({ ent índex=0; ent comptador=0; mentre(!índex) { mentre (comptador++!=10) continua; para; } comptador; }));
+
+  AFIRMA(5, ({ ent índex=0; selecciona(0) { cas 0:índex=5;para; cas 1:índex=6;para; cas 2:índex=7;para; } índex; }));
+  AFIRMA(6, ({ ent índex=0; selecciona(1) { cas 0:índex=5;para; cas 1:índex=6;para; cas 2:índex=7;para; } índex; }));
+  AFIRMA(7, ({ ent índex=0; selecciona(2) { cas 0:índex=5;para; cas 1:índex=6;para; cas 2:índex=7;para; } índex; }));
+  AFIRMA(0, ({ ent índex=0; selecciona(3) { cas 0:índex=5;para; cas 1:índex=6;para; cas 2:índex=7;para; } índex; }));
+  AFIRMA(5, ({ ent índex=0; selecciona(0) { cas 0:índex=5;para; predeterminat:índex=7; } índex; }));
+  AFIRMA(7, ({ ent índex=0; selecciona(1) { cas 0:índex=5;para; predeterminat:índex=7; } índex; }));
+  AFIRMA(2, ({ ent índex=0; selecciona(1) { cas 0: 0; cas 1: 0; cas 2: 0; índex=2; } índex; }));
+  AFIRMA(0, ({ ent índex=0; selecciona(3) { cas 0: 0; cas 1: 0; cas 2: 0; índex=2; } índex; }));
+
+  AFIRMA(3, ({ ent índex=0; selecciona(-1) { cas 0xffffffff: índex=3; para; } índex; }));
+
+  AFIRMA(7, ({ ent índex=0; ent comptador=0; fes { comptador++; } mentre (índex++ < 6); comptador; }));
+  AFIRMA(4, ({ ent índex=0; ent comptador=0; ent comptador_extra=0; fes { si (++comptador > 3) para; continua; comptador_extra++; } mentre (1); comptador; }));
+
+  AFIRMA(0, 0.0 && 0.0);
+  AFIRMA(0, 0.0 && 0.1);
+  AFIRMA(0, 0.3 && 0.0);
+  AFIRMA(1, 0.3 && 0.5);
+  AFIRMA(0, 0.0 || 0.0);
+  AFIRMA(1, 0.0 || 0.1);
+  AFIRMA(1, 0.3 || 0.0);
+  AFIRMA(1, 0.3 || 0.5);
+  AFIRMA(5, ({ ent valor; si (0.0) valor=3; si_no valor=5; valor; }));
+  AFIRMA(3, ({ ent valor; si (0.1) valor=3; si_no valor=5; valor; }));
+  AFIRMA(5, ({ ent valor=5; si (0.0) valor=3; valor; }));
+  AFIRMA(3, ({ ent valor=5; si (0.1) valor=3; valor; }));
+  AFIRMA(10, ({ doble índex=10.0; ent comptador=0; per (; índex; índex--, comptador++); comptador; }));
+  AFIRMA(10, ({ doble índex=10.0; ent comptador=0; fes comptador++; mentre(--índex); comptador; }));
+
+  AFIRMA(2, ({ ent índex=0; selecciona(7) { cas 0 ... 5: índex=1; para; cas 6 ... 20: índex=2; para; } índex; }));
+  AFIRMA(1, ({ ent índex=0; selecciona(7) { cas 0 ... 7: índex=1; para; cas 8 ... 10: índex=2; para; } índex; }));
+  AFIRMA(1, ({ ent índex=0; selecciona(7) { cas 0: índex=1; para; cas 7 ... 7: índex=1; para; } índex; }));
+
+  AFIRMA(3, ({ buit *punter = &&v11; ent índex=0; ves_a *punter; v11:índex++; v12:índex++; v13:índex++; índex; }));
+  AFIRMA(2, ({ buit *punter = &&v22; ent índex=0; ves_a *punter; v21:índex++; v22:índex++; v23:índex++; índex; }));
+  AFIRMA(1, ({ buit *punter = &&v33; ent índex=0; ves_a *punter; v31:índex++; v32:índex++; v33:índex++; índex; }));
+
+  AFIRMA(3, ({ estàtic buit *punter[]={&&v41,&&v42,&&v43}; ent índex=0; ves_a *punter[0]; v41:índex++; v42:índex++; v43:índex++; índex; }));
+  AFIRMA(2, ({ estàtic buit *punter[]={&&v52,&&v52,&&v53}; ent índex=0; ves_a *punter[1]; v51:índex++; v52:índex++; v53:índex++; índex; }));
+  AFIRMA(1, ({ estàtic buit *punter[]={&&v62,&&v62,&&v63}; ent índex=0; ves_a *punter[2]; v61:índex++; v62:índex++; v63:índex++; índex; }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

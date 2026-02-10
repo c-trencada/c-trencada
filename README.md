@@ -1,3 +1,70 @@
+# Ç
+`return` -> `retorna`
+`if` -> `si`
+`else` -> `si_no`
+`for` -> `per`
+`while` -> `mentre`
+`sizeof` -> `mida_de`
+`goto` -> `ves_a`
+`break` -> `para`
+`continue` -> `continua`
+`switch` -> `selecciona`
+`case` -> `cas`
+`default` -> `per_defecte`
+`__attribute__` -> `__atribut__`
+`asm` -> `asm`
+`void` -> `buit`
+`_Bool` -> `_Bool`
+`char` -> `car`
+`short` -> `curt`
+`int` -> `ent`
+`long` -> `llarg`
+`struct` -> `estructura`
+`union` -> `unió`
+`typedef` -> `def_tipus`
+`enum` -> `enum`
+`static` -> `estàtic`
+`extern` -> `extern`
+`_Alignas` -> `_Alinea_com`
+`_Alignof` -> `_Alineació_de`
+`signed` -> `amb_signe`
+`unsigned` -> `sense_signe`
+`const` -> `const`
+`volatile` -> `volàtil`
+`auto` -> `auto`
+`register` -> `registre`
+`restrict` -> `restringeix`
+`__restrict` -> `__restringeix`
+`__restrict__` -> `__restringeix__`
+`_Noreturn` -> `_No_retorna`
+`float` -> `flot`
+`double` -> `doble`
+`typeof` -> `tipus_de`
+`inline` -> `en_línia`
+`_Thread_local` -> `_Local_a_fil`
+`__thread` -> `__fil`
+`_Atomic` -> `_Atòmic`
+`_Generic` -> `_Genèric`
+
+`#if` -> `#si`
+`#ifdef` -> `#si_def`
+`#ifndef` -> `#si_no_def`
+`#else` -> `#si_no`
+`#elif` -> `#si_sino`
+`#endif` -> `#acaba_si`
+`#define` -> `#defineix`
+`#undef` -> `#elimina_def`
+`#include` -> `#inclou`
+`#error` -> `#error`
+`#pragma` -> `#pragma`
+`once` -> `una_vegada`
+
+`__builtin_atomic_exchange` -> `__predefinit_intercanviar_atòmic`
+`__builtin_atomic_compare_and_swap` -> `__predefinit_comparar_i_intercanviar_atòmic`
+`__builtin_reg_class` -> `__predefinit_classe_de_registre`
+`__builtin_types_compatible_p` -> `__predefinit_tipus_compatibles`
+
+
 # chibicc: A Small C Compiler
 
 (The old master has moved to

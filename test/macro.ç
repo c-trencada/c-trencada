@@ -1,0 +1,416 @@
+#inclou "test.cç"
+#inclou "include1.cç"
+
+car *principal_filename1 = __FITXER__;
+ent principal_line1 = __LÍNIA__;
+#defineix LÍNIA() __LÍNIA__
+ent principal_line2 = LÍNIA();
+
+#
+
+/* */ #
+
+ent ret_3(buit) { retorna 3; }
+ent M9(ent valor_x) { retorna valor_x*valor_x; }
+
+ent afegeix_2(ent valor_x, ent valor_y) {
+  retorna valor_x + valor_y;
+}
+
+ent afegeix_6(ent a, ent b, ent c, ent d, ent e, ent f) {
+  retorna a + b + c + d + e + f;
+}
+
+ent principal() {
+  AFIRMA(5, include1);
+  AFIRMA(7, include2);
+
+#si 0
+#inclou "/no/such/file"
+  AFIRMA(0, 1);
+#si nested
+#acaba_si
+#acaba_si
+
+  ent m = 0;
+
+#si 1
+  m = 5;
+#acaba_si
+  AFIRMA(5, m);
+
+#si 1
+# si 0
+#  si 1
+    prova cadena
+#  acaba_si
+# acaba_si
+      m = 3;
+#acaba_si
+    AFIRMA(3, m);
+
+#si 1-1
+# si 1
+# acaba_si
+# si 1
+# si_no
+# acaba_si
+# si 0
+# si_no
+# acaba_si
+  m = 2;
+#si_no
+# si 1
+  m = 3;
+# acaba_si
+#acaba_si
+  AFIRMA(3, m);
+
+#si 1
+  m = 2;
+#si_no
+  m = 3;
+#acaba_si
+  AFIRMA(2, m);
+
+#si 1
+  m = 2;
+#si_no
+  m = 3;
+#acaba_si
+  AFIRMA(2, m);
+
+#si 0
+  m = 1;
+#si_no_si 0
+  m = 2;
+#si_no_si 3+5
+  m = 3;
+#si_no_si 1*5
+  m = 4;
+#acaba_si
+  AFIRMA(3, m);
+
+#si 1+5
+  m = 1;
+#si_no_si 1
+  m = 2;
+#si_no_si 3
+  m = 2;
+#acaba_si
+  AFIRMA(1, m);
+
+#si 0
+  m = 1;
+#si_no_si 1
+# si 1
+  m = 2;
+# si_no
+  m = 3;
+# acaba_si
+#si_no
+  m = 5;
+#acaba_si
+  AFIRMA(2, m);
+
+  ent M1 = 5;
+
+#defineix M1 3
+  AFIRMA(3, M1);
+#defineix M1 4
+  AFIRMA(4, M1);
+
+#defineix M1 3+4+
+  AFIRMA(12, M1 5);
+
+#defineix M1 3+4
+  AFIRMA(23, M1*5);
+
+#defineix AFIRMA_ afirma(
+#defineix si 5
+#defineix cinc "5"
+#defineix ACABA )
+  AFIRMA_ 5, si, cinc ACABA;
+
+#elimina_def AFIRMA_
+#elimina_def si
+#elimina_def cinc
+#elimina_def ACABA
+
+  si (0);
+
+#defineix M 5
+#si M
+  m = 5;
+#si_no
+  m = 6;
+#acaba_si
+  AFIRMA(5, m);
+
+#defineix M 5
+#si M-5
+  m = 6;
+#si_no_si M
+  m = 5;
+#acaba_si
+  AFIRMA(5, m);
+
+  ent M2 = 6;
+#defineix M2 M2 + 3
+  AFIRMA(9, M2);
+
+#defineix M3 M2 + 3
+  AFIRMA(12, M3);
+
+  ent M4 = 3;
+#defineix M4 M5 * 5
+#defineix M5 M4 + 2
+  AFIRMA(13, M4);
+
+#si_def M6
+  m = 5;
+#si_no
+  m = 3;
+#acaba_si
+  AFIRMA(3, m);
+
+#defineix M6
+#si_def M6
+  m = 5;
+#si_no
+  m = 3;
+#acaba_si
+  AFIRMA(5, m);
+
+#si_no_def M7
+  m = 3;
+#si_no
+  m = 5;
+#acaba_si
+  AFIRMA(3, m);
+
+#defineix M7
+#si_no_def M7
+  m = 3;
+#si_no
+  m = 5;
+#acaba_si
+  AFIRMA(5, m);
+
+#si 0
+#si_def NO_SUCH_MACRO
+#acaba_si
+#si_no_def NO_SUCH_MACRO
+#acaba_si
+#si_no
+#acaba_si
+
+#defineix M7() 1
+  ent M7 = 5;
+  AFIRMA(1, M7());
+  AFIRMA(5, M7);
+
+#defineix M7 ()
+  AFIRMA(3, ret_3 M7);
+
+#defineix M8(x,y) x+y
+  AFIRMA(7, M8(3, 4));
+
+#defineix M8(x,y) x*y
+  AFIRMA(24, M8(3+4, 4+5));
+
+#defineix M8(x,y) (x)*(y)
+  AFIRMA(63, M8(3+4, 4+5));
+
+#defineix M8(x,y) x y
+  AFIRMA(9, M8(, 4+5));
+
+#defineix M8(x,y) x*y
+  AFIRMA(20, M8((2+3), 4));
+
+#defineix M8(x,y) x*y
+  AFIRMA(12, M8((2,3), 4));
+
+#defineix M9(x) M10(x) * x
+#defineix M10(x) M9(x) + 3
+  AFIRMA(10, M9(2));
+
+#defineix M11(x) #x
+  AFIRMA('a', M11( a!b  `""c)[0]);
+  AFIRMA('!', M11( a!b  `""c)[1]);
+  AFIRMA('b', M11( a!b  `""c)[2]);
+  AFIRMA(' ', M11( a!b  `""c)[3]);
+  AFIRMA('`', M11( a!b  `""c)[4]);
+  AFIRMA('"', M11( a!b  `""c)[5]);
+  AFIRMA('"', M11( a!b  `""c)[6]);
+  AFIRMA('c', M11( a!b  `""c)[7]);
+  AFIRMA(0, M11( a!b  `""c)[8]);
+
+#defineix enganxa(x,y) x##y
+#defineix prova prova
+#defineix cadena cadena
+  AFIRMA(15, enganxa(1,5));
+  AFIRMA(255, enganxa(0,xff));
+  AFIRMA(3, ({ ent prova_cadena=3; enganxa(prova_,cadena); }));
+  AFIRMA(5, enganxa(5,));
+  AFIRMA(5, enganxa(,5));
+
+#defineix v_ v_
+  AFIRMA(101, ({ ent v_3=100; enganxa(1+v_,3); }));
+#elimina_def v_
+
+#defineix enganxa_2(x) x##5
+  AFIRMA(26, enganxa_2(1+2));
+
+#defineix enganxa_3(x) 2##x
+  AFIRMA(23, enganxa_3(1+2));
+
+#defineix enganxa_4(x, y, z) x##y##z
+  AFIRMA(123, enganxa_4(1,2,3));
+
+#defineix M12
+#si definit(M12)
+  m = 3;
+#si_no
+  m = 4;
+#acaba_si
+  AFIRMA(3, m);
+
+#defineix M12
+#si definit M12
+  m = 3;
+#si_no
+  m = 4;
+#acaba_si
+  AFIRMA(3, m);
+
+#si definit(M12) - 1
+  m = 3;
+#si_no
+  m = 4;
+#acaba_si
+  AFIRMA(4, m);
+
+#si definit(NO_SUCH_MACRO)
+  m = 3;
+#si_no
+  m = 4;
+#acaba_si
+  AFIRMA(4, m);
+
+#si no_such_symbol == 0
+  m = 5;
+#si_no
+  m = 6;
+#acaba_si
+  AFIRMA(5, m);
+
+#defineix CADENA(x) #x
+#defineix M12(x) CADENA(x)
+#defineix M13(x) M12(prova.x)
+  AFIRMA(0, compara_cadenes(M13(cadena), "prova.cadena"));
+
+#defineix M13(x) M12(prova. x)
+  AFIRMA(0, compara_cadenes(M13(cadena), "prova. cadena"));
+
+#defineix M12 prova
+#defineix M13(x) CADENA(x)
+#defineix M14(x) M13(x.M12)
+  AFIRMA(0, compara_cadenes(M14(cadena), "cadena.prova"));
+
+#defineix M14(x) M13(x. M12)
+  AFIRMA(0, compara_cadenes(M14(cadena), "cadena. prova"));
+
+#inclou "include3.cç"
+  AFIRMA(3, prova);
+
+#inclou "include4.cç"
+  AFIRMA(4, prova);
+
+#defineix M13 "include3.cç"
+#inclou M13
+  AFIRMA(3, prova);
+
+#defineix M13 < include4.cç
+#inclou M13 >
+  AFIRMA(4, prova);
+
+#elimina_def prova
+
+  AFIRMA(1, __STDC__);
+
+  AFIRMA(0, compara_cadenes(principal_filename1, "test/macro.ç"));
+  AFIRMA(5, principal_line1);
+  AFIRMA(7, principal_line2);
+  AFIRMA(0, compara_cadenes(include1_filename, "test/include1.cç"));
+  AFIRMA(4, include1_line);
+
+#defineix M14(...) 3
+  AFIRMA(3, M14());
+
+#defineix M14(...) __VA_ARGS__
+  AFIRMA(2, M14() 2);
+  AFIRMA(5, M14(5));
+
+#defineix M14(...) afegeix_2(__VA_ARGS__)
+  AFIRMA(8, M14(2, 6));
+
+#defineix M14(...) afegeix_6(1,2,__VA_ARGS__,6)
+  AFIRMA(21, M14(3,4,5));
+
+#defineix M14(x, ...) afegeix_6(1,2,x,__VA_ARGS__,6)
+  AFIRMA(21, M14(3,4,5));
+
+#defineix M14(args...) 3
+  AFIRMA(3, M14());
+
+#defineix M14(x, ...) x
+  AFIRMA(5, M14(5));
+
+#defineix M14(args...) args
+  AFIRMA(2, M14() 2);
+  AFIRMA(5, M14(5));
+
+#defineix M14(args...) afegeix_2(args)
+  AFIRMA(8, M14(2, 6));
+
+#defineix M14(args...) afegeix_6(1,2,args,6)
+  AFIRMA(21, M14(3,4,5));
+
+#defineix M14(x, args...) afegeix_6(1,2,x,args,6)
+  AFIRMA(21, M14(3,4,5));
+
+#defineix M14(x, args...) x
+  AFIRMA(5, M14(5));
+
+#defineix CONCATENAR(x,y) x##y
+  AFIRMA(5, ({ ent per_0F=5; CONCATENAR(per_, 0F ); }));
+  AFIRMA(5, ({ CONCATENAR(4,.57) + 0.5; }));
+
+  AFIRMA(18, longitud_cadena(__DATA__));
+  AFIRMA(8, longitud_cadena(__HORA__));
+
+  AFIRMA(0, __CONTADOR__);
+  AFIRMA(1, __CONTADOR__);
+  AFIRMA(2, __CONTADOR__);
+
+  AFIRMA(24, longitud_cadena(__TEMPS__));
+
+  AFIRMA(0, compara_cadenes(__FITXER_BASE__, "test/macro.ç"));
+
+#defineix M30(buf, fmt, ...) imprimeix_cadena(buf, fmt __VA_OPT__(,) __VA_ARGS__)
+  AFIRMA(0, ({ car buf[100]; M30(buf, "prova"); compara_cadenes(buf, "prova"); }));
+  AFIRMA(0, ({ car buf[100]; M30(buf, "prova%d", 3); compara_cadenes(buf, "prova3"); }));
+  AFIRMA(0, ({ car buf[100]; M30(buf, "prova%d%d", 3, 5); compara_cadenes(buf, "prova35"); }));
+
+#defineix M31(buf, fmt, ...) imprimeix_cadena(buf, fmt, ## __VA_ARGS__)
+  AFIRMA(0, ({ car buf[100]; M31(buf, "prova"); compara_cadenes(buf, "prova"); }));
+  AFIRMA(0, ({ car buf[100]; M31(buf, "prova%d", 3); compara_cadenes(buf, "prova3"); }));
+  AFIRMA(0, ({ car buf[100]; M31(buf, "prova%d%d", 3, 5); compara_cadenes(buf, "prova35"); }));
+
+#defineix M31(x, y) (1, ##x y)
+  AFIRMA(3, M31(, 3));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

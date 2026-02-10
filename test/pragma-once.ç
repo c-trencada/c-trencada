@@ -1,0 +1,10 @@
+#inclou "test.cç"
+
+#pragma una_vegada
+
+#inclou "test/pragma-once.ç"
+
+ent principal() {
+  imprimeix("OK\n");
+  retorna 0;
+}

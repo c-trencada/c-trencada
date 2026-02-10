@@ -1,0 +1,17 @@
+#inclou "test.cç"
+
+def_tipus ent tipus, tipus_2[4];
+def_tipus ent;
+
+ent principal() {
+  AFIRMA(1, ({ def_tipus ent tipus_local; tipus_local valor=1; valor; }));
+  AFIRMA(1, ({ def_tipus estructura {ent a;} tipus_local; tipus_local estructura_valor; estructura_valor.a=1; estructura_valor.a; }));
+  AFIRMA(1, ({ def_tipus ent tipus_local; tipus_local variable_tipus=1; variable_tipus; }));
+  AFIRMA(2, ({ def_tipus estructura {ent a;} tipus_local; { def_tipus ent tipus_local; } tipus_local estructura_valor; estructura_valor.a=2; estructura_valor.a; }));
+  AFIRMA(4, ({ def_tipus tipus_local; tipus_local valor; mida_de(valor); }));
+  AFIRMA(3, ({ tipus valor=3; valor; }));
+  AFIRMA(16, ({ tipus_2 valor; mida_de(valor); }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

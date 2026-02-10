@@ -1,0 +1,25 @@
+#inclou "test.cç"
+
+extern ent ext1;
+extern ent *ext2;
+
+en_línia ent funció_en_línia(buit) {
+  retorna 3;
+}
+
+ent principal() {
+  AFIRMA(5, ext1);
+  AFIRMA(5, *ext2);
+
+  extern ent ext3;
+  AFIRMA(7, ext3);
+
+  ent funció_externa_1(ent valor);
+  AFIRMA(5, funció_externa_1(5));
+
+  extern ent funció_externa_2(ent valor);
+  AFIRMA(8, funció_externa_2(8));
+
+  imprimeix("OK\n");
+  retorna 0;
+}

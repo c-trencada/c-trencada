@@ -1,0 +1,18 @@
+#inclou "test.cç"
+
+ent principal() {
+  AFIRMA(0, ({ enum { zero, one, two }; zero; }));
+  AFIRMA(1, ({ enum { zero, one, two }; one; }));
+  AFIRMA(2, ({ enum { zero, one, two }; two; }));
+  AFIRMA(5, ({ enum { five=5, six, seven }; five; }));
+  AFIRMA(6, ({ enum { five=5, six, seven }; six; }));
+  AFIRMA(0, ({ enum { zero, five=5, three=3, four }; zero; }));
+  AFIRMA(5, ({ enum { zero, five=5, three=3, four }; five; }));
+  AFIRMA(3, ({ enum { zero, five=5, three=3, four }; three; }));
+  AFIRMA(4, ({ enum { zero, five=5, three=3, four }; four; }));
+  AFIRMA(4, ({ enum { zero, one, two } valor; mida_de(valor); }));
+  AFIRMA(4, ({ enum tipus { zero, one, two }; enum tipus valor_segon; mida_de(valor_segon); }));
+
+  imprimeix("OK\n");
+  retorna 0;
+}
