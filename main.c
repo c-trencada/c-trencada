@@ -413,7 +413,8 @@ static void run_subprocess(char **argv) {
     fprintf(stderr, "\n");
   }
 
-  if (fork() == 0) {
+  int pid = fork();
+  if (pid == 0) {
     // Child process. Run a new command.
     execvp(argv[0], argv);
     fprintf(stderr, "ha fallat l'execució: %s: %s\n", argv[0], strerror(errno));
@@ -422,7 +423,9 @@ static void run_subprocess(char **argv) {
 
   // Wait for the child process to finish.
   int status;
-  while (wait(&status) > 0);
+  printf("2\n");
+  while (waitpid(pid, &status, 0) > 0);
+  printf("3\n");
   if (status != 0)
     exit(1);
 }
@@ -720,10 +723,41 @@ static FileType get_file_type(char *filename) {
   error("<línia d'ordres>: extensió de fitxer desconeguda: %s", filename);
 }
 
+int start_languagetool() {
+
+  StringArray arr = {};
+  strarray_push(&arr, "languagetool");
+  strarray_push(&arr, "--http");
+  strarray_push(&arr, "--port");
+  strarray_push(&arr, "8081");
+
+  printf("1\n");
+
+  int pid = fork();
+  printf("sltpid %d\n", pid);
+  if (pid == 0) {
+    // Child process. Run a new command.
+    execvp(arr.data[0], arr.data);
+    fprintf(stderr, "ha fallat l'execució: %s: %s\n", arr.data[0], strerror(errno));
+    _exit(1);
+  }
+
+  return pid;
+}
+
+void stop_languagtool(int pid) {
+  kill(pid, SIGKILL); 
+}
+
 int main(int argc, char **argv) {
   atexit(cleanup);
   init_macros();
   parse_args(argc, argv);
+  int lt_pid;
+  if (!opt_cc1) { 
+    sleep(2);
+    lt_pid = start_languagetool();
+  }
 
   curl_global_init(CURL_GLOBAL_ALL);
   curl = curl_easy_init();
@@ -809,6 +843,11 @@ int main(int argc, char **argv) {
     assemble(tmp1, tmp2);
     strarray_push(&ld_args, tmp2);
     continue;
+  }
+  if (1) {
+    int status;
+    stop_languagtool(lt_pid);
+    waitpid(lt_pid, &status, 0);
   }
 
   if (ld_args.len > 0)
