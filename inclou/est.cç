@@ -2,10 +2,10 @@
 
 #inclou <est_arg.cç>
 
-ent imprimeix(const curt* restringeix fmt, ...);
-ent imprimeix_va(const curt* restringeix fmt, llista_arguments_vars ap);
-ent imprimeix_cadena(const curt* restringeix cadena, const curt* restringeix fmt, ...);
-ent imprimeix_cadena_va(const curt* restringeix cadena, const curt* restringeix fmt, llista_arguments_vars ap);
+enter imprimeix(const curt* restringeix fmt, ...);
+enter imprimeix_va(const curt* restringeix fmt, llista_arguments_vars ap);
+enter imprimeix_cadena(const curt* restringeix cadena, const curt* restringeix fmt, ...);
+enter imprimeix_cadena_va(const curt* restringeix cadena, const curt* restringeix fmt, llista_arguments_vars ap);
 
 buit* assigna_mem(sense_signe llarg size);
 buit* reassigna_mem(buit *ptr, sense_signe llarg size);
@@ -14,12 +14,12 @@ buit allibera(buit *ptr);
 buit* assigna_mem_auto(sense_signe llarg size);
 
 buit* copia_mem(buit *dest, buit *origen, sense_signe llarg size);
-ent compara_mem(buit *a, buit *b, sense_signe llarg size);
+enter compara_mem(buit *a, buit *b, sense_signe llarg size);
 
-ent compara_cadenes(const curt *a, const curt *b);
-ent compara_cadenes_fins(const curt *a, const curt *b, sense_signe llarg n);
+enter compara_cadenes(const curt *a, const curt *b);
+enter compara_cadenes_fins(const curt *a, const curt *b, sense_signe llarg n);
 
-ent longitud_cadena(const curt *cadena);
+enter longitud_cadena(const curt *cadena);
 
-buit sortir(ent codi);
+buit sortir(enter codi);
 

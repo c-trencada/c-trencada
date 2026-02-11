@@ -166,8 +166,8 @@ static bool is_keyword(Token *tok) {
 
   if (map.capacity == 0) {
     static char *kw[] = {
-      "retorna", "si", "si_no", "per", "mentre", "ent", "mida_de", "car",
-      "estructura", "unió", "curt", "llarg", "buit", "def_tipus", "_Bool",
+      "retorna", "si", "si_no", "per", "mentre", "enter", "mida_de", "caracter",
+      "estructura", "unió", "curt", "llarg", "buit", "def_tipus", "boolea",
       "enum", "estàtic", "ves_a", "para", "continua", "selecciona", "cas",
       "predeterminat", "extern", "_Alineació_de", "_Alinea_com", "fes", "amb_signe",
       "sense_signe", "const", "volàtil", "auto", "registre", "restringeix",
