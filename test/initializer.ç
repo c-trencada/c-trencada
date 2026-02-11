@@ -1,104 +1,104 @@
 #inclou "test.cç"
 
-car g3 = 3;
+caràcter g3 = 3;
 curt g4 = 4;
-ent g5 = 5;
+enter g5 = 5;
 llarg g6 = 6;
-ent g9[3] = {0, 1, 2};
-estructura {car a; ent b;} g11[2] = {{1, 2}, {3, 4}};
-estructura {ent a[2];} g12[2] = {{{1, 2}}};
-unió { ent a; car b[8]; } g13[2] = {0x01020304, 0x05060708};
-car g17[] = "foobar";
-car g18[10] = "foobar";
-car g19[3] = "foobar";
-car *g20 = g17+0;
-car *g21 = g17+3;
-car *g22 = &g17-3;
-car *g23[] = {g17+0, g17+3, g17-3};
-ent g24=3;
-ent *g25=&g24;
-ent g26[3] = {1, 2, 3};
-ent *g27 = g26 + 1;
-ent *g28 = &g11[1].a;
+enter g9[3] = {0, 1, 2};
+estructura {caràcter a; enter b;} g11[2] = {{1, 2}, {3, 4}};
+estructura {enter a[2];} g12[2] = {{{1, 2}}};
+unió { enter a; caràcter b[8]; } g13[2] = {0x01020304, 0x05060708};
+caràcter g17[] = "foobar";
+caràcter g18[10] = "foobar";
+caràcter g19[3] = "foobar";
+caràcter *g20 = g17+0;
+caràcter *g21 = g17+3;
+caràcter *g22 = &g17-3;
+caràcter *g23[] = {g17+0, g17+3, g17-3};
+enter g24=3;
+enter *g25=&g24;
+enter g26[3] = {1, 2, 3};
+enter *g27 = g26 + 1;
+enter *g28 = &g11[1].a;
 llarg g29 = (llarg)(llarg)g26;
-estructura { estructura { ent a[3]; } a; } g30 = {{{1,2,3}}};
-ent *g31=g30.a.a;
-estructura {ent a[2];} g40[2] = {{1, 2}, 3, 4};
-estructura {ent a[2];} g41[2] = {1, 2, 3, 4};
-car g43[][4] = {'f', 'o', 'o', 0, 'b', 'a', 'r', 0};
-car *g44 = {"foo"};
-unió { ent a; car b[4]; } g50 = {.b[2]=0x12};
-unió { ent a; } g51[2] = {};
+estructura { estructura { enter a[3]; } a; } g30 = {{{1,2,3}}};
+enter *g31=g30.a.a;
+estructura {enter a[2];} g40[2] = {{1, 2}, 3, 4};
+estructura {enter a[2];} g41[2] = {1, 2, 3, 4};
+caràcter g43[][4] = {'f', 'o', 'o', 0, 'b', 'a', 'r', 0};
+caràcter *g44 = {"foo"};
+unió { enter a; caràcter b[4]; } g50 = {.b[2]=0x12};
+unió { enter a; } g51[2] = {};
 
-def_tipus car T60[];
+def_tipus caràcter T60[];
 T60 g60 = {1, 2, 3};
 T60 g61 = {1, 2, 3, 4, 5, 6};
 
-def_tipus estructura { car a, b[]; } T65;
+def_tipus estructura { caràcter a, b[]; } T65;
 T65 g65 = {'f','o','o',0};
 T65 g66 = {'f','o','o','b','a','r',0};
 
-ent principal() {
-  AFIRMA(1, ({ ent taula[3]={1,2,3}; taula[0]; }));
-  AFIRMA(2, ({ ent taula[3]={1,2,3}; taula[1]; }));
-  AFIRMA(3, ({ ent taula[3]={1,2,3}; taula[2]; }));
-  AFIRMA(3, ({ ent taula[3]={1,2,3}; taula[2]; }));
+enter principal() {
+  AFIRMA(1, ({ enter taula[3]={1,2,3}; taula[0]; }));
+  AFIRMA(2, ({ enter taula[3]={1,2,3}; taula[1]; }));
+  AFIRMA(3, ({ enter taula[3]={1,2,3}; taula[2]; }));
+  AFIRMA(3, ({ enter taula[3]={1,2,3}; taula[2]; }));
 
-  AFIRMA(2, ({ ent taula[2][3]={{1,2,3},{4,5,6}}; taula[0][1]; }));
-  AFIRMA(4, ({ ent taula[2][3]={{1,2,3},{4,5,6}}; taula[1][0]; }));
-  AFIRMA(6, ({ ent taula[2][3]={{1,2,3},{4,5,6}}; taula[1][2]; }));
+  AFIRMA(2, ({ enter taula[2][3]={{1,2,3},{4,5,6}}; taula[0][1]; }));
+  AFIRMA(4, ({ enter taula[2][3]={{1,2,3},{4,5,6}}; taula[1][0]; }));
+  AFIRMA(6, ({ enter taula[2][3]={{1,2,3},{4,5,6}}; taula[1][2]; }));
 
-  AFIRMA(0, ({ ent taula[3]={}; taula[0]; }));
-  AFIRMA(0, ({ ent taula[3]={}; taula[1]; }));
-  AFIRMA(0, ({ ent taula[3]={}; taula[2]; }));
+  AFIRMA(0, ({ enter taula[3]={}; taula[0]; }));
+  AFIRMA(0, ({ enter taula[3]={}; taula[1]; }));
+  AFIRMA(0, ({ enter taula[3]={}; taula[2]; }));
 
-  AFIRMA(2, ({ ent taula[2][3]={{1,2}}; taula[0][1]; }));
-  AFIRMA(0, ({ ent taula[2][3]={{1,2}}; taula[1][0]; }));
-  AFIRMA(0, ({ ent taula[2][3]={{1,2}}; taula[1][2]; }));
+  AFIRMA(2, ({ enter taula[2][3]={{1,2}}; taula[0][1]; }));
+  AFIRMA(0, ({ enter taula[2][3]={{1,2}}; taula[1][0]; }));
+  AFIRMA(0, ({ enter taula[2][3]={{1,2}}; taula[1][2]; }));
 
-  AFIRMA('a', ({ car cadena[4]="abc"; cadena[0]; }));
-  AFIRMA('c', ({ car cadena[4]="abc"; cadena[2]; }));
-  AFIRMA(0, ({ car cadena[4]="abc"; cadena[3]; }));
-  AFIRMA('a', ({ car cadena[2][4]={"abc","def"}; cadena[0][0]; }));
-  AFIRMA(0, ({ car cadena[2][4]={"abc","def"}; cadena[0][3]; }));
-  AFIRMA('d', ({ car cadena[2][4]={"abc","def"}; cadena[1][0]; }));
-  AFIRMA('f', ({ car cadena[2][4]={"abc","def"}; cadena[1][2]; }));
+  AFIRMA('a', ({ caràcter cadena[4]="abc"; cadena[0]; }));
+  AFIRMA('c', ({ caràcter cadena[4]="abc"; cadena[2]; }));
+  AFIRMA(0, ({ caràcter cadena[4]="abc"; cadena[3]; }));
+  AFIRMA('a', ({ caràcter cadena[2][4]={"abc","def"}; cadena[0][0]; }));
+  AFIRMA(0, ({ caràcter cadena[2][4]={"abc","def"}; cadena[0][3]; }));
+  AFIRMA('d', ({ caràcter cadena[2][4]={"abc","def"}; cadena[1][0]; }));
+  AFIRMA('f', ({ caràcter cadena[2][4]={"abc","def"}; cadena[1][2]; }));
 
-  AFIRMA(4, ({ ent taula[]={1,2,3,4}; taula[3]; }));
-  AFIRMA(16, ({ ent taula[]={1,2,3,4}; mida_de(taula); }));
-  AFIRMA(4, ({ car cadena[]="foo"; mida_de(cadena); }));
+  AFIRMA(4, ({ enter taula[]={1,2,3,4}; taula[3]; }));
+  AFIRMA(16, ({ enter taula[]={1,2,3,4}; mida_de(taula); }));
+  AFIRMA(4, ({ caràcter cadena[]="foo"; mida_de(cadena); }));
 
-  AFIRMA(4, ({ def_tipus car Tipus[]; Tipus cadena_primer="foo"; Tipus cadena_segon="x"; mida_de(cadena_primer); }));
-  AFIRMA(2, ({ def_tipus car Tipus[]; Tipus cadena_primer="foo"; Tipus cadena_segon="x"; mida_de(cadena_segon); }));
-  AFIRMA(2, ({ def_tipus car Tipus[]; Tipus cadena_primer="x"; Tipus cadena_segon="foo"; mida_de(cadena_primer); }));
-  AFIRMA(4, ({ def_tipus car Tipus[]; Tipus cadena_primer="x"; Tipus cadena_segon="foo"; mida_de(cadena_segon); }));
+  AFIRMA(4, ({ def_tipus caràcter Tipus[]; Tipus cadena_primer="foo"; Tipus cadena_segon="x"; mida_de(cadena_primer); }));
+  AFIRMA(2, ({ def_tipus caràcter Tipus[]; Tipus cadena_primer="foo"; Tipus cadena_segon="x"; mida_de(cadena_segon); }));
+  AFIRMA(2, ({ def_tipus caràcter Tipus[]; Tipus cadena_primer="x"; Tipus cadena_segon="foo"; mida_de(cadena_primer); }));
+  AFIRMA(4, ({ def_tipus caràcter Tipus[]; Tipus cadena_primer="x"; Tipus cadena_segon="foo"; mida_de(cadena_segon); }));
 
-  AFIRMA(1, ({ estructura {ent a; ent b; ent c;} estructura_valor={1,2,3}; estructura_valor.a; }));
-  AFIRMA(2, ({ estructura {ent a; ent b; ent c;} estructura_valor={1,2,3}; estructura_valor.b; }));
-  AFIRMA(3, ({ estructura {ent a; ent b; ent c;} estructura_valor={1,2,3}; estructura_valor.c; }));
-  AFIRMA(1, ({ estructura {ent a; ent b; ent c;} estructura_valor={1}; estructura_valor.a; }));
-  AFIRMA(0, ({ estructura {ent a; ent b; ent c;} estructura_valor={1}; estructura_valor.b; }));
-  AFIRMA(0, ({ estructura {ent a; ent b; ent c;} estructura_valor={1}; estructura_valor.c; }));
+  AFIRMA(1, ({ estructura {enter a; enter b; enter c;} estructura_valor={1,2,3}; estructura_valor.a; }));
+  AFIRMA(2, ({ estructura {enter a; enter b; enter c;} estructura_valor={1,2,3}; estructura_valor.b; }));
+  AFIRMA(3, ({ estructura {enter a; enter b; enter c;} estructura_valor={1,2,3}; estructura_valor.c; }));
+  AFIRMA(1, ({ estructura {enter a; enter b; enter c;} estructura_valor={1}; estructura_valor.a; }));
+  AFIRMA(0, ({ estructura {enter a; enter b; enter c;} estructura_valor={1}; estructura_valor.b; }));
+  AFIRMA(0, ({ estructura {enter a; enter b; enter c;} estructura_valor={1}; estructura_valor.c; }));
 
-  AFIRMA(1, ({ estructura {ent a; ent b;} taula[2]={{1,2},{3,4}}; taula[0].a; }));
-  AFIRMA(2, ({ estructura {ent a; ent b;} taula[2]={{1,2},{3,4}}; taula[0].b; }));
-  AFIRMA(3, ({ estructura {ent a; ent b;} taula[2]={{1,2},{3,4}}; taula[1].a; }));
-  AFIRMA(4, ({ estructura {ent a; ent b;} taula[2]={{1,2},{3,4}}; taula[1].b; }));
+  AFIRMA(1, ({ estructura {enter a; enter b;} taula[2]={{1,2},{3,4}}; taula[0].a; }));
+  AFIRMA(2, ({ estructura {enter a; enter b;} taula[2]={{1,2},{3,4}}; taula[0].b; }));
+  AFIRMA(3, ({ estructura {enter a; enter b;} taula[2]={{1,2},{3,4}}; taula[1].a; }));
+  AFIRMA(4, ({ estructura {enter a; enter b;} taula[2]={{1,2},{3,4}}; taula[1].b; }));
 
-  AFIRMA(0, ({ estructura {ent a; ent b;} taula[2]={{1,2}}; taula[1].b; }));
+  AFIRMA(0, ({ estructura {enter a; enter b;} taula[2]={{1,2}}; taula[1].b; }));
 
-  AFIRMA(0, ({ estructura {ent a; ent b;} estructura_valor={}; estructura_valor.a; }));
-  AFIRMA(0, ({ estructura {ent a; ent b;} estructura_valor={}; estructura_valor.b; }));
+  AFIRMA(0, ({ estructura {enter a; enter b;} estructura_valor={}; estructura_valor.a; }));
+  AFIRMA(0, ({ estructura {enter a; enter b;} estructura_valor={}; estructura_valor.b; }));
 
-  AFIRMA(5, ({ def_tipus estructura {ent a,b,c,d,e,f;} Tipus; Tipus estructura_primer={1,2,3,4,5,6}; Tipus estructura_segon; estructura_segon=estructura_primer; estructura_segon.e; }));
-  AFIRMA(2, ({ def_tipus estructura {ent a,b;} Tipus; Tipus estructura_primer={1,2}; Tipus estructura_segon, estructura_tercer; estructura_tercer=estructura_segon=estructura_primer; estructura_tercer.b; }));
+  AFIRMA(5, ({ def_tipus estructura {enter a,b,c,d,e,f;} Tipus; Tipus estructura_primer={1,2,3,4,5,6}; Tipus estructura_segon; estructura_segon=estructura_primer; estructura_segon.e; }));
+  AFIRMA(2, ({ def_tipus estructura {enter a,b;} Tipus; Tipus estructura_primer={1,2}; Tipus estructura_segon, estructura_tercer; estructura_tercer=estructura_segon=estructura_primer; estructura_tercer.b; }));
 
-  AFIRMA(1, ({ def_tipus estructura {ent a,b;} Tipus; Tipus estructura_primer={1,2}; Tipus estructura_segon=estructura_primer; estructura_segon.a; }));
+  AFIRMA(1, ({ def_tipus estructura {enter a,b;} Tipus; Tipus estructura_primer={1,2}; Tipus estructura_segon=estructura_primer; estructura_segon.a; }));
 
-  AFIRMA(4, ({ unió { ent a; car b[4]; } unió_valor={0x01020304}; unió_valor.b[0]; }));
-  AFIRMA(3, ({ unió { ent a; car b[4]; } unió_valor={0x01020304}; unió_valor.b[1]; }));
+  AFIRMA(4, ({ unió { enter a; caràcter b[4]; } unió_valor={0x01020304}; unió_valor.b[0]; }));
+  AFIRMA(3, ({ unió { enter a; caràcter b[4]; } unió_valor={0x01020304}; unió_valor.b[1]; }));
 
-  AFIRMA(0x01020304, ({ unió { estructura { car a,b,c,d; } e; ent f; } unió_valor={{4,3,2,1}}; unió_valor.f; }));
+  AFIRMA(0x01020304, ({ unió { estructura { caràcter a,b,c,d; } e; enter f; } unió_valor={{4,3,2,1}}; unió_valor.f; }));
 
   AFIRMA(3, g3);
   AFIRMA(4, g4);
@@ -144,7 +144,7 @@ ent principal() {
   AFIRMA(3, *g25);
   AFIRMA(2, *g27);
   AFIRMA(3, *g28);
-  AFIRMA(1, *(ent *)g29);
+  AFIRMA(1, *(enter *)g29);
 
   AFIRMA(1, g31[0]);
   AFIRMA(2, g31[1]);
@@ -160,19 +160,19 @@ ent principal() {
   AFIRMA(3, g41[1].a[0]);
   AFIRMA(4, g41[1].a[1]);
 
-  AFIRMA(0, ({ ent taula[2][3]={0,1,2,3,4,5}; taula[0][0]; }));
-  AFIRMA(3, ({ ent taula[2][3]={0,1,2,3,4,5}; taula[1][0]; }));
+  AFIRMA(0, ({ enter taula[2][3]={0,1,2,3,4,5}; taula[0][0]; }));
+  AFIRMA(3, ({ enter taula[2][3]={0,1,2,3,4,5}; taula[1][0]; }));
 
-  AFIRMA(0, ({ estructura {ent a; ent b;} taula[2]={0,1,2,3}; taula[0].a; }));
-  AFIRMA(2, ({ estructura {ent a; ent b;} taula[2]={0,1,2,3}; taula[1].a; }));
+  AFIRMA(0, ({ estructura {enter a; enter b;} taula[2]={0,1,2,3}; taula[0].a; }));
+  AFIRMA(2, ({ estructura {enter a; enter b;} taula[2]={0,1,2,3}; taula[1].a; }));
 
   AFIRMA(0, compara_cadenes(g43[0], "foo"));
   AFIRMA(0, compara_cadenes(g43[1], "bar"));
   AFIRMA(0, compara_cadenes(g44, "foo"));
 
-  AFIRMA(3, ({ ent taula[]={1,2,3,}; taula[2]; }));
-  AFIRMA(1, ({ estructura {ent a,b,c;} estructura_valor={1,2,3,}; estructura_valor.a; }));
-  AFIRMA(1, ({ unió {ent a; car b;} unió_valor={1,}; unió_valor.a; }));
+  AFIRMA(3, ({ enter taula[]={1,2,3,}; taula[2]; }));
+  AFIRMA(1, ({ estructura {enter a,b,c;} estructura_valor={1,2,3,}; estructura_valor.a; }));
+  AFIRMA(1, ({ unió {enter a; caràcter b;} unió_valor={1,}; unió_valor.a; }));
   AFIRMA(2, ({ enum {valor_x,valor_y,valor_z,}; valor_z; }));
 
   AFIRMA(3, mida_de(g60));
@@ -183,29 +183,29 @@ ent principal() {
   AFIRMA(0, compara_cadenes(g65.b, "oo"));
   AFIRMA(0, compara_cadenes(g66.b, "oobar"));
 
-  AFIRMA(4, ({ ent taula[3]={1, 2, 3, [0]=4, 5}; taula[0]; }));
-  AFIRMA(5, ({ ent taula[3]={1, 2, 3, [0]=4, 5}; taula[1]; }));
-  AFIRMA(3, ({ ent taula[3]={1, 2, 3, [0]=4, 5}; taula[2]; }));
+  AFIRMA(4, ({ enter taula[3]={1, 2, 3, [0]=4, 5}; taula[0]; }));
+  AFIRMA(5, ({ enter taula[3]={1, 2, 3, [0]=4, 5}; taula[1]; }));
+  AFIRMA(3, ({ enter taula[3]={1, 2, 3, [0]=4, 5}; taula[2]; }));
 
-  AFIRMA(10, ({ ent taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[0][0]; }));
-  AFIRMA(11, ({ ent taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[0][1]; }));
-  AFIRMA(8, ({ ent taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[0][2]; }));
-  AFIRMA(12, ({ ent taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[1][0]; }));
-  AFIRMA(5, ({ ent taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[1][1]; }));
-  AFIRMA(6, ({ ent taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[1][2]; }));
+  AFIRMA(10, ({ enter taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[0][0]; }));
+  AFIRMA(11, ({ enter taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[0][1]; }));
+  AFIRMA(8, ({ enter taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[0][2]; }));
+  AFIRMA(12, ({ enter taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[1][0]; }));
+  AFIRMA(5, ({ enter taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[1][1]; }));
+  AFIRMA(6, ({ enter taula[2][3]={1,2,3,4,5,6,[0][1]=7,8,[0]=9,[0]=10,11,[1][0]=12}; taula[1][2]; }));
 
-  AFIRMA(7, ({ ent taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[0][0]; }));
-  AFIRMA(8, ({ ent taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[0][1]; }));
-  AFIRMA(3, ({ ent taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[0][2]; }));
-  AFIRMA(9, ({ ent taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[1][0]; }));
-  AFIRMA(10, ({ ent taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[1][1]; }));
-  AFIRMA(6, ({ ent taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[1][2]; }));
+  AFIRMA(7, ({ enter taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[0][0]; }));
+  AFIRMA(8, ({ enter taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[0][1]; }));
+  AFIRMA(3, ({ enter taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[0][2]; }));
+  AFIRMA(9, ({ enter taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[1][0]; }));
+  AFIRMA(10, ({ enter taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[1][1]; }));
+  AFIRMA(6, ({ enter taula[2][3]={1,2,3,4,5,6,[0]={7,8},9,10}; taula[1][2]; }));
 
-  AFIRMA(7, ((ent[10]){ [3]=7 })[3]);
-  AFIRMA(0, ((ent[10]){ [3]=7 })[4]);
+  AFIRMA(7, ((enter[10]){ [3]=7 })[3]);
+  AFIRMA(0, ((enter[10]){ [3]=7 })[4]);
 
-  AFIRMA(10, ({ car cadena[]={[10-3]=1,2,3}; mida_de(cadena); }));
-  AFIRMA(20, ({ car cadena[][2]={[8][1]=1,2}; mida_de(cadena); }));
+  AFIRMA(10, ({ caràcter cadena[]={[10-3]=1,2,3}; mida_de(cadena); }));
+  AFIRMA(20, ({ caràcter cadena[][2]={[8][1]=1,2}; mida_de(cadena); }));
 
   AFIRMA(3, mida_de(g60));
   AFIRMA(6, mida_de(g61));
@@ -215,52 +215,52 @@ ent principal() {
   AFIRMA(0, compara_cadenes(g65.b, "oo"));
   AFIRMA(0, compara_cadenes(g66.b, "oobar"));
 
-  AFIRMA(7, ((ent[10]){ [3] 7 })[3]);
-  AFIRMA(0, ((ent[10]){ [3] 7 })[4]);
+  AFIRMA(7, ((enter[10]){ [3] 7 })[3]);
+  AFIRMA(0, ((enter[10]){ [3] 7 })[4]);
 
-  AFIRMA(4, ({ estructura { ent a,b; } estructura_valor={1,2,.b=3,.a=4}; estructura_valor.a; }));
-  AFIRMA(3, ({ estructura { ent a,b; } estructura_valor={1,2,.b=3,.a=4}; estructura_valor.b; }));
+  AFIRMA(4, ({ estructura { enter a,b; } estructura_valor={1,2,.b=3,.a=4}; estructura_valor.a; }));
+  AFIRMA(3, ({ estructura { enter a,b; } estructura_valor={1,2,.b=3,.a=4}; estructura_valor.b; }));
 
-  AFIRMA(1, ({ estructura { estructura { ent a,b; } c; } estructura_valor={.c=1,2}; estructura_valor.c.a; }));
-  AFIRMA(2, ({ estructura { estructura { ent a,b; } c; } estructura_valor={.c=1,2}; estructura_valor.c.b; }));
+  AFIRMA(1, ({ estructura { estructura { enter a,b; } c; } estructura_valor={.c=1,2}; estructura_valor.c.a; }));
+  AFIRMA(2, ({ estructura { estructura { enter a,b; } c; } estructura_valor={.c=1,2}; estructura_valor.c.b; }));
 
-  AFIRMA(0, ({ estructura { estructura { ent a,b; } c; } estructura_valor={.c.b=1}; estructura_valor.c.a; }));
-  AFIRMA(1, ({ estructura { estructura { ent a,b; } c; } estructura_valor={.c.b=1}; estructura_valor.c.b; }));
+  AFIRMA(0, ({ estructura { estructura { enter a,b; } c; } estructura_valor={.c.b=1}; estructura_valor.c.a; }));
+  AFIRMA(1, ({ estructura { estructura { enter a,b; } c; } estructura_valor={.c.b=1}; estructura_valor.c.b; }));
 
-  AFIRMA(1, ({ estructura { ent a[2]; } estructura_valor={.a=1,2}; estructura_valor.a[0]; }));
-  AFIRMA(2, ({ estructura { ent a[2]; } estructura_valor={.a=1,2}; estructura_valor.a[1]; }));
+  AFIRMA(1, ({ estructura { enter a[2]; } estructura_valor={.a=1,2}; estructura_valor.a[0]; }));
+  AFIRMA(2, ({ estructura { enter a[2]; } estructura_valor={.a=1,2}; estructura_valor.a[1]; }));
 
-  AFIRMA(0, ({ estructura { ent a[2]; } estructura_valor={.a[1]=1}; estructura_valor.a[0]; }));
-  AFIRMA(1, ({ estructura { ent a[2]; } estructura_valor={.a[1]=1}; estructura_valor.a[1]; }));
+  AFIRMA(0, ({ estructura { enter a[2]; } estructura_valor={.a[1]=1}; estructura_valor.a[0]; }));
+  AFIRMA(1, ({ estructura { enter a[2]; } estructura_valor={.a[1]=1}; estructura_valor.a[1]; }));
 
-  AFIRMA(3, ({ estructura { ent a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[0].a; }));
-  AFIRMA(4, ({ estructura { ent a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[0].b; }));
-  AFIRMA(0, ({ estructura { ent a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[1].a; }));
-  AFIRMA(1, ({ estructura { ent a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[1].b; }));
-  AFIRMA(2, ({ estructura { ent a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[2].a; }));
-  AFIRMA(0, ({ estructura { ent a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[2].b; }));
+  AFIRMA(3, ({ estructura { enter a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[0].a; }));
+  AFIRMA(4, ({ estructura { enter a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[0].b; }));
+  AFIRMA(0, ({ estructura { enter a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[1].a; }));
+  AFIRMA(1, ({ estructura { enter a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[1].b; }));
+  AFIRMA(2, ({ estructura { enter a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[2].a; }));
+  AFIRMA(0, ({ estructura { enter a,b; } taula[]={[1].b=1,2,[0]=3,4,}; taula[2].b; }));
 
-  AFIRMA(1, ({ def_tipus estructura { ent a,b; } Tipus; Tipus estructura_primer={1,2}; Tipus taula[]={estructura_primer}; taula[0].a; }));
-  AFIRMA(2, ({ def_tipus estructura { ent a,b; } Tipus; Tipus estructura_primer={1,2}; Tipus taula[]={estructura_primer}; taula[0].b; }));
-  AFIRMA(0, ({ def_tipus estructura { ent a,b; } Tipus; Tipus estructura_primer={1,2}; Tipus taula[]={estructura_primer, [0].b=3}; taula[0].a; }));
-  AFIRMA(3, ({ def_tipus estructura { ent a,b; } Tipus; Tipus estructura_primer={1,2}; Tipus taula[]={estructura_primer, [0].b=3}; taula[0].b; }));
+  AFIRMA(1, ({ def_tipus estructura { enter a,b; } Tipus; Tipus estructura_primer={1,2}; Tipus taula[]={estructura_primer}; taula[0].a; }));
+  AFIRMA(2, ({ def_tipus estructura { enter a,b; } Tipus; Tipus estructura_primer={1,2}; Tipus taula[]={estructura_primer}; taula[0].b; }));
+  AFIRMA(0, ({ def_tipus estructura { enter a,b; } Tipus; Tipus estructura_primer={1,2}; Tipus taula[]={estructura_primer, [0].b=3}; taula[0].a; }));
+  AFIRMA(3, ({ def_tipus estructura { enter a,b; } Tipus; Tipus estructura_primer={1,2}; Tipus taula[]={estructura_primer, [0].b=3}; taula[0].b; }));
 
-  AFIRMA(5, ((estructura { ent a,b,c; }){ .c=5 }).c);
-  AFIRMA(0, ((estructura { ent a,b,c; }){ .c=5 }).a);
+  AFIRMA(5, ((estructura { enter a,b,c; }){ .c=5 }).c);
+  AFIRMA(0, ((estructura { enter a,b,c; }){ .c=5 }).a);
 
-  AFIRMA(0x00ff, ({ unió { sense_signe curt a; car b[2]; } unió_valor={.b[0]=0xff}; unió_valor.a; }));
-  AFIRMA(0xff00, ({ unió { sense_signe curt a; car b[2]; } unió_valor={.b[1]=0xff}; unió_valor.a; }));
+  AFIRMA(0x00ff, ({ unió { sense_signe curt a; caràcter b[2]; } unió_valor={.b[0]=0xff}; unió_valor.a; }));
+  AFIRMA(0xff00, ({ unió { sense_signe curt a; caràcter b[2]; } unió_valor={.b[1]=0xff}; unió_valor.a; }));
 
   AFIRMA(0x00120000, g50.a);
   AFIRMA(0, g51[0].a);
   AFIRMA(0, g51[1].a);
 
-  AFIRMA(1, ({ estructura { estructura { ent a; estructura { ent b; }; }; ent c; } estructura_valor={1,2,3,.b=4,5}; estructura_valor.a; }));
-  AFIRMA(4, ({ estructura { estructura { ent a; estructura { ent b; }; }; ent c; } estructura_valor={1,2,3,.b=4,5}; estructura_valor.b; }));
-  AFIRMA(5, ({ estructura { estructura { ent a; estructura { ent b; }; }; ent c; } estructura_valor={1,2,3,.b=4,5}; estructura_valor.c; }));
+  AFIRMA(1, ({ estructura { estructura { enter a; estructura { enter b; }; }; enter c; } estructura_valor={1,2,3,.b=4,5}; estructura_valor.a; }));
+  AFIRMA(4, ({ estructura { estructura { enter a; estructura { enter b; }; }; enter c; } estructura_valor={1,2,3,.b=4,5}; estructura_valor.b; }));
+  AFIRMA(5, ({ estructura { estructura { enter a; estructura { enter b; }; }; enter c; } estructura_valor={1,2,3,.b=4,5}; estructura_valor.c; }));
 
-  AFIRMA(16, ({ car cadena[]={[2 ... 10]='a', [7]='b', [15 ... 15]='c', [3 ... 5]='d'}; mida_de(cadena); }));
-  AFIRMA(0, ({ car cadena[]={[2 ... 10]='a', [7]='b', [15 ... 15]='c', [3 ... 5]='d'}; compara_mem(cadena, "\0\0adddabaaa\0\0\0\0c", 16); }));
+  AFIRMA(16, ({ caràcter cadena[]={[2 ... 10]='a', [7]='b', [15 ... 15]='c', [3 ... 5]='d'}; mida_de(cadena); }));
+  AFIRMA(0, ({ caràcter cadena[]={[2 ... 10]='a', [7]='b', [15 ... 15]='c', [3 ... 5]='d'}; compara_mem(cadena, "\0\0adddabaaa\0\0\0\0c", 16); }));
 
   imprimeix("OK\n");
   retorna 0;

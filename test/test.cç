@@ -2,5 +2,5 @@
 
 #defineix AFIRMA(x, y) afirma(x, y, #y)
 
-buit afirma(ent expected, ent actual, car *code);
+buit afirma(enter expected, enter actual, caràcter *code);
 

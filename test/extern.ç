@@ -1,23 +1,23 @@
 #inclou "test.cç"
 
-extern ent ext1;
-extern ent *ext2;
+extern enter ext1;
+extern enter *ext2;
 
-en_línia ent funció_en_línia(buit) {
+en_línia enter funció_en_línia(buit) {
   retorna 3;
 }
 
-ent principal() {
+enter principal() {
   AFIRMA(5, ext1);
   AFIRMA(5, *ext2);
 
-  extern ent ext3;
+  extern enter ext3;
   AFIRMA(7, ext3);
 
-  ent funció_externa_1(ent valor);
+  enter funció_externa_1(enter valor);
   AFIRMA(5, funció_externa_1(5));
 
-  extern ent funció_externa_2(ent valor);
+  extern enter funció_externa_2(enter valor);
   AFIRMA(8, funció_externa_2(8));
 
   imprimeix("OK\n");

@@ -1,12 +1,12 @@
 #inclou "test.cç"
 
-ent principal() {
+enter principal() {
   { const valor; }
-  { ent const valor; }
-  { const ent valor; }
-  { const ent const const valor; }
+  { enter const valor; }
+  { const enter valor; }
+  { const enter const const valor; }
   AFIRMA(5, ({ const valor = 5; valor; }));
-  AFIRMA(8, ({ const valor = 8; ent *const punter=&valor; *punter; }));
+  AFIRMA(8, ({ const valor = 8; enter *const punter=&valor; *punter; }));
   AFIRMA(6, ({ const valor = 6; *(const * const)&valor; }));
 
   imprimeix("OK\n");

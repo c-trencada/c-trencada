@@ -23,12 +23,12 @@ check -o
 check --help
 
 # -S
-echo 'ent principal() {}' | ./cç -S -o- -xc - | grep -q 'main:'
+echo 'enter principal() {}' | ./cç -S -o- -xc - | grep -q 'main:'
 check -S
 
 # Default output file
 rm -f $tmp/out.o $tmp/out.s
-echo 'ent principal() {}' > $tmp/out.ç
+echo 'enter principal() {}' > $tmp/out.ç
 (cd $tmp; $OLDPWD/cç -c out.ç)
 [ -f $tmp/out.o ]
 check 'default output file'
@@ -39,28 +39,28 @@ check 'default output file'
 
 # Multiple input files
 rm -f $tmp/fou.o $tmp/bar.o
-echo 'ent x;' > $tmp/fou.ç
-echo 'ent y;' > $tmp/bar.ç
+echo 'enter x;' > $tmp/fou.ç
+echo 'enter y;' > $tmp/bar.ç
 (cd $tmp; $OLDPWD/cç -c $tmp/fou.ç $tmp/bar.ç)
 [ -f $tmp/fou.o ] && [ -f $tmp/bar.o ]
 check 'multiple input files'
 
 rm -f $tmp/fou.s $tmp/bar.s
-echo 'ent x;' > $tmp/fou.ç
-echo 'ent y;' > $tmp/bar.ç
+echo 'enter x;' > $tmp/fou.ç
+echo 'enter y;' > $tmp/bar.ç
 (cd $tmp; $OLDPWD/cç -c -S $tmp/fou.ç $tmp/bar.ç)
 [ -f $tmp/fou.s ] && [ -f $tmp/bar.s ]
 check 'multiple input files'
 
 # Run linker
 rm -f $tmp/fou
-echo 'ent principal() { retorna 0; }' | ./cç -L./llib -o $tmp/fou -xc -xc -
+echo 'enter principal() { retorna 0; }' | ./cç -L./llib -o $tmp/fou -xc -xc -
 $tmp/fou
 check linker
 
 rm -f $tmp/fou
-echo 'ent bar(); ent principal() { retorna bar(); }' > $tmp/fou.ç
-echo 'ent bar() { retorna 42; }' > $tmp/bar.ç
+echo 'enter bar(); enter principal() { retorna bar(); }' > $tmp/fou.ç
+echo 'enter bar() { retorna 42; }' > $tmp/bar.ç
 ./cç -L./llib -o $tmp/fou $tmp/fou.ç $tmp/bar.ç
 $tmp/fou
 [ "$?" = 42 ]
@@ -68,7 +68,7 @@ check linker
 
 # a.out
 rm -f $tmp/a.out
-echo 'ent principal() {}' > $tmp/fou.ç
+echo 'enter principal() {}' > $tmp/fou.ç
 (cd $tmp; $OLDPWD/cç -L$OLDPWD/llib fou.ç)
 [ -f $tmp/a.out ]
 check a.out
@@ -114,12 +114,12 @@ check 'BOM marker'
 # en_línia functions
 echo 'en_línia buit fou() {}' > $tmp/en_línia1.ç
 echo 'en_línia buit fou() {}' > $tmp/en_línia2.ç
-echo 'ent principal() { retorna 0; }' > $tmp/en_línia3.ç
+echo 'enter principal() { retorna 0; }' > $tmp/en_línia3.ç
 ./cç -L./llib -o /dev/null $tmp/en_línia1.ç $tmp/en_línia2.ç $tmp/en_línia3.ç
 check en_línia
 
 echo 'extern en_línia buit fou() {}' > $tmp/en_línia1.ç
-echo 'ent fou(); ent principal() { fou(); }' > $tmp/en_línia2.ç
+echo 'enter fou(); enter principal() { fou(); }' > $tmp/en_línia2.ç
 ./cç -L./llib -o /dev/null $tmp/en_línia1.ç $tmp/en_línia2.ç
 check en_línia
 
@@ -169,14 +169,14 @@ echo "#inclou \"idirafter\"" | ./cç -idirafter $tmp/dir1 -I$tmp/dir2 -E -xc - |
 check -idirafter
 
 # -fcommon
-echo 'ent fou;' | ./cç -S -o- -xc - | grep -q '\.comm fou'
+echo 'enter fou;' | ./cç -S -o- -xc - | grep -q '\.comm fou'
 check '-fcommon (default)'
 
-echo 'ent fou;' | ./cç -fcommon -S -o- -xc - | grep -q '\.comm fou'
+echo 'enter fou;' | ./cç -fcommon -S -o- -xc - | grep -q '\.comm fou'
 check '-fcommon'
 
 # -fno-common
-echo 'ent fou;' | ./cç -fno-common -S -o- -xc - | grep -q '^fou:'
+echo 'enter fou;' | ./cç -fno-common -S -o- -xc - | grep -q '^fou:'
 check '-fno-common'
 
 # -include
@@ -187,12 +187,12 @@ check '-fno-common'
 # check -include
 
 # -x
-echo 'ent x;' | ./cç -c -xc -o $tmp/fou.o -
+echo 'enter x;' | ./cç -c -xc -o $tmp/fou.o -
 check -xc
 echo 'x:' | ./cç -c -x assembler -o $tmp/fou.o -
 check '-x assembler'
 
-echo 'ent x;' > $tmp/fou.ç
+echo 'enter x;' > $tmp/fou.ç
 ./cç -c -x assembler -x none -o $tmp/fou.o $tmp/fou.ç
 check '-x none'
 
@@ -204,7 +204,7 @@ check -E
 echo 'buit fou() {}' | ./cç -c -xc -o $tmp/fou.o -
 echo 'buit bar() {}' | ./cç -c -xc -o $tmp/bar.o -
 ar rcs $tmp/fou.a $tmp/fou.o $tmp/bar.o
-echo 'buit fou(); buit bar(); ent principal() { fou(); bar(); }' > $tmp/principal.ç
+echo 'buit fou(); buit bar(); enter principal() { fou(); bar(); }' > $tmp/principal.ç
 ./cç -L./llib -o $tmp/fou $tmp/principal.ç $tmp/fou.a
 check '.a'
 
@@ -212,7 +212,7 @@ check '.a'
 # echo 'buit fou() {}' | cc -fPIC -c -xc -o $tmp/fou.o -
 # echo 'buit bar() {}' | cc -fPIC -c -xc -o $tmp/bar.o -
 # cc -shared -o $tmp/fou.so $tmp/fou.o $tmp/bar.o
-# echo 'buit fou(); buit bar(); ent principal() { fou(); bar(); }' > $tmp/principal.ç
+# echo 'buit fou(); buit bar(); enter principal() { fou(); bar(); }' > $tmp/principal.ç
 # ./cç -o $tmp/fou $tmp/principal.ç $tmp/fou.so
 # check '.so'
 
@@ -257,9 +257,9 @@ check -MD
 grep -q -z '^md2.o:.*md2\.ç .*/out2\.cç' $tmp/md-mf.d
 check -MD
 
-echo 'extern ent bar; ent fou() { retorna bar; }' | ./cç -fPIC -xc -c -o $tmp/fou.o -
+echo 'extern enter bar; enter fou() { retorna bar; }' | ./cç -fPIC -xc -c -o $tmp/fou.o -
 cc -shared -o $tmp/fou.so $tmp/fou.o
-echo 'ent fou(); ent bar=3; ent principal() { fou(); }' > $tmp/principal.ç
+echo 'enter fou(); enter bar=3; enter principal() { fou(); }' > $tmp/principal.ç
 ./cç -L./llib -o $tmp/fou $tmp/principal.ç $tmp/fou.so
 check -fPIC
 
@@ -273,37 +273,37 @@ echo 'fou' > $tmp/next3/file2.cç
 check '#inclou_següent'
 
 # -static
-echo 'extern ent bar; ent fou() { retorna bar; }' > $tmp/fou.ç
-echo 'ent fou(); ent bar=3; ent principal() { fou(); }' > $tmp/bar.ç
+echo 'extern enter bar; enter fou() { retorna bar; }' > $tmp/fou.ç
+echo 'enter fou(); enter bar=3; enter principal() { fou(); }' > $tmp/bar.ç
 ./cç -L./llib -static -o $tmp/fou $tmp/fou.ç $tmp/bar.ç
 check -static
 file $tmp/fou | grep -q 'statically linked'
 check -static
 
 # -shared
-echo 'extern ent bar; ent fou() { retorna bar; }' > $tmp/fou.ç
-echo 'ent fou(); ent bar=3; ent principal() { fou(); }' > $tmp/bar.ç
+echo 'extern enter bar; enter fou() { retorna bar; }' > $tmp/fou.ç
+echo 'enter fou(); enter bar=3; enter principal() { fou(); }' > $tmp/bar.ç
 ./cç -L./llib -fPIC -shared -o $tmp/fou.so $tmp/fou.ç $tmp/bar.ç
 check -shared
 
 # -L
-echo 'extern ent bar; ent fou() { retorna bar; }' > $tmp/fou.ç
+echo 'extern enter bar; enter fou() { retorna bar; }' > $tmp/fou.ç
 ./cç -L./llib -fPIC -shared -o $tmp/libfoubar.so $tmp/fou.ç
-echo 'ent fou(); ent bar=3; ent principal() { fou(); }' > $tmp/bar.ç
+echo 'enter fou(); enter bar=3; enter principal() { fou(); }' > $tmp/bar.ç
 ./cç -L./llib -o $tmp/fou $tmp/bar.ç -L$tmp -lfoubar
 check -L
 
 # -Wl,
-echo 'ent fou() {}' | ./cç -c -o $tmp/fou.o -xc -
-echo 'ent fou() {}' | ./cç -c -o $tmp/bar.o -xc -
-echo 'ent principal() {}' | ./cç -c -o $tmp/baz.o -xc -
+echo 'enter fou() {}' | ./cç -c -o $tmp/fou.o -xc -
+echo 'enter fou() {}' | ./cç -c -o $tmp/bar.o -xc -
+echo 'enter principal() {}' | ./cç -c -o $tmp/baz.o -xc -
 cc -Wl,-z,muldefs,--gc-sections -o $tmp/fou $tmp/fou.o $tmp/bar.o $tmp/baz.o
 check -Wl,
 
 # -Xlinker
-echo 'ent fou() {}' | ./cç -c -o $tmp/fou.o -xc -
-echo 'ent fou() {}' | ./cç -c -o $tmp/bar.o -xc -
-echo 'ent principal() {}' | ./cç -c -o $tmp/baz.o -xc -
+echo 'enter fou() {}' | ./cç -c -o $tmp/fou.o -xc -
+echo 'enter fou() {}' | ./cç -c -o $tmp/bar.o -xc -
+echo 'enter principal() {}' | ./cç -c -o $tmp/baz.o -xc -
 cc -Xlinker -z -Xlinker muldefs -Xlinker --gc-sections -o $tmp/fou $tmp/fou.o $tmp/bar.o $tmp/baz.o
 check -Xlinker
 

@@ -1,40 +1,40 @@
 #inclou "test.cç"
 
-ent principal() {
-  AFIRMA(35, (flot)(car)35);
+enter principal() {
+  AFIRMA(35, (flot)(caràcter)35);
   AFIRMA(35, (flot)(curt)35);
-  AFIRMA(35, (flot)(ent)35);
+  AFIRMA(35, (flot)(enter)35);
   AFIRMA(35, (flot)(llarg)35);
-  AFIRMA(35, (flot)(sense_signe car)35);
+  AFIRMA(35, (flot)(sense_signe caràcter)35);
   AFIRMA(35, (flot)(sense_signe curt)35);
-  AFIRMA(35, (flot)(sense_signe ent)35);
+  AFIRMA(35, (flot)(sense_signe enter)35);
   AFIRMA(35, (flot)(sense_signe llarg)35);
 
-  AFIRMA(35, (doble)(car)35);
+  AFIRMA(35, (doble)(caràcter)35);
   AFIRMA(35, (doble)(curt)35);
-  AFIRMA(35, (doble)(ent)35);
+  AFIRMA(35, (doble)(enter)35);
   AFIRMA(35, (doble)(llarg)35);
-  AFIRMA(35, (doble)(sense_signe car)35);
+  AFIRMA(35, (doble)(sense_signe caràcter)35);
   AFIRMA(35, (doble)(sense_signe curt)35);
-  AFIRMA(35, (doble)(sense_signe ent)35);
+  AFIRMA(35, (doble)(sense_signe enter)35);
   AFIRMA(35, (doble)(sense_signe llarg)35);
 
-  AFIRMA(35, (car)(flot)35);
+  AFIRMA(35, (caràcter)(flot)35);
   AFIRMA(35, (curt)(flot)35);
-  AFIRMA(35, (ent)(flot)35);
+  AFIRMA(35, (enter)(flot)35);
   AFIRMA(35, (llarg)(flot)35);
-  AFIRMA(35, (sense_signe car)(flot)35);
+  AFIRMA(35, (sense_signe caràcter)(flot)35);
   AFIRMA(35, (sense_signe curt)(flot)35);
-  AFIRMA(35, (sense_signe ent)(flot)35);
+  AFIRMA(35, (sense_signe enter)(flot)35);
   AFIRMA(35, (sense_signe llarg)(flot)35);
 
-  AFIRMA(35, (car)(doble)35);
+  AFIRMA(35, (caràcter)(doble)35);
   AFIRMA(35, (curt)(doble)35);
-  AFIRMA(35, (ent)(doble)35);
+  AFIRMA(35, (enter)(doble)35);
   AFIRMA(35, (llarg)(doble)35);
-  AFIRMA(35, (sense_signe car)(doble)35);
+  AFIRMA(35, (sense_signe caràcter)(doble)35);
   AFIRMA(35, (sense_signe curt)(doble)35);
-  AFIRMA(35, (sense_signe ent)(doble)35);
+  AFIRMA(35, (sense_signe enter)(doble)35);
   AFIRMA(35, (sense_signe llarg)(doble)35);
 
   AFIRMA(-2147483648, (doble)(sense_signe llarg)(llarg)-1);

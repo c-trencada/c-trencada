@@ -2,11 +2,11 @@
 #inclou <stdio.cç>
 #inclou <pthread.cç>
 
-_Thread_local ent v1;
-_Thread_local ent v2 = 5;
-ent v3 = 7;
+_Thread_local enter v1;
+_Thread_local enter v2 = 5;
+enter v3 = 7;
 
-ent thread_principal(buit *unused) {
+enter thread_principal(buit *unused) {
   AFIRMA(0, v1);
   AFIRMA(5, v2);
   AFIRMA(7, v3);
@@ -22,7 +22,7 @@ ent thread_principal(buit *unused) {
   retorna 0;
 }
 
-ent principal() {
+enter principal() {
   pthread_t thr;
 
   AFIRMA(0, v1);

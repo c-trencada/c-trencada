@@ -1,12 +1,12 @@
 #inclou "test.cç"
 
-ent principal() {
-  AFIRMA(3, ({ tipus_de(ent) valor=3; valor; }));
+enter principal() {
+  AFIRMA(3, ({ tipus_de(enter) valor=3; valor; }));
   AFIRMA(3, ({ tipus_de(1) valor=3; valor; }));
-  AFIRMA(4, ({ ent valor_x; tipus_de(valor_x) valor_segon; mida_de(valor_segon); }));
-  AFIRMA(8, ({ ent valor_x; tipus_de(&valor_x) punter_segon; mida_de(punter_segon); }));
+  AFIRMA(4, ({ enter valor_x; tipus_de(valor_x) valor_segon; mida_de(valor_segon); }));
+  AFIRMA(8, ({ enter valor_x; tipus_de(&valor_x) punter_segon; mida_de(punter_segon); }));
   AFIRMA(4, ({ tipus_de("foo") punter; mida_de(punter); }));
-  AFIRMA(12, mida_de(tipus_de(estructura { ent a,b,c; })));
+  AFIRMA(12, mida_de(tipus_de(estructura { enter a,b,c; })));
 
   imprimeix("OK\n");
   retorna 0;

@@ -4,7 +4,7 @@
 
 #inclou "test/pragma-once.ç"
 
-ent principal() {
+enter principal() {
   imprimeix("OK\n");
   retorna 0;
 }

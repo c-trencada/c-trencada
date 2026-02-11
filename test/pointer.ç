@@ -1,43 +1,43 @@
 #inclou "test.cç"
 
-ent principal() {
-  AFIRMA(3, ({ ent valor=3; *&valor; }));
-  AFIRMA(3, ({ ent valor=3; ent *punter_segon=&valor; ent **punter_tercer=&punter_segon; **punter_tercer; }));
-  AFIRMA(5, ({ ent valor_primer=3; ent valor_segon=5; *(&valor_primer+1); }));
-  AFIRMA(3, ({ ent valor_primer=3; ent valor_segon=5; *(&valor_segon-1); }));
-  AFIRMA(5, ({ ent valor_primer=3; ent valor_segon=5; *(&valor_primer-(-1)); }));
-  AFIRMA(5, ({ ent valor=3; ent *punter_segon=&valor; *punter_segon=5; valor; }));
-  AFIRMA(7, ({ ent valor_primer=3; ent valor_segon=5; *(&valor_primer+1)=7; valor_segon; }));
-  AFIRMA(7, ({ ent valor_primer=3; ent valor_segon=5; *(&valor_segon-2+1)=7; valor_primer; }));
-  AFIRMA(5, ({ ent valor=3; (&valor+2)-&valor+3; }));
-  AFIRMA(8, ({ ent valor_primer, valor_segon; valor_primer=3; valor_segon=5; valor_primer+valor_segon; }));
-  AFIRMA(8, ({ ent valor_primer=3, valor_segon=5; valor_primer+valor_segon; }));
+enter principal() {
+  AFIRMA(3, ({ enter valor=3; *&valor; }));
+  AFIRMA(3, ({ enter valor=3; enter *punter_segon=&valor; enter **punter_tercer=&punter_segon; **punter_tercer; }));
+  AFIRMA(5, ({ enter valor_primer=3; enter valor_segon=5; *(&valor_primer+1); }));
+  AFIRMA(3, ({ enter valor_primer=3; enter valor_segon=5; *(&valor_segon-1); }));
+  AFIRMA(5, ({ enter valor_primer=3; enter valor_segon=5; *(&valor_primer-(-1)); }));
+  AFIRMA(5, ({ enter valor=3; enter *punter_segon=&valor; *punter_segon=5; valor; }));
+  AFIRMA(7, ({ enter valor_primer=3; enter valor_segon=5; *(&valor_primer+1)=7; valor_segon; }));
+  AFIRMA(7, ({ enter valor_primer=3; enter valor_segon=5; *(&valor_segon-2+1)=7; valor_primer; }));
+  AFIRMA(5, ({ enter valor=3; (&valor+2)-&valor+3; }));
+  AFIRMA(8, ({ enter valor_primer, valor_segon; valor_primer=3; valor_segon=5; valor_primer+valor_segon; }));
+  AFIRMA(8, ({ enter valor_primer=3, valor_segon=5; valor_primer+valor_segon; }));
 
-  AFIRMA(3, ({ ent taula[2]; ent *punter_segon=&taula; *punter_segon=3; *taula; }));
+  AFIRMA(3, ({ enter taula[2]; enter *punter_segon=&taula; *punter_segon=3; *taula; }));
 
-  AFIRMA(3, ({ ent taula[3]; *taula=3; *(taula+1)=4; *(taula+2)=5; *taula; }));
-  AFIRMA(4, ({ ent taula[3]; *taula=3; *(taula+1)=4; *(taula+2)=5; *(taula+1); }));
-  AFIRMA(5, ({ ent taula[3]; *taula=3; *(taula+1)=4; *(taula+2)=5; *(taula+2); }));
+  AFIRMA(3, ({ enter taula[3]; *taula=3; *(taula+1)=4; *(taula+2)=5; *taula; }));
+  AFIRMA(4, ({ enter taula[3]; *taula=3; *(taula+1)=4; *(taula+2)=5; *(taula+1); }));
+  AFIRMA(5, ({ enter taula[3]; *taula=3; *(taula+1)=4; *(taula+2)=5; *(taula+2); }));
 
-  AFIRMA(0, ({ ent taula[2][3]; ent *punter_segon=taula; *punter_segon=0; **taula; }));
-  AFIRMA(1, ({ ent taula[2][3]; ent *punter_segon=taula; *(punter_segon+1)=1; *(*taula+1); }));
-  AFIRMA(2, ({ ent taula[2][3]; ent *punter_segon=taula; *(punter_segon+2)=2; *(*taula+2); }));
-  AFIRMA(3, ({ ent taula[2][3]; ent *punter_segon=taula; *(punter_segon+3)=3; **(taula+1); }));
-  AFIRMA(4, ({ ent taula[2][3]; ent *punter_segon=taula; *(punter_segon+4)=4; *(*(taula+1)+1); }));
-  AFIRMA(5, ({ ent taula[2][3]; ent *punter_segon=taula; *(punter_segon+5)=5; *(*(taula+1)+2); }));
+  AFIRMA(0, ({ enter taula[2][3]; enter *punter_segon=taula; *punter_segon=0; **taula; }));
+  AFIRMA(1, ({ enter taula[2][3]; enter *punter_segon=taula; *(punter_segon+1)=1; *(*taula+1); }));
+  AFIRMA(2, ({ enter taula[2][3]; enter *punter_segon=taula; *(punter_segon+2)=2; *(*taula+2); }));
+  AFIRMA(3, ({ enter taula[2][3]; enter *punter_segon=taula; *(punter_segon+3)=3; **(taula+1); }));
+  AFIRMA(4, ({ enter taula[2][3]; enter *punter_segon=taula; *(punter_segon+4)=4; *(*(taula+1)+1); }));
+  AFIRMA(5, ({ enter taula[2][3]; enter *punter_segon=taula; *(punter_segon+5)=5; *(*(taula+1)+2); }));
 
-  AFIRMA(3, ({ ent taula[3]; *taula=3; taula[1]=4; taula[2]=5; *taula; }));
-  AFIRMA(4, ({ ent taula[3]; *taula=3; taula[1]=4; taula[2]=5; *(taula+1); }));
-  AFIRMA(5, ({ ent taula[3]; *taula=3; taula[1]=4; taula[2]=5; *(taula+2); }));
-  AFIRMA(5, ({ ent taula[3]; *taula=3; taula[1]=4; taula[2]=5; *(taula+2); }));
-  AFIRMA(5, ({ ent taula[3]; *taula=3; taula[1]=4; 2[taula]=5; *(taula+2); }));
+  AFIRMA(3, ({ enter taula[3]; *taula=3; taula[1]=4; taula[2]=5; *taula; }));
+  AFIRMA(4, ({ enter taula[3]; *taula=3; taula[1]=4; taula[2]=5; *(taula+1); }));
+  AFIRMA(5, ({ enter taula[3]; *taula=3; taula[1]=4; taula[2]=5; *(taula+2); }));
+  AFIRMA(5, ({ enter taula[3]; *taula=3; taula[1]=4; taula[2]=5; *(taula+2); }));
+  AFIRMA(5, ({ enter taula[3]; *taula=3; taula[1]=4; 2[taula]=5; *(taula+2); }));
 
-  AFIRMA(0, ({ ent taula[2][3]; ent *punter_segon=taula; punter_segon[0]=0; taula[0][0]; }));
-  AFIRMA(1, ({ ent taula[2][3]; ent *punter_segon=taula; punter_segon[1]=1; taula[0][1]; }));
-  AFIRMA(2, ({ ent taula[2][3]; ent *punter_segon=taula; punter_segon[2]=2; taula[0][2]; }));
-  AFIRMA(3, ({ ent taula[2][3]; ent *punter_segon=taula; punter_segon[3]=3; taula[1][0]; }));
-  AFIRMA(4, ({ ent taula[2][3]; ent *punter_segon=taula; punter_segon[4]=4; taula[1][1]; }));
-  AFIRMA(5, ({ ent taula[2][3]; ent *punter_segon=taula; punter_segon[5]=5; taula[1][2]; }));
+  AFIRMA(0, ({ enter taula[2][3]; enter *punter_segon=taula; punter_segon[0]=0; taula[0][0]; }));
+  AFIRMA(1, ({ enter taula[2][3]; enter *punter_segon=taula; punter_segon[1]=1; taula[0][1]; }));
+  AFIRMA(2, ({ enter taula[2][3]; enter *punter_segon=taula; punter_segon[2]=2; taula[0][2]; }));
+  AFIRMA(3, ({ enter taula[2][3]; enter *punter_segon=taula; punter_segon[3]=3; taula[1][0]; }));
+  AFIRMA(4, ({ enter taula[2][3]; enter *punter_segon=taula; punter_segon[4]=4; taula[1][1]; }));
+  AFIRMA(5, ({ enter taula[2][3]; enter *punter_segon=taula; punter_segon[5]=5; taula[1][2]; }));
 
   imprimeix("OK\n");
   retorna 0;

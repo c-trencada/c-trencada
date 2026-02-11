@@ -1,6 +1,6 @@
 #inclou "test.cç"
 
-ent principal() {
+enter principal() {
   AFIRMA(0, ""[0]);
   AFIRMA(1, mida_de(""));
 

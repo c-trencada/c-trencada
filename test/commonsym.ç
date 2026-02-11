@@ -1,14 +1,14 @@
 #inclou "test.cç"
 
-ent x;
-ent x = 5;
-ent y = 7;
-ent y;
-ent common_ext1;
-ent common_ext2;
-estàtic ent common_local;
+enter x;
+enter x = 5;
+enter y = 7;
+enter y;
+enter common_ext1;
+enter common_ext2;
+estàtic enter common_local;
 
-ent principal() {
+enter principal() {
   AFIRMA(5, x);
   AFIRMA(7, y);
   AFIRMA(0, common_ext1);

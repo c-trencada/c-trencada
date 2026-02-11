@@ -1,21 +1,21 @@
 #inclou "test.cç"
 
 estructura {
-  car a;
-  ent b : 5;
-  ent c : 10;
+  caràcter a;
+  enter b : 5;
+  enter c : 10;
 } g45 = {1, 2, 3}, g46={};
 
-ent principal() {
-  AFIRMA(4, mida_de(estructura {ent x:1; }));
+enter principal() {
+  AFIRMA(4, mida_de(estructura {enter x:1; }));
   AFIRMA(8, mida_de(estructura {llarg x:1; }));
 
   estructura bit1 {
     curt a;
-    car b;
-    ent c : 2;
-    ent d : 3;
-    ent e : 3;
+    caràcter b;
+    enter c : 2;
+    enter d : 3;
+    enter e : 3;
   };
 
   AFIRMA(4, mida_de(estructura bit1));
@@ -35,9 +35,9 @@ ent principal() {
   AFIRMA(0, g46.c);
 
   def_tipus estructura {
-    ent a : 10;
-    ent b : 10;
-    ent c : 10;
+    enter a : 10;
+    enter b : 10;
+    enter c : 10;
   } T3;
 
   AFIRMA(1, ({ T3 x={1,2,3}; x.a++; }));
@@ -48,9 +48,9 @@ ent principal() {
   AFIRMA(3, ({ T3 x={1,2,3}; ++x.b; }));
   AFIRMA(4, ({ T3 x={1,2,3}; ++x.c; }));
 
-  AFIRMA(4, mida_de(estructura {ent a:3; ent c:1; ent c:5;}));
-  AFIRMA(8, mida_de(estructura {ent a:3; int:0; ent c:5;}));
-  AFIRMA(4, mida_de(estructura {ent a:3; int:0;}));
+  AFIRMA(4, mida_de(estructura {enter a:3; enter c:1; enter c:5;}));
+  AFIRMA(8, mida_de(estructura {enter a:3; int:0; enter c:5;}));
+  AFIRMA(4, mida_de(estructura {enter a:3; int:0;}));
 
   imprimeix("OK\n");
   retorna 0;

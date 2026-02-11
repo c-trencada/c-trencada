@@ -1,15 +1,15 @@
 #inclou "test.cç"
 
-buit *funció(ent x, buit *p, ent y) { retorna p; }
+buit *funció(enter x, buit *p, enter y) { retorna p; }
 
-ent principal() {
-  ent i = 0;
+enter principal() {
+  enter i = 0;
 
-  car *punter_1 = alloca(16);
-  car *punter_2 = alloca(16);
-  car *punter_3 = 1 + (car *)alloca(3) + 1;
+  caràcter *punter_1 = alloca(16);
+  caràcter *punter_2 = alloca(16);
+  caràcter *punter_3 = 1 + (caràcter *)alloca(3) + 1;
   punter_3 -= 2;
-  car *punter_4 = funció(1, alloca(16), 3);
+  caràcter *punter_4 = funció(1, alloca(16), 3);
 
   AFIRMA(16, punter_1 - punter_2);
   AFIRMA(16, punter_2 - punter_3);

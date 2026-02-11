@@ -2,13 +2,13 @@
 
 #defineix CADENA(x) #x
 
-def_tipus sense_signe curt car_16;
-def_tipus sense_signe ent car_32;
-def_tipus ent car_ample;
+def_tipus sense_signe curt caràcter_16;
+def_tipus sense_signe enter caràcter_32;
+def_tipus enter caràcter_ample;
 
-ent π = 3;
+enter π = 3;
 
-ent principal() {
+enter principal() {
   AFIRMA(4, mida_de(L'\0'));
   AFIRMA(97, L'a');
 
@@ -83,21 +83,21 @@ ent principal() {
 
   AFIRMA(0, compara_cadenes(CADENA(L"a"), "L\"a\""));
 
-  AFIRMA(u'α', ({ car_16 x[] = u"αβ"; x[0]; }));
-  AFIRMA(u'β', ({ car_16 x[] = u"αβ"; x[1]; }));
-  AFIRMA(6, ({ car_16 x[] = u"αβ"; mida_de(x); }));
+  AFIRMA(u'α', ({ caràcter_16 x[] = u"αβ"; x[0]; }));
+  AFIRMA(u'β', ({ caràcter_16 x[] = u"αβ"; x[1]; }));
+  AFIRMA(6, ({ caràcter_16 x[] = u"αβ"; mida_de(x); }));
 
-  AFIRMA(U'🤔', ({ car_32 x[] = U"🤔x"; x[0]; }));
-  AFIRMA(U'x', ({ car_32 x[] = U"🤔x"; x[1]; }));
-  AFIRMA(12, ({ car_32 x[] = U"🤔x"; mida_de(x); }));
+  AFIRMA(U'🤔', ({ caràcter_32 x[] = U"🤔x"; x[0]; }));
+  AFIRMA(U'x', ({ caràcter_32 x[] = U"🤔x"; x[1]; }));
+  AFIRMA(12, ({ caràcter_32 x[] = U"🤔x"; mida_de(x); }));
 
-  AFIRMA(L'🤔', ({ car_ample x[] = L"🤔x"; x[0]; }));
-  AFIRMA(L'x', ({ car_ample x[] = L"🤔x"; x[1]; }));
-  AFIRMA(12, ({ car_ample x[] = L"🤔x"; mida_de(x); }));
+  AFIRMA(L'🤔', ({ caràcter_ample x[] = L"🤔x"; x[0]; }));
+  AFIRMA(L'x', ({ caràcter_ample x[] = L"🤔x"; x[1]; }));
+  AFIRMA(12, ({ caràcter_ample x[] = L"🤔x"; mida_de(x); }));
 
   AFIRMA(3, π);
-  AFIRMA(3, ({ ent あβ0¾=3; あβ0¾; }));
-  AFIRMA(5, ({ ent $$$=5; $$$; }));
+  AFIRMA(3, ({ enter あβ0¾=3; あβ0¾; }));
+  AFIRMA(5, ({ enter $$$=5; $$$; }));
 
   imprimeix("OK\n");
   retorna 0;

@@ -23,13 +23,13 @@ static int common_local;
 
 int retorna_fals() { return 512; }
 int retorna_cert() { return 513; }
-int retorna_car() { return (2<<8)+3; }
+int retorna_caràcter() { return (2<<8)+3; }
 int retorna_curt() { return (2<<16)+5; }
 
-int retorna_ucar() { return (2<<10)-1-4; }
+int retorna_caràcter_sense_signe() { return (2<<10)-1-4; }
 int retorna_curt_sense_signe() { return (2<<20)-1-7; }
 
-int retorna_car_signe() { return (2<<10)-1-4; }
+int retorna_caràcter_signe() { return (2<<10)-1-4; }
 int retorna_curt_signe() { return (2<<20)-1-7; }
 
 int suma_tot(int n, ...) {

@@ -1,17 +1,17 @@
 #inclou "test.cç"
 
-_No_retorna prova_no_retorna(ent restringeix valor) {
+_No_retorna prova_no_retorna(enter restringeix valor) {
   sortir(0);
 }
 
-buit tipus_invocable(ent arg[restringeix estàtic 3]) {}
+buit tipus_invocable(enter arg[restringeix estàtic 3]) {}
 
-ent principal() {
+enter principal() {
   { volàtil valor; }
-  { ent volàtil valor; }
-  { volàtil ent valor; }
-  { volàtil ent volàtil volàtil valor; }
-  { ent volàtil * volàtil volàtil valor; }
+  { enter volàtil valor; }
+  { volàtil enter valor; }
+  { volàtil enter volàtil volàtil valor; }
+  { enter volàtil * volàtil volàtil valor; }
   { auto ** restringeix __restringeix __restringeix__ const volàtil *valor; }
 
   imprimeix("OK\n");
