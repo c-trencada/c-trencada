@@ -38,8 +38,8 @@ Algunes de les paraules clau del llenguatge:
 - `__attribute__` -> `__atribut__`
 - `asm` -> `asm`
 - `void` -> `buit`
-- `_Bool` -> `boolea`
-- `char` -> `caracter`
+- `_Bool` -> `booleà`
+- `char` -> `caràcter`
 - `short` -> `curt`
 - `int` -> `enter`
 - `long` -> `llarg`

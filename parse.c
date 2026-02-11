@@ -360,7 +360,7 @@ static void push_tag_scope(Token *tok, Type *ty) {
 
 
 
-// declspec = ("buit" | "boolea" | "caracter" | "curt" | "enter" | "llarg"
+// declspec = ("buit" | "booleà" | "caràcter" | "curt" | "enter" | "llarg"
 //             | "def_tipus" | "estàtic" | "extern" | "en_línia"
 //             | "_Local_a_fil" | "__fil"
 //             | "amb_signe" | "sense_signe"
@@ -486,9 +486,9 @@ static Type *declspec(Token **rest, Token *tok, VarAttr *attr) {
     // Handle built-in types.
     if (equal(tok, "buit"))
       counter += VOID;
-    else if (equal(tok, "boolea"))
+    else if (equal(tok, "booleà"))
       counter += BOOL;
-    else if (equal(tok, "caracter"))
+    else if (equal(tok, "caràcter"))
       counter += CHAR;
     else if (equal(tok, "curt"))
       counter += SHORT;
@@ -1504,7 +1504,7 @@ static bool is_typename(Token *tok) {
 
   if (map.capacity == 0) {
     static char *kw[] = {
-      "buit", "boolea", "caracter", "curt", "enter", "llarg", "estructura", "unió",
+      "buit", "booleà", "caràcter", "curt", "enter", "llarg", "estructura", "unió",
       "def_tipus", "enum", "estàtic", "extern", "_Alinea_com", "amb_signe", "sense_signe",
       "const", "volàtil", "auto", "registre", "restringeix", "__restringeix",
       "__restringeix__", "_No_retorna", "flot", "doble", "tipus_de", "en_línia",
