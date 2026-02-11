@@ -812,6 +812,6 @@ int main(int argc, char **argv) {
   }
 
   if (ld_args.len > 0)
-    run_linker(&ld_args, opt_o ? opt_o : "a.out");
+    run_linker(&ld_args, opt_o ? opt_o : "aplicació");
   return 0;
 }

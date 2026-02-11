@@ -66,12 +66,12 @@ $tmp/fou
 [ "$?" = 42 ]
 check linker
 
-# a.out
-rm -f $tmp/a.out
+# aplicació
+rm -f $tmp/aplicació
 echo 'enter principal() {}' > $tmp/fou.ç
 (cd $tmp; $OLDPWD/cç -L$OLDPWD/llib fou.ç)
-[ -f $tmp/a.out ]
-check a.out
+[ -f $tmp/aplicació ]
+check aplicació
 
 # -E
 echo fou > $tmp/out
