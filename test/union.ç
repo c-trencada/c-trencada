@@ -1,22 +1,22 @@
 #inclou "test.cç"
 
-ent principal() {
-  AFIRMA(8, ({ unió { ent a; car b[6]; } unió_valor; mida_de(unió_valor); }));
-  AFIRMA(3, ({ unió { ent a; car b[4]; } unió_valor; unió_valor.a = 515; unió_valor.b[0]; }));
-  AFIRMA(2, ({ unió { ent a; car b[4]; } unió_valor; unió_valor.a = 515; unió_valor.b[1]; }));
-  AFIRMA(0, ({ unió { ent a; car b[4]; } unió_valor; unió_valor.a = 515; unió_valor.b[2]; }));
-  AFIRMA(0, ({ unió { ent a; car b[4]; } unió_valor; unió_valor.a = 515; unió_valor.b[3]; }));
+enter principal() {
+  AFIRMA(8, ({ unió { enter a; caràcter b[6]; } unió_valor; mida_de(unió_valor); }));
+  AFIRMA(3, ({ unió { enter a; caràcter b[4]; } unió_valor; unió_valor.a = 515; unió_valor.b[0]; }));
+  AFIRMA(2, ({ unió { enter a; caràcter b[4]; } unió_valor; unió_valor.a = 515; unió_valor.b[1]; }));
+  AFIRMA(0, ({ unió { enter a; caràcter b[4]; } unió_valor; unió_valor.a = 515; unió_valor.b[2]; }));
+  AFIRMA(0, ({ unió { enter a; caràcter b[4]; } unió_valor; unió_valor.a = 515; unió_valor.b[3]; }));
 
-  AFIRMA(3, ({ unió {ent a,b;} unió_primer,unió_segon; unió_primer.a=3; unió_segon.a=5; unió_segon=unió_primer; unió_segon.a; }));
-  AFIRMA(3, ({ unió {estructura {ent a,b;} c;} unió_primer,unió_segon; unió_primer.c.b=3; unió_segon.c.b=5; unió_segon=unió_primer; unió_segon.c.b; }));
+  AFIRMA(3, ({ unió {enter a,b;} unió_primer,unió_segon; unió_primer.a=3; unió_segon.a=5; unió_segon=unió_primer; unió_segon.a; }));
+  AFIRMA(3, ({ unió {estructura {enter a,b;} c;} unió_primer,unió_segon; unió_primer.c.b=3; unió_segon.c.b=5; unió_segon=unió_primer; unió_segon.c.b; }));
 
-  AFIRMA(0xef, ({ unió { estructura { sense_signe car a,b,c,d; }; llarg e; } unió_valor; unió_valor.e=0xdeadbeef; unió_valor.a; }));
-  AFIRMA(0xbe, ({ unió { estructura { sense_signe car a,b,c,d; }; llarg e; } unió_valor; unió_valor.e=0xdeadbeef; unió_valor.b; }));
-  AFIRMA(0xad, ({ unió { estructura { sense_signe car a,b,c,d; }; llarg e; } unió_valor; unió_valor.e=0xdeadbeef; unió_valor.c; }));
-  AFIRMA(0xde, ({ unió { estructura { sense_signe car a,b,c,d; }; llarg e; } unió_valor; unió_valor.e=0xdeadbeef; unió_valor.d; }));
+  AFIRMA(0xef, ({ unió { estructura { sense_signe caràcter a,b,c,d; }; llarg e; } unió_valor; unió_valor.e=0xdeadbeef; unió_valor.a; }));
+  AFIRMA(0xbe, ({ unió { estructura { sense_signe caràcter a,b,c,d; }; llarg e; } unió_valor; unió_valor.e=0xdeadbeef; unió_valor.b; }));
+  AFIRMA(0xad, ({ unió { estructura { sense_signe caràcter a,b,c,d; }; llarg e; } unió_valor; unió_valor.e=0xdeadbeef; unió_valor.c; }));
+  AFIRMA(0xde, ({ unió { estructura { sense_signe caràcter a,b,c,d; }; llarg e; } unió_valor; unió_valor.e=0xdeadbeef; unió_valor.d; }));
 
-  AFIRMA(3, ({estructura { unió { ent a,b; }; unió { ent c,d; }; } estructura_valor; estructura_valor.a=3; estructura_valor.b; }));
-  AFIRMA(5, ({estructura { unió { ent a,b; }; unió { ent c,d; }; } estructura_valor; estructura_valor.d=5; estructura_valor.c; }));
+  AFIRMA(3, ({estructura { unió { enter a,b; }; unió { enter c,d; }; } estructura_valor; estructura_valor.a=3; estructura_valor.b; }));
+  AFIRMA(5, ({estructura { unió { enter a,b; }; unió { enter c,d; }; } estructura_valor; estructura_valor.d=5; estructura_valor.c; }));
 
   imprimeix("OK\n");
   retorna 0;

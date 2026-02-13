@@ -1,6 +1,6 @@
 #inclou "test.cç"
 
-ent principal() {
+enter principal() {
   AFIRMA(0, ({ enum { zero, one, two }; zero; }));
   AFIRMA(1, ({ enum { zero, one, two }; one; }));
   AFIRMA(2, ({ enum { zero, one, two }; two; }));

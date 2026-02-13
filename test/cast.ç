@@ -1,27 +1,27 @@
 #inclou "test.cç"
 
-ent principal() {
-  AFIRMA(131585, (ent)8590066177);
+enter principal() {
+  AFIRMA(131585, (enter)8590066177);
   AFIRMA(513, (curt)8590066177);
-  AFIRMA(1, (car)8590066177);
+  AFIRMA(1, (caràcter)8590066177);
   AFIRMA(1, (llarg)1);
-  AFIRMA(0, (llarg)&*(ent *)0);
-  AFIRMA(513, ({ ent valor=512; *(car *)&valor=1; valor; }));
-  AFIRMA(5, ({ ent valor=5; llarg punter=(llarg)&valor; *(ent*)punter; }));
+  AFIRMA(0, (llarg)&*(enter *)0);
+  AFIRMA(513, ({ enter valor=512; *(caràcter *)&valor=1; valor; }));
+  AFIRMA(5, ({ enter valor=5; llarg punter=(llarg)&valor; *(enter*)punter; }));
 
   (buit)1;
 
-  AFIRMA(-1, (car)255);
-  AFIRMA(-1, (amb_signe car)255);
-  AFIRMA(255, (sense_signe car)255);
+  AFIRMA(-1, (caràcter)255);
+  AFIRMA(-1, (amb_signe caràcter)255);
+  AFIRMA(255, (sense_signe caràcter)255);
   AFIRMA(-1, (curt)65535);
   AFIRMA(65535, (sense_signe curt)65535);
-  AFIRMA(-1, (ent)0xffffffff);
+  AFIRMA(-1, (enter)0xffffffff);
   AFIRMA(0xffffffff, (sense_signe)0xffffffff);
 
   AFIRMA(1, -1<1);
   AFIRMA(0, -1<(sense_signe)1);
-  AFIRMA(254, (car)127+(car)127);
+  AFIRMA(254, (caràcter)127+(caràcter)127);
   AFIRMA(65534, (curt)32767+(curt)32767);
   AFIRMA(-1, -1>>1);
   AFIRMA(-1, (sense_signe llarg)-1);
@@ -34,18 +34,18 @@ ent principal() {
   AFIRMA(2, ((sense_signe)-100)%7);
   AFIRMA(6, ((sense_signe llarg)-100)%9);
 
-  AFIRMA(65535, (ent)(sense_signe curt)65535);
+  AFIRMA(65535, (enter)(sense_signe curt)65535);
   AFIRMA(65535, ({ sense_signe curt valor = 65535; valor; }));
-  AFIRMA(65535, ({ sense_signe curt valor = 65535; (ent)valor; }));
+  AFIRMA(65535, ({ sense_signe curt valor = 65535; (enter)valor; }));
 
-  AFIRMA(-1, ({ def_tipus curt Tipus; Tipus valor = 65535; (ent)valor; }));
-  AFIRMA(65535, ({ def_tipus sense_signe curt Tipus; Tipus valor = 65535; (ent)valor; }));
+  AFIRMA(-1, ({ def_tipus curt Tipus; Tipus valor = 65535; (enter)valor; }));
+  AFIRMA(65535, ({ def_tipus sense_signe curt Tipus; Tipus valor = 65535; (enter)valor; }));
 
-  AFIRMA(0, (_Bool)0.0);
-  AFIRMA(1, (_Bool)0.1);
-  AFIRMA(3, (car)3.0);
+  AFIRMA(0, (booleà)0.0);
+  AFIRMA(1, (booleà)0.1);
+  AFIRMA(3, (caràcter)3.0);
   AFIRMA(1000, (curt)1000.3);
-  AFIRMA(3, (ent)3.99);
+  AFIRMA(3, (enter)3.99);
   AFIRMA(2000000000000000, (llarg)2e15);
   AFIRMA(3, (flot)3.5);
   AFIRMA(5, (doble)(flot)5.5);

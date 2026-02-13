@@ -1,38 +1,38 @@
 #inclou "test.cç"
 #inclou <est_def.cç>
 
-ent principal() {
-  AFIRMA(5, ({ estructura { car a; ent b; } __atribut__((packed)) valor; mida_de(valor); }));
-  AFIRMA(0, desplaçament_de(estructura __atribut__((packed)) { car a; ent b; }, a));
-  AFIRMA(1, desplaçament_de(estructura __atribut__((packed)) { car a; ent b; }, b));
+enter principal() {
+  AFIRMA(5, ({ estructura { caràcter a; enter b; } __atribut__((packed)) valor; mida_de(valor); }));
+  AFIRMA(0, desplaçament_de(estructura __atribut__((packed)) { caràcter a; enter b; }, a));
+  AFIRMA(1, desplaçament_de(estructura __atribut__((packed)) { caràcter a; enter b; }, b));
 
-  AFIRMA(5, ({ estructura __atribut__((packed)) { car a; ent b; } valor; mida_de(valor); }));
-  AFIRMA(0, desplaçament_de(estructura { car a; ent b; } __atribut__((packed)), a));
-  AFIRMA(1, desplaçament_de(estructura { car a; ent b; } __atribut__((packed)), b));
+  AFIRMA(5, ({ estructura __atribut__((packed)) { caràcter a; enter b; } valor; mida_de(valor); }));
+  AFIRMA(0, desplaçament_de(estructura { caràcter a; enter b; } __atribut__((packed)), a));
+  AFIRMA(1, desplaçament_de(estructura { caràcter a; enter b; } __atribut__((packed)), b));
 
-  AFIRMA(9, ({ def_tipus estructura { car a; ent b[2]; } __atribut__((packed)) Tipus; mida_de(Tipus); }));
-  AFIRMA(9, ({ def_tipus estructura __atribut__((packed)) { car a; ent b[2]; } Tipus; mida_de(Tipus); }));
+  AFIRMA(9, ({ def_tipus estructura { caràcter a; enter b[2]; } __atribut__((packed)) Tipus; mida_de(Tipus); }));
+  AFIRMA(9, ({ def_tipus estructura __atribut__((packed)) { caràcter a; enter b[2]; } Tipus; mida_de(Tipus); }));
 
-  AFIRMA(1, desplaçament_de(estructura __atribut__((packed)) Tipus { car a; ent b[2]; }, b));
-  AFIRMA(1, _Alineació_de(estructura __atribut__((packed)) { car a; ent b[2]; }));
+  AFIRMA(1, desplaçament_de(estructura __atribut__((packed)) Tipus { caràcter a; enter b[2]; }, b));
+  AFIRMA(1, _Alineació_de(estructura __atribut__((packed)) { caràcter a; enter b[2]; }));
 
-  AFIRMA(8, ({ estructura __atribut__((aligned(8))) { ent a; } valor; _Alineació_de(valor); }));
-  AFIRMA(8, ({ estructura { ent a; } __atribut__((aligned(8))) valor; _Alineació_de(valor); }));
+  AFIRMA(8, ({ estructura __atribut__((aligned(8))) { enter a; } valor; _Alineació_de(valor); }));
+  AFIRMA(8, ({ estructura { enter a; } __atribut__((aligned(8))) valor; _Alineació_de(valor); }));
 
-  AFIRMA(8, ({ estructura __atribut__((aligned(8), packed)) { car a; ent b; } valor; _Alineació_de(valor); }));
-  AFIRMA(8, ({ estructura { car a; ent b; } __atribut__((aligned(8), packed)) valor; _Alineació_de(valor); }));
-  AFIRMA(1, desplaçament_de(estructura __atribut__((aligned(8), packed)) { car a; ent b; }, b));
-  AFIRMA(1, desplaçament_de(estructura { car a; ent b; } __atribut__((aligned(8), packed)), b));
+  AFIRMA(8, ({ estructura __atribut__((aligned(8), packed)) { caràcter a; enter b; } valor; _Alineació_de(valor); }));
+  AFIRMA(8, ({ estructura { caràcter a; enter b; } __atribut__((aligned(8), packed)) valor; _Alineació_de(valor); }));
+  AFIRMA(1, desplaçament_de(estructura __atribut__((aligned(8), packed)) { caràcter a; enter b; }, b));
+  AFIRMA(1, desplaçament_de(estructura { caràcter a; enter b; } __atribut__((aligned(8), packed)), b));
 
-  AFIRMA(8, ({ estructura __atribut__((aligned(8))) __atribut__((packed)) { car a; ent b; } valor; _Alineació_de(valor); }));
-  AFIRMA(8, ({ estructura { car a; ent b; } __atribut__((aligned(8))) __atribut__((packed)) valor; _Alineació_de(valor); }));
-  AFIRMA(1, desplaçament_de(estructura __atribut__((aligned(8))) __atribut__((packed)) { car a; ent b; }, b));
-  AFIRMA(1, desplaçament_de(estructura { car a; ent b; } __atribut__((aligned(8))) __atribut__((packed)), b));
+  AFIRMA(8, ({ estructura __atribut__((aligned(8))) __atribut__((packed)) { caràcter a; enter b; } valor; _Alineació_de(valor); }));
+  AFIRMA(8, ({ estructura { caràcter a; enter b; } __atribut__((aligned(8))) __atribut__((packed)) valor; _Alineació_de(valor); }));
+  AFIRMA(1, desplaçament_de(estructura __atribut__((aligned(8))) __atribut__((packed)) { caràcter a; enter b; }, b));
+  AFIRMA(1, desplaçament_de(estructura { caràcter a; enter b; } __atribut__((aligned(8))) __atribut__((packed)), b));
 
-  AFIRMA(8, ({ estructura __atribut__((aligned(8))) { car a; ent b; } __atribut__((packed)) valor; _Alineació_de(valor); }));
-  AFIRMA(1, desplaçament_de(estructura __atribut__((aligned(8))) { car a; ent b; } __atribut__((packed)), b));
+  AFIRMA(8, ({ estructura __atribut__((aligned(8))) { caràcter a; enter b; } __atribut__((packed)) valor; _Alineació_de(valor); }));
+  AFIRMA(1, desplaçament_de(estructura __atribut__((aligned(8))) { caràcter a; enter b; } __atribut__((packed)), b));
 
-  AFIRMA(16, ({ estructura __atribut__((aligned(8+8))) { car a; ent b; } valor; _Alineació_de(valor); }));
+  AFIRMA(16, ({ estructura __atribut__((aligned(8+8))) { caràcter a; enter b; } valor; _Alineació_de(valor); }));
 
   imprimeix("OK\n");
   retorna 0;

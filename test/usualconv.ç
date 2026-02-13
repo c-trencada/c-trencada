@@ -1,8 +1,8 @@
 #inclou "test.cç"
 
-estàtic ent ret_10(buit) { retorna 10; }
+estàtic enter ret_10(buit) { retorna 10; }
 
-ent principal() {
+enter principal() {
   AFIRMA((llarg)-5, -10 + (llarg)5);
   AFIRMA((llarg)-15, -10 - (llarg)5);
   AFIRMA((llarg)-50, -10 * (llarg)5);
@@ -21,9 +21,9 @@ ent principal() {
   AFIRMA(0, 2147483647 + 2147483647 + 2);
   AFIRMA((llarg)-1, ({ llarg valor; valor=-1; valor; }));
 
-  AFIRMA(1, ({ car taula[3]; taula[0]=0; taula[1]=1; taula[2]=2; car *punter_segon=taula+1; punter_segon[0]; }));
-  AFIRMA(0, ({ car taula[3]; taula[0]=0; taula[1]=1; taula[2]=2; car *punter_segon=taula+1; punter_segon[-1]; }));
-  AFIRMA(5, ({ estructura tipus {car a;} estructura_primer, estructura_segon; estructura_primer.a=5; estructura_segon=estructura_primer; estructura_segon.a; }));
+  AFIRMA(1, ({ caràcter taula[3]; taula[0]=0; taula[1]=1; taula[2]=2; caràcter *punter_segon=taula+1; punter_segon[0]; }));
+  AFIRMA(0, ({ caràcter taula[3]; taula[0]=0; taula[1]=1; taula[2]=2; caràcter *punter_segon=taula+1; punter_segon[-1]; }));
+  AFIRMA(5, ({ estructura tipus {caràcter a;} estructura_primer, estructura_segon; estructura_primer.a=5; estructura_segon=estructura_primer; estructura_segon.a; }));
 
   AFIRMA(10, (1 ? ret_10 : (buit *)0)());
 

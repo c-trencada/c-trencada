@@ -2,13 +2,13 @@
 #inclou <est_def.cç>
 
 def_tipus estructura {
-  ent a;
-  car b;
-  ent c;
+  enter a;
+  caràcter b;
+  enter c;
   doble d;
 } E;
 
-ent principal() {
+enter principal() {
   AFIRMA(0, desplaçament_de(E, a));
   AFIRMA(4, desplaçament_de(E, b));
   AFIRMA(8, desplaçament_de(E, c));

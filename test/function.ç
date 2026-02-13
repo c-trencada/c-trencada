@@ -1,63 +1,63 @@
 #inclou "test.cç"
 
-ent ret_3(buit) {
+enter ret_3(buit) {
   retorna 3;
   retorna 5;
 }
 
-ent afegeix_2(ent valor_x, ent valor_y) {
+enter afegeix_2(enter valor_x, enter valor_y) {
   retorna valor_x + valor_y;
 }
 
-ent resta_2(ent valor_x, ent valor_y) {
+enter resta_2(enter valor_x, enter valor_y) {
   retorna valor_x - valor_y;
 }
 
-ent afegeix_6(ent valor_a, ent valor_b, ent valor_c, ent valor_d, ent valor_e, ent valor_f) {
+enter afegeix_6(enter valor_a, enter valor_b, enter valor_c, enter valor_d, enter valor_e, enter valor_f) {
   retorna valor_a + valor_b + valor_c + valor_d + valor_e + valor_f;
 }
 
-ent afegeix_x(ent *punter_x, ent valor_y) {
+enter afegeix_x(enter *punter_x, enter valor_y) {
   retorna *punter_x + valor_y;
 }
 
-ent resta_car(car valor_a, car valor_b, car valor_c) {
+enter resta_caràcter(caràcter valor_a, caràcter valor_b, caràcter valor_c) {
   retorna valor_a - valor_b - valor_c;
 }
 
-ent Fibonacci(ent nombre) {
+enter Fibonacci(enter nombre) {
   si (nombre<=1)
     retorna 1;
   retorna Fibonacci(nombre-1) + Fibonacci(nombre-2);
 }
 
-ent resta_llarg(llarg valor_a, llarg valor_b, llarg valor_c) {
+enter resta_llarg(llarg valor_a, llarg valor_b, llarg valor_c) {
   retorna valor_a - valor_b - valor_c;
 }
 
-ent sub_short(curt valor_a, curt valor_b, curt valor_c) {
+enter sub_short(curt valor_a, curt valor_b, curt valor_c) {
   retorna valor_a - valor_b - valor_c;
 }
 
-ent g1;
+enter g1;
 
-ent *g1_punter(buit) { retorna &g1; }
-car enter_a_car(ent valor) { retorna valor; }
+enter *g1_punter(buit) { retorna &g1; }
+caràcter enter_a_caràcter(enter valor) { retorna valor; }
 
-ent div_llarg(llarg dividend, llarg divisor) {
+enter div_llarg(llarg dividend, llarg divisor) {
   retorna dividend / divisor;
 }
 
-_Bool prova_booleana_suma(_Bool valor) { retorna valor + 1; }
-_Bool prova_booleana_resta(_Bool valor) { retorna valor - 1; }
+booleà prova_booleana_suma(booleà valor) { retorna valor + 1; }
+booleà prova_booleana_resta(booleà valor) { retorna valor - 1; }
 
-estàtic ent prova_estàtica(buit) { retorna 3; }
+estàtic enter prova_estàtica(buit) { retorna 3; }
 
-ent descomposició_paràmetre(ent taula[]) { retorna taula[0]; }
+enter descomposició_paràmetre(enter taula[]) { retorna taula[0]; }
 
-ent comptador() {
-  estàtic ent índex;
-  estàtic ent comptador_local = 1+1;
+enter comptador() {
+  estàtic enter índex;
+  estàtic enter comptador_local = 1+1;
   retorna índex++ + comptador_local++;
 }
 
@@ -65,32 +65,32 @@ buit retorna_res() {
   retorna;
 }
 
-_Bool retorna_cert();
-_Bool retorna_fals();
-car retorna_car();
+booleà retorna_cert();
+booleà retorna_fals();
+caràcter retorna_caràcter();
 curt retorna_curt();
 
-sense_signe car retorna_ucar();
+sense_signe caràcter retorna_caràcter_sense_signe();
 sense_signe curt retorna_curt_sense_signe();
 
-car retorna_car_signe();
+caràcter retorna_caràcter_signe();
 curt retorna_curt_signe();
 
-ent suma_tot(ent nombre, ...);
+enter suma_tot(enter nombre, ...);
 
 def_tipus estructura {
-  ent desplacament_registre_general;
-  ent desplacament_registre_flotant;
-  buit *area_arguments_desbordament;
+  enter desplacamenter_registre_general;
+  enter desplacamenter_registre_flotant;
+  buit *area_arguments_desbordamenter;
   buit *area_desat_registres;
 } __element_arguments_vars;
 
 def_tipus __element_arguments_vars llista_arguments_vars[1];
 
-ent imprimeix_cadena(car *buffer, car *format, ...);
-ent imprimeix_cadena_va(car *buffer, car *format, llista_arguments_vars arguments);
+enter imprimeix_cadena(caràcter *buffer, caràcter *format, ...);
+enter imprimeix_cadena_va(caràcter *buffer, caràcter *format, llista_arguments_vars arguments);
 
-car *format(car *buffer, car *format_text, ...) {
+caràcter *format(caràcter *buffer, caràcter *format_text, ...) {
   llista_arguments_vars arguments;
   *arguments = *(__element_arguments_vars *)__va_area__;
   imprimeix_cadena_va(buffer, format_text, arguments);
@@ -107,25 +107,25 @@ doble suma_doble_precisió_3(doble valor_x, doble valor_y, doble valor_z) {
   retorna valor_x + valor_y + valor_z;
 }
 
-ent (*puntera_funció(ent (*invocable)(ent nombre, ...)))(int, ...) {
+enter (*puntera_funció(enter (*invocable)(enter nombre, ...)))(int, ...) {
   retorna invocable;
 }
 
-ent descomposició_paràmetre_2(ent invocable()) { retorna invocable(); }
+enter descomposició_paràmetre_2(enter invocable()) { retorna invocable(); }
 
-car *funció_nom(buit) {
+caràcter *funció_nom(buit) {
   retorna __func__;
 }
 
-car *funció_nom_complet(buit) {
+caràcter *funció_nom_complet(buit) {
   retorna __FUNCTION__;
 }
 
-ent suma_deu_enter(ent valor_1, ent valor_2, ent valor_3, ent valor_4, ent valor_5, ent valor_6, ent valor_7, ent valor_8, ent valor_9, ent valor_10);
+enter suma_deu_enter(enter valor_1, enter valor_2, enter valor_3, enter valor_4, enter valor_5, enter valor_6, enter valor_7, enter valor_8, enter valor_9, enter valor_10);
 flot suma_deu_reals(flot valor_1, flot valor_2, flot valor_3, flot valor_4, flot valor_5, flot valor_6, flot valor_7, flot valor_8, flot valor_9, flot valor_10);
 doble suma_deu_doble(doble valor_1, doble valor_2, doble valor_3, doble valor_4, doble valor_5, doble valor_6, doble valor_7, doble valor_8, doble valor_9, doble valor_10);
 
-ent paràmetres_vars_1(ent arg_a, ent arg_b, ent arg_c, ent arg_d, ent arg_e, ent arg_f, ent arg_g, ent arg_h) {
+enter paràmetres_vars_1(enter arg_a, enter arg_b, enter arg_c, enter arg_d, enter arg_e, enter arg_f, enter arg_g, enter arg_h) {
   retorna arg_g / arg_h;
 }
 
@@ -134,23 +134,23 @@ doble paràmetres_vars_2(doble arg_a, doble arg_b, doble arg_c, doble arg_d, dob
   retorna arg_i / arg_j;
 }
 
-ent paràmetres_vars_3(ent arg_a, doble arg_b, ent arg_c, ent arg_d, doble arg_e, ent arg_f,
-               doble arg_g, ent arg_h, doble arg_i, doble arg_j, doble arg_k,
-               doble arg_l, doble arg_m, ent arg_n, ent arg_o, doble arg_p) {
+enter paràmetres_vars_3(enter arg_a, doble arg_b, enter arg_c, enter arg_d, doble arg_e, enter arg_f,
+               doble arg_g, enter arg_h, doble arg_i, doble arg_j, doble arg_k,
+               doble arg_l, doble arg_m, enter arg_n, enter arg_o, doble arg_p) {
   retorna arg_o / arg_p;
 }
 
-def_tipus estructura { ent membre_a,membre_b; curt membre_c; car membre_d; } tipus_estructura_4;
-def_tipus estructura { ent membre_a; flot membre_b; doble membre_c; } tipus_estructura_5;
-def_tipus estructura { sense_signe car membre_a[3]; } tipus_estructura_6;
+def_tipus estructura { enter membre_a,membre_b; curt membre_c; caràcter membre_d; } tipus_estructura_4;
+def_tipus estructura { enter membre_a; flot membre_b; doble membre_c; } tipus_estructura_5;
+def_tipus estructura { sense_signe caràcter membre_a[3]; } tipus_estructura_6;
 def_tipus estructura { llarg membre_a, membre_b, membre_c; } tipus_estructura_7;
 
-ent estructura_cas_5(tipus_estructura_5 estructura_valor, ent nombre);
-ent estructura_cas_4(tipus_estructura_4 estructura_valor, ent nombre);
-ent estructura_cas_6(tipus_estructura_6 estructura_valor, ent nombre);
-ent estructura_cas_7(tipus_estructura_7 estructura_valor, ent nombre);
+enter estructura_cas_5(tipus_estructura_5 estructura_valor, enter nombre);
+enter estructura_cas_4(tipus_estructura_4 estructura_valor, enter nombre);
+enter estructura_cas_6(tipus_estructura_6 estructura_valor, enter nombre);
+enter estructura_cas_7(tipus_estructura_7 estructura_valor, enter nombre);
 
-ent estructura_cas_14(tipus_estructura_4 estructura_valor, ent nombre) {
+enter estructura_cas_14(tipus_estructura_4 estructura_valor, enter nombre) {
   selecciona (nombre) {
   cas 0: retorna estructura_valor.membre_a;
   cas 1: retorna estructura_valor.membre_b;
@@ -159,7 +159,7 @@ ent estructura_cas_14(tipus_estructura_4 estructura_valor, ent nombre) {
   }
 }
 
-ent estructura_cas_15(tipus_estructura_5 estructura_valor, ent nombre) {
+enter estructura_cas_15(tipus_estructura_5 estructura_valor, enter nombre) {
   selecciona (nombre) {
   cas 0: retorna estructura_valor.membre_a;
   cas 1: retorna estructura_valor.membre_b;
@@ -167,8 +167,8 @@ ent estructura_cas_15(tipus_estructura_5 estructura_valor, ent nombre) {
   }
 }
 
-def_tipus estructura { sense_signe car membre_a[10]; } tipus_estructura_20;
-def_tipus estructura { sense_signe car membre_a[20]; } tipus_estructura_21;
+def_tipus estructura { sense_signe caràcter membre_a[10]; } tipus_estructura_20;
+def_tipus estructura { sense_signe caràcter membre_a[20]; } tipus_estructura_21;
 
 tipus_estructura_4 estructura_cas_24(buit);
 tipus_estructura_5 estructura_cas_25(buit);
@@ -196,7 +196,7 @@ tipus_estructura_21 estructura_cas_38(buit) {
   retorna (tipus_estructura_21){1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 }
 
-en_línia ent funció_en_línia(buit) {
+en_línia enter funció_en_línia(buit) {
   retorna 3;
 }
 
@@ -204,11 +204,11 @@ doble converteix_a_doble(llarg doble valor) {
   retorna valor;
 }
 
-llarg doble converteix_a_llarg_doble(ent valor) {
+llarg doble converteix_a_llarg_doble(enter valor) {
   retorna valor;
 }
 
-ent principal() {
+enter principal() {
   AFIRMA(3, ret_3());
   AFIRMA(8, afegeix_2(3, 5));
   AFIRMA(2, resta_2(5, 3));
@@ -220,7 +220,7 @@ ent principal() {
   AFIRMA(1, resta_2(4,3));
   AFIRMA(55, Fibonacci(9));
 
-  AFIRMA(1, ({ resta_car(7, 3, 3); }));
+  AFIRMA(1, ({ resta_caràcter(7, 3, 3); }));
 
   AFIRMA(1, resta_llarg(7, 3, 3));
   AFIRMA(1, sub_short(7, 3, 3));
@@ -228,8 +228,8 @@ ent principal() {
   g1 = 3;
 
   AFIRMA(3, *g1_punter());
-  AFIRMA(5, enter_a_car(261));
-  AFIRMA(5, enter_a_car(261));
+  AFIRMA(5, enter_a_caràcter(261));
+  AFIRMA(5, enter_a_caràcter(261));
   AFIRMA(-5, div_llarg(-10, 2));
 
   AFIRMA(1, prova_booleana_suma(3));
@@ -241,7 +241,7 @@ ent principal() {
 
   AFIRMA(3, prova_estàtica());
 
-  AFIRMA(3, ({ ent taula[2]; taula[0]=3; descomposició_paràmetre(taula); }));
+  AFIRMA(3, ({ enter taula[2]; taula[0]=3; descomposició_paràmetre(taula); }));
 
   AFIRMA(2, comptador());
   AFIRMA(4, comptador());
@@ -251,21 +251,21 @@ ent principal() {
 
   AFIRMA(1, retorna_cert());
   AFIRMA(0, retorna_fals());
-  AFIRMA(3, retorna_car());
+  AFIRMA(3, retorna_caràcter());
   AFIRMA(5, retorna_curt());
 
   AFIRMA(6, suma_tot(3,1,2,3));
   AFIRMA(5, suma_tot(4,1,2,3,-1));
 
-  { car buf[100]; format(buf, "%d %d %s", 1, 2, "foo"); imprimeix("%s\n", buf); }
+  { caràcter buf[100]; format(buf, "%d %d %s", 1, 2, "foo"); imprimeix("%s\n", buf); }
 
-  AFIRMA(0, ({ car buf[100]; imprimeix_cadena(buf, "%d %d %s", 1, 2, "foo"); compara_cadenes("1 2 foo", buf); }));
+  AFIRMA(0, ({ caràcter buf[100]; imprimeix_cadena(buf, "%d %d %s", 1, 2, "foo"); compara_cadenes("1 2 foo", buf); }));
 
-  AFIRMA(0, ({ car buf[100]; format(buf, "%d %d %s", 1, 2, "foo"); compara_cadenes("1 2 foo", buf); }));
+  AFIRMA(0, ({ caràcter buf[100]; format(buf, "%d %d %s", 1, 2, "foo"); compara_cadenes("1 2 foo", buf); }));
 
-  AFIRMA(251, retorna_ucar());
+  AFIRMA(251, retorna_caràcter_sense_signe());
   AFIRMA(65528, retorna_curt_sense_signe());
-  AFIRMA(-5, retorna_car_signe());
+  AFIRMA(-5, retorna_caràcter_signe());
   AFIRMA(-8, retorna_curt_signe());
 
   AFIRMA(6, suma_flotant(2.3, 3.8));
@@ -274,13 +274,13 @@ ent principal() {
   AFIRMA(7, suma_flotant_3(2.5, 2.5, 2.5));
   AFIRMA(7, suma_doble_precisió_3(2.5, 2.5, 2.5));
 
-  AFIRMA(0, ({ car buf[100]; imprimeix_cadena(buf, "%.1f", (flot)3.5); compara_cadenes(buf, "3.5"); }));
+  AFIRMA(0, ({ caràcter buf[100]; imprimeix_cadena(buf, "%.1f", (flot)3.5); compara_cadenes(buf, "3.5"); }));
 
-  AFIRMA(0, ({ car buf[100]; format(buf, "%.1f", (flot)3.5); compara_cadenes(buf, "3.5"); }));
+  AFIRMA(0, ({ caràcter buf[100]; format(buf, "%.1f", (flot)3.5); compara_cadenes(buf, "3.5"); }));
 
   AFIRMA(5, (afegeix_2)(2,3));
   AFIRMA(5, (&afegeix_2)(2,3));
-  AFIRMA(7, ({ ent (*invocable)(ent,ent) = afegeix_2; invocable(2,5); }));
+  AFIRMA(7, ({ enter (*invocable)(enter,enter) = afegeix_2; invocable(2,5); }));
   AFIRMA(6, puntera_funció(suma_tot)(3, 1, 2, 3));
 
   AFIRMA(3, descomposició_paràmetre_2(ret_3));
@@ -296,7 +296,7 @@ ent principal() {
   AFIRMA(55, suma_deu_reals(1,2,3,4,5,6,7,8,9,10));
   AFIRMA(55, suma_deu_doble(1,2,3,4,5,6,7,8,9,10));
 
-  AFIRMA(0, ({ car buf[200]; imprimeix_cadena(buf, "%d %.1f %.1f %.1f %d %d %.1f %d %d %d %d %.1f %d %d %.1f %.1f %.1f %.1f %d", 1, 1.0, 1.0, 1.0, 1, 1, 1.0, 1, 1, 1, 1, 1.0, 1, 1, 1.0, 1.0, 1.0, 1.0, 1); compara_cadenes("1 1.0 1.0 1.0 1 1 1.0 1 1 1 1 1.0 1 1 1.0 1.0 1.0 1.0 1", buf); }));
+  AFIRMA(0, ({ caràcter buf[200]; imprimeix_cadena(buf, "%d %.1f %.1f %.1f %d %d %.1f %d %d %d %d %.1f %d %d %.1f %.1f %.1f %.1f %d", 1, 1.0, 1.0, 1.0, 1, 1, 1.0, 1, 1, 1, 1, 1.0, 1, 1, 1.0, 1.0, 1.0, 1.0, 1); compara_cadenes("1 1.0 1.0 1.0 1 1 1.0 1 1 1 1 1.0 1 1 1.0 1.0 1.0 1.0 1", buf); }));
 
   AFIRMA(4, paràmetres_vars_1(1,2,3,4,5,6,40,10));
   AFIRMA(4, paràmetres_vars_2(1,2,3,4,5,6,7,8,40,10));
@@ -378,7 +378,7 @@ ent principal() {
 
   AFIRMA(3, funció_en_línia());
 
-  AFIRMA(0, ({ car buf[100]; imprimeix_cadena(buf, "%Lf", (llarg doble)12.3); compara_cadenes_fins(buf, "12.3", 4); }));
+  AFIRMA(0, ({ caràcter buf[100]; imprimeix_cadena(buf, "%Lf", (llarg doble)12.3); compara_cadenes_fins(buf, "12.3", 4); }));
 
   AFIRMA(1, converteix_a_doble(3.5) == 3.5);
   AFIRMA(0, converteix_a_doble(3.5) == 3);

@@ -1,21 +1,21 @@
 #inclou "test.cç"
 
-ent principal() {
-  AFIRMA(1, ({ car x; mida_de(x); }));
-  AFIRMA(2, ({ curt ent x; mida_de(x); }));
-  AFIRMA(2, ({ ent curt x; mida_de(x); }));
-  AFIRMA(4, ({ ent x; mida_de(x); }));
-  AFIRMA(8, ({ llarg ent x; mida_de(x); }));
-  AFIRMA(8, ({ ent llarg x; mida_de(x); }));
+enter principal() {
+  AFIRMA(1, ({ caràcter x; mida_de(x); }));
+  AFIRMA(2, ({ curt enter x; mida_de(x); }));
+  AFIRMA(2, ({ enter curt x; mida_de(x); }));
+  AFIRMA(4, ({ enter x; mida_de(x); }));
+  AFIRMA(8, ({ llarg enter x; mida_de(x); }));
+  AFIRMA(8, ({ enter llarg x; mida_de(x); }));
 
   AFIRMA(8, ({ llarg llarg x; mida_de(x); }));
 
-  AFIRMA(0, ({ _Bool x=0; x; }));
-  AFIRMA(1, ({ _Bool x=1; x; }));
-  AFIRMA(1, ({ _Bool x=2; x; }));
-  AFIRMA(1, (_Bool)1);
-  AFIRMA(1, (_Bool)2);
-  AFIRMA(0, (_Bool)(car)256);
+  AFIRMA(0, ({ booleà x=0; x; }));
+  AFIRMA(1, ({ booleà x=1; x; }));
+  AFIRMA(1, ({ booleà x=2; x; }));
+  AFIRMA(1, (booleà)1);
+  AFIRMA(1, (booleà)2);
+  AFIRMA(0, (booleà)(caràcter)256);
 
   imprimeix("OK\n");
   retorna 0;

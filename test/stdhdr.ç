@@ -5,7 +5,7 @@
 #inclou <est_no_retorna.cç>
 #inclou <est_atòmic.cç>
 
-ent principal() {
+enter principal() {
   imprimeix("OK\n");
   retorna 0;
 }

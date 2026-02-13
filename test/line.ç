@@ -1,6 +1,6 @@
 #inclou "test.cç"
 
-ent principal() {
+enter principal() {
 #línia 500 "foo"
   AFIRMA(501, __LÍNIA__);
   AFIRMA(0, compara_cadenes(__FITXER__, "foo"));

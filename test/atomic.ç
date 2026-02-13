@@ -5,39 +5,39 @@
 #inclou <pthread.h>
 #acaba_si
 
-estàtic ent incrementa(_Atòmic ent *p) {
-  ent valor_antic = *p;
-  ent valor_nou;
+estàtic enter incrementa(_Atòmic enter *p) {
+  enter valor_antic = *p;
+  enter valor_nou;
   fes {
     valor_nou = valor_antic + 1;
   } mentre (!comparar_i_intercanviar_atòmic_fluix(p, &valor_antic, valor_nou));
   retorna valor_nou;
 }
 
-estàtic ent afegeix_1(buit *arg) {
-  _Atòmic ent *x = arg;
-  per (ent i = 0; i < 1000*1000; i++)
+estàtic enter afegeix_1(buit *arg) {
+  _Atòmic enter *x = arg;
+  per (enter i = 0; i < 1000*1000; i++)
     incrementa(x);
   retorna 0;
 }
 
-estàtic ent afegeix_2(buit *arg) {
-  _Atòmic ent *x = arg;
-  per (ent i = 0; i < 1000*1000; i++)
+estàtic enter afegeix_2(buit *arg) {
+  _Atòmic enter *x = arg;
+  per (enter i = 0; i < 1000*1000; i++)
     (*x)++;
   retorna 0;
 }
 
-estàtic ent afegeix_3(buit *arg) {
-  _Atòmic ent *x = arg;
-  per (ent i = 0; i < 1000*1000; i++)
+estàtic enter afegeix_3(buit *arg) {
+  _Atòmic enter *x = arg;
+  per (enter i = 0; i < 1000*1000; i++)
     *x += 5;
   retorna 0;
 }
 
 #si 0
-estàtic ent add_millions(buit) {
-  _Atòmic ent x = 0;
+estàtic enter add_millions(buit) {
+  _Atòmic enter x = 0;
 
   pthread_t thr1;
   pthread_t thr2;
@@ -47,7 +47,7 @@ estàtic ent add_millions(buit) {
   pthread_create(&thr2, NULL, afegeix_2, &x);
   pthread_create(&thr3, NULL, afegeix_3, &x);
 
-  per (ent i = 0; i < 1000*1000; i++)
+  per (enter i = 0; i < 1000*1000; i++)
     x--;
 
   pthread_join(thr1, NULL);
@@ -57,13 +57,13 @@ estàtic ent add_millions(buit) {
 }
 #acaba_si
 
-ent principal() {
+enter principal() {
 #si 0
   AFIRMA(6*1000*1000, add_millions());
 #acaba_si
 
-  AFIRMA(3, ({ ent x=3; intercanviar_atòmic(&x, 5); }));
-  AFIRMA(5, ({ ent x=3; intercanviar_atòmic(&x, 5); x; }));
+  AFIRMA(3, ({ enter x=3; intercanviar_atòmic(&x, 5); }));
+  AFIRMA(5, ({ enter x=3; intercanviar_atòmic(&x, 5); x; }));
 
   imprimeix("OK\n");
   retorna 0;

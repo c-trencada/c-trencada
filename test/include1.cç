@@ -1,6 +1,6 @@
 #inclou "include2.cç"
 
-car *include1_filename = __FITXER__;
-ent include1_line = __LÍNIA__;
+caràcter *include1_filename = __FITXER__;
+enter include1_line = __LÍNIA__;
 
-ent include1 = 5;
+enter include1 = 5;

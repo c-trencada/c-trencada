@@ -1,6 +1,6 @@
 #inclou "test.cç"
 
-ent principal() {
+enter principal() {
   AFIRMA(97, 'a');
   AFIRMA(10, '\n');
   AFIRMA(-128, '\x80');
@@ -92,8 +92,8 @@ ent principal() {
   AFIRMA(16, mida_de(2.0L));
 
   afirma(1, mida_\
-de(car), \
-         "mida_de((car))");
+de(caràcter), \
+         "mida_de(caràcter)");
 
   AFIRMA(4, mida_de(L'\0'));
   AFIRMA(97, L'a');

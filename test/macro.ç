@@ -1,27 +1,27 @@
 #inclou "test.cç"
 #inclou "include1.cç"
 
-car *principal_filename1 = __FITXER__;
-ent principal_line1 = __LÍNIA__;
+caràcter *principal_filename1 = __FITXER__;
+enter principal_line1 = __LÍNIA__;
 #defineix LÍNIA() __LÍNIA__
-ent principal_line2 = LÍNIA();
+enter principal_line2 = LÍNIA();
 
 #
 
 /* */ #
 
-ent ret_3(buit) { retorna 3; }
-ent M9(ent valor_x) { retorna valor_x*valor_x; }
+enter ret_3(buit) { retorna 3; }
+enter M9(enter valor_x) { retorna valor_x*valor_x; }
 
-ent afegeix_2(ent valor_x, ent valor_y) {
+enter afegeix_2(enter valor_x, enter valor_y) {
   retorna valor_x + valor_y;
 }
 
-ent afegeix_6(ent a, ent b, ent c, ent d, ent e, ent f) {
+enter afegeix_6(enter a, enter b, enter c, enter d, enter e, enter f) {
   retorna a + b + c + d + e + f;
 }
 
-ent principal() {
+enter principal() {
   AFIRMA(5, include1);
   AFIRMA(7, include2);
 
@@ -32,7 +32,7 @@ ent principal() {
 #acaba_si
 #acaba_si
 
-  ent m = 0;
+  enter m = 0;
 
 #si 1
   m = 5;
@@ -113,7 +113,7 @@ ent principal() {
 #acaba_si
   AFIRMA(2, m);
 
-  ent M1 = 5;
+  enter M1 = 5;
 
 #defineix M1 3
   AFIRMA(3, M1);
@@ -155,14 +155,14 @@ ent principal() {
 #acaba_si
   AFIRMA(5, m);
 
-  ent M2 = 6;
+  enter M2 = 6;
 #defineix M2 M2 + 3
   AFIRMA(9, M2);
 
 #defineix M3 M2 + 3
   AFIRMA(12, M3);
 
-  ent M4 = 3;
+  enter M4 = 3;
 #defineix M4 M5 * 5
 #defineix M5 M4 + 2
   AFIRMA(13, M4);
@@ -206,7 +206,7 @@ ent principal() {
 #acaba_si
 
 #defineix M7() 1
-  ent M7 = 5;
+  enter M7 = 5;
   AFIRMA(1, M7());
   AFIRMA(5, M7);
 
@@ -251,12 +251,12 @@ ent principal() {
 #defineix cadena cadena
   AFIRMA(15, enganxa(1,5));
   AFIRMA(255, enganxa(0,xff));
-  AFIRMA(3, ({ ent prova_cadena=3; enganxa(prova_,cadena); }));
+  AFIRMA(3, ({ enter prova_cadena=3; enganxa(prova_,cadena); }));
   AFIRMA(5, enganxa(5,));
   AFIRMA(5, enganxa(,5));
 
 #defineix v_ v_
-  AFIRMA(101, ({ ent v_3=100; enganxa(1+v_,3); }));
+  AFIRMA(101, ({ enter v_3=100; enganxa(1+v_,3); }));
 #elimina_def v_
 
 #defineix enganxa_2(x) x##5
@@ -384,7 +384,7 @@ ent principal() {
   AFIRMA(5, M14(5));
 
 #defineix CONCATENAR(x,y) x##y
-  AFIRMA(5, ({ ent per_0F=5; CONCATENAR(per_, 0F ); }));
+  AFIRMA(5, ({ enter per_0F=5; CONCATENAR(per_, 0F ); }));
   AFIRMA(5, ({ CONCATENAR(4,.57) + 0.5; }));
 
   AFIRMA(18, longitud_cadena(__DATA__));
@@ -399,14 +399,14 @@ ent principal() {
   AFIRMA(0, compara_cadenes(__FITXER_BASE__, "test/macro.ç"));
 
 #defineix M30(buf, fmt, ...) imprimeix_cadena(buf, fmt __VA_OPT__(,) __VA_ARGS__)
-  AFIRMA(0, ({ car buf[100]; M30(buf, "prova"); compara_cadenes(buf, "prova"); }));
-  AFIRMA(0, ({ car buf[100]; M30(buf, "prova%d", 3); compara_cadenes(buf, "prova3"); }));
-  AFIRMA(0, ({ car buf[100]; M30(buf, "prova%d%d", 3, 5); compara_cadenes(buf, "prova35"); }));
+  AFIRMA(0, ({ caràcter buf[100]; M30(buf, "prova"); compara_cadenes(buf, "prova"); }));
+  AFIRMA(0, ({ caràcter buf[100]; M30(buf, "prova%d", 3); compara_cadenes(buf, "prova3"); }));
+  AFIRMA(0, ({ caràcter buf[100]; M30(buf, "prova%d%d", 3, 5); compara_cadenes(buf, "prova35"); }));
 
 #defineix M31(buf, fmt, ...) imprimeix_cadena(buf, fmt, ## __VA_ARGS__)
-  AFIRMA(0, ({ car buf[100]; M31(buf, "prova"); compara_cadenes(buf, "prova"); }));
-  AFIRMA(0, ({ car buf[100]; M31(buf, "prova%d", 3); compara_cadenes(buf, "prova3"); }));
-  AFIRMA(0, ({ car buf[100]; M31(buf, "prova%d%d", 3, 5); compara_cadenes(buf, "prova35"); }));
+  AFIRMA(0, ({ caràcter buf[100]; M31(buf, "prova"); compara_cadenes(buf, "prova"); }));
+  AFIRMA(0, ({ caràcter buf[100]; M31(buf, "prova%d", 3); compara_cadenes(buf, "prova3"); }));
+  AFIRMA(0, ({ caràcter buf[100]; M31(buf, "prova%d%d", 3, 5); compara_cadenes(buf, "prova35"); }));
 
 #defineix M31(x, y) (1, ##x y)
   AFIRMA(3, M31(, 3));
