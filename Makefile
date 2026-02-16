@@ -11,6 +11,7 @@ TESTS=$(TEST_SRCS:.ç=.exe)
 cç: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	$(CC) $(CFLAGS) -fPIC -c ./est/libest.c -o ./llib/libest.a
+	$(CC) $(CFLAGS) -fPIC -c ./est/libmates.c -o ./llib/libmates.a
 
 $(OBJS): c_trencada.h
 
@@ -23,6 +24,7 @@ instal·lar: cç
 	install -D -m644 inclou/est_def.cç /usr/inclou/est_def.cç
 	install -D -m644 inclou/est_no_retorna.cç /usr/inclou/est_no_retorna.cç
 	install -D -m644 llib/libest.a /usr/llib/libest.a
+	install -D -m644 llib/libmates.a /usr/llib/libmates.a
 
 desinstal·lar:
 	rm -f /usr/bin/cç

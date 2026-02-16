@@ -1,6 +1,0 @@
-#inclou <est.cç>
-
-ent principal() {
-    imprimeix("Hola mon!");
-    retorna 0;
-}
